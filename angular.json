@@ -145,6 +145,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "situ-angular-components"
+    }
+  },
+  "defaultProject": "situ-angular-components",
+  "cli": {
+    "analytics": "1ad69a17-de80-44fd-97cd-0117631fcc3a"
+  }
 }

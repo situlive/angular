@@ -1,0 +1,47 @@
+<footer class="section-dark">
+    <div class="container-fluid" *ngIf="section">
+        <div class="row">
+            <div class="col">
+                <div class="row">
+                    <div class="col">
+                        <ul class="list-unstyled">
+                            <li>
+                                <a [href]="section.termsLink" target="_blank">Terms &amp; conditions</a>
+                            </li>
+                            <li>
+                                <a [href]="section.privacyPolicyLink" target="_blank">Privacy policy</a>
+                            </li>
+                            <li>
+                                <a [href]="section.cookiePolicyLink" target="_blank">Cookie policy</a>
+                            </li>
+                            <li>
+                                <a [href]="section.careersLink">Careers</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="logo-container">
+                            <a class="logo float-left" routerLink="/">
+                                <svg viewBox="0 0 165 22" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M117.64 18.51c.948 0 1.72.779 1.72 1.745A1.73 1.73 0 01117.64 22c-.95 0-1.721-.783-1.721-1.745 0-.963.768-1.746 1.72-1.746zM129.87.062l5.965 13.904L141.802.063h3.824l-9.79 21.907-9.79-21.907h3.825zM98.221 0v18.51h8.875v3.456H94.783V0h3.439zM165 0v3.431h-9.047v5.415h7.267v3.372h-7.267v6.321H165v3.427h-12.49V0H165zM23.614 6.422c.949 0 1.721.817 1.721 1.828v11.848c0 1.007-.769 1.827-1.721 1.827-.949 0-1.721-.816-1.721-1.827V8.25c0-.96.694-1.746 1.58-1.822l.141-.006zM7.12.075c2.401 0 4.332.842 5.902 2.707l-2.405 2.499C9.551 3.957 8.57 3.386 7.057 3.386c-1.423 0-2.728.843-2.728 2.316 0 1.384.89 2.286 3.026 3.219l1.633.723c2.88 1.294 4.807 3.219 4.807 6.199 0 3.61-2.64 6.079-6.675 6.079-3.174 0-5.785-1.473-7.12-3.64l2.611-2.227c.978 1.384 2.64 2.559 4.45 2.559 2.048 0 3.266-.933 3.266-2.47 0-1.595-1.008-2.468-3.086-3.4L5.58 12.02C2.405 10.607.86 8.5.86 5.732.86 2.302 3.917.075 7.12.075zm41.024-.06v3.431H42.51v18.476h-3.472V3.446H33.43V.015h14.714zm11.54 0v13.452c0 3.278 2.048 5.083 5.042 5.083 2.968 0 5.013-1.805 5.013-5.083V.015h3.471v13.363c0 5.265-3.53 8.544-8.484 8.544-4.954 0-8.484-3.279-8.484-8.574V.015h3.442zm57.97.078c.953 0 1.721.817 1.721 1.828v11.848c0 .957-.697 1.742-1.58 1.818l-.14.006c-.95 0-1.722-.817-1.722-1.828V1.921c0-1.007.769-1.828 1.721-1.828zM23.614.015c.949 0 1.721.783 1.721 1.745 0 .962-.769 1.746-1.721 1.746-.949 0-1.721-.78-1.721-1.746 0-.962.768-1.745 1.721-1.745z"
+                                        fill="#FFF" fill-rule="evenodd" />
+                                </svg>
+                            </a>
+                        </div>
+
+                        <div [innerHtml]="section.content"></div>
+                    </div>
+                    <div class="col d-flex justify-content-center justify-content-lg-end align-items-end">
+                        <img class="logomark" src="/assets/images/Situ-Live-Logomark-RGB-Blue-on-White.svg" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
