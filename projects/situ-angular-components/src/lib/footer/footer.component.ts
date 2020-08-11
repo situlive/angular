@@ -13,7 +13,6 @@ class Footer {
 @Component({
   selector: 'lib-footer',
   templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.scss'],
 })
 export class FooterComponent implements OnInit {
   @Input() promise: () => Promise<any>;

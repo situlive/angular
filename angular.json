@@ -8,6 +8,11 @@
       "root": "projects/situ-angular-components",
       "sourceRoot": "projects/situ-angular-components/src",
       "prefix": "situ",
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "scss"
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
@@ -36,9 +41,7 @@
               "projects/situ-angular-components/tsconfig.lib.json",
               "projects/situ-angular-components/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
@@ -47,10 +50,5 @@
   "cli": {
     "analytics": "8db81fee-b0bd-41b0-a453-27aa6be6cc88"
   },
-  "defaultProject": "situ-angular-components",
-  "schematics": {
-    "@schematics/angular:component": {
-      "styleext": "scss"
-    }
-  }
+  "defaultProject": "situ-angular-components"
 }
