@@ -1,12 +1,10 @@
 import { NgModule } from '@angular/core';
-import { SituAngularComponentsComponent } from './situ-angular-components.component';
 
-
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
-  declarations: [SituAngularComponentsComponent],
-  imports: [
-  ],
-  exports: [SituAngularComponentsComponent]
+  declarations: [FooterComponent],
+  imports: [],
+  exports: [FooterComponent],
 })
-export class SituAngularComponentsModule { }
+export class SituAngularComponentsModule {}

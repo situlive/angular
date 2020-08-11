@@ -7,7 +7,7 @@
       "projectType": "library",
       "root": "projects/situ-angular-components",
       "sourceRoot": "projects/situ-angular-components/src",
-      "prefix": "lib",
+      "prefix": "situ",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
@@ -42,9 +42,15 @@
           }
         }
       }
-    }},
-  "cli": {
-    "analytics": "bed08095-425c-4797-afe2-7160bdafe2cb"
+    }
   },
-  "defaultProject": "situ-angular-components"
+  "cli": {
+    "analytics": "8db81fee-b0bd-41b0-a453-27aa6be6cc88"
+  },
+  "defaultProject": "situ-angular-components",
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "scss"
+    }
+  }
 }
