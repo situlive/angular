@@ -1,6 +1,16 @@
 {
   "name": "situ-angular-components",
-  "version": "0.0.0",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/situlive/situ-angular-components.git"
+  },
+  "author": "r3plica",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/situlive/situ-angular-components/issues"
+  },
+  "homepage": "https://github.com/situlive/situ-angular-components#readme",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
