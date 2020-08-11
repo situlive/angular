@@ -14,7 +14,13 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "situ-angular-components": [
+        "dist/situ-angular-components/situ-angular-components",
+        "dist/situ-angular-components"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
