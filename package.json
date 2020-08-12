@@ -1,6 +1,6 @@
 {
-  "name": "situ-angular-components",
-  "version": "0.0.2",
+  "name": "@situlive/situ-angular-components",
+  "version": "0.0.7",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

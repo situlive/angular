@@ -11,7 +11,7 @@ class Footer {
 }
 
 @Component({
-  selector: 'lib-footer',
+  selector: 'situ-footer',
   templateUrl: './footer.component.html',
 })
 export class FooterComponent implements OnInit {
