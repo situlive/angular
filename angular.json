@@ -20,6 +20,13 @@
             "tsConfig": "projects/situ-angular-components/tsconfig.lib.json",
             "project": "projects/situ-angular-components/ng-package.json"
           },
+
+          "assets": [
+            ".npmrc",
+            "**/.npmrc",
+            "CHANGELOG.md",
+            "./styles/**/*.theme.scss"
+          ],
           "configurations": {
             "production": {
               "tsConfig": "projects/situ-angular-components/tsconfig.lib.prod.json"
