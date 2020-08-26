@@ -3,14 +3,19 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 import { MatButtonModule } from '@angular/material/button';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatButtonLoadingDirective } from './directives/mat-button-loading.directive';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
+import { MatButtonLoadingDirective } from './mat-button-loading.directive';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, MatButtonModule, MatProgressBarModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+  ],
   declarations: [FooterComponent, HeaderComponent, MatButtonLoadingDirective],
   exports: [FooterComponent, HeaderComponent, MatButtonLoadingDirective],
 })

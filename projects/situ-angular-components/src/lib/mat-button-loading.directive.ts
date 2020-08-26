@@ -9,6 +9,7 @@ import {
   Renderer2,
   ComponentRef,
 } from '@angular/core';
+
 import { MatButton } from '@angular/material/button';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { ThemePalette } from '@angular/material/core';
@@ -41,19 +42,17 @@ export class MatButtonLoadingDirective implements OnChanges {
     );
   }
 
-  get nativeElement(): HTMLElement {
-    return this.matButton._elementRef.nativeElement;
-  }
-
   ngOnChanges(changes: SimpleChanges): void {
-    if (!changes.loading) return;
+    if (!changes.loading) {
+      return;
+    }
 
     if (changes.loading.currentValue) {
-      this.nativeElement.classList.add('mat-loading');
+      this.matButton._elementRef.nativeElement.classList.add('mat-loading');
       this.matButton.disabled = true;
       this.createSpinner();
-    } else {
-      this.nativeElement.classList.remove('mat-loading');
+    } else if (!changes.loading.firstChange) {
+      this.matButton._elementRef.nativeElement.classList.remove('mat-loading');
       this.matButton.disabled = this.disabled;
       this.destroySpinner();
     }
@@ -66,7 +65,7 @@ export class MatButtonLoadingDirective implements OnChanges {
       this.spinner.instance.diameter = 20;
       this.spinner.instance.mode = 'indeterminate';
       this.renderer.appendChild(
-        this.nativeElement,
+        this.matButton._elementRef.nativeElement,
         this.spinner.instance._elementRef.nativeElement
       );
     }
