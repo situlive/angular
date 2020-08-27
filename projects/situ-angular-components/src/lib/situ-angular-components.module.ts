@@ -7,6 +7,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
+import { LoaderComponent } from './loader/loader.component';
+
 import { MatButtonLoadingDirective } from './mat-button-loading.directive';
 
 @NgModule({
@@ -16,7 +18,17 @@ import { MatButtonLoadingDirective } from './mat-button-loading.directive';
     MatButtonModule,
     MatProgressSpinnerModule,
   ],
-  declarations: [FooterComponent, HeaderComponent, MatButtonLoadingDirective],
-  exports: [FooterComponent, HeaderComponent, MatButtonLoadingDirective],
+  declarations: [
+    FooterComponent,
+    HeaderComponent,
+    LoaderComponent,
+    MatButtonLoadingDirective,
+  ],
+  exports: [
+    FooterComponent,
+    HeaderComponent,
+    LoaderComponent,
+    MatButtonLoadingDirective,
+  ],
 })
 export class SituAngularComponentsModule {}
