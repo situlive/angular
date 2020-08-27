@@ -16,6 +16,8 @@ class Footer {
 })
 export class FooterComponent implements OnInit {
   @Input() promise: () => Promise<any>;
+  @Input() hideCookiePreferences: Boolean;
+
   public section: Footer;
 
   constructor() {}
