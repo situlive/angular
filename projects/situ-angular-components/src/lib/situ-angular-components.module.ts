@@ -10,6 +10,7 @@ import { HeaderComponent } from './header/header.component';
 import { LoaderComponent } from './loader/loader.component';
 
 import { MatButtonLoadingDirective } from './mat-button-loading.directive';
+import { AnimateDirective } from './animate.directive';
 
 @NgModule({
   imports: [
@@ -22,12 +23,16 @@ import { MatButtonLoadingDirective } from './mat-button-loading.directive';
     FooterComponent,
     HeaderComponent,
     LoaderComponent,
+
+    AnimateDirective,
     MatButtonLoadingDirective,
   ],
   exports: [
     FooterComponent,
     HeaderComponent,
     LoaderComponent,
+
+    AnimateDirective,
     MatButtonLoadingDirective,
   ],
 })
