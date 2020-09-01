@@ -3,6 +3,7 @@
  */
 
 export * from './lib/animations/animations.module';
+export * from './lib/breadcrumb/breadcrumb.module';
 export * from './lib/directives/directives.module';
 export * from './lib/footer/footer.module';
 export * from './lib/header/header.module';
