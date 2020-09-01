@@ -18,7 +18,7 @@ class BreadcrumbItem {
 @Component({
   selector: 'situ-breadcrumb',
   templateUrl: './breadcrumb.component.html',
-  styleUrls: ['./breadcrumb.component.css'],
+  styleUrls: ['./breadcrumb.component.scss'],
 })
 export class BreadcrumbComponent implements OnInit {
   @Input() dataName: string = 'breadcrumb';
@@ -31,7 +31,6 @@ export class BreadcrumbComponent implements OnInit {
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
         this.breadcrumbs = this.createBreadcrumbs(this.activatedRoute.root);
-        console.log(this.breadcrumbs);
       });
   }
 
@@ -45,13 +44,10 @@ export class BreadcrumbComponent implements OnInit {
     if (children.length === 0) {
       return breadcrumbs;
     }
-
     for (const child of children) {
       if (child.outlet !== PRIMARY_OUTLET) continue;
 
       if (child.snapshot.component !== undefined) {
-        console.log('snapshot', child.snapshot);
-
         const routeURL: string = child.snapshot.url
           .map((segment) => segment.path)
           .join('/');
