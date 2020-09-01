@@ -1,10 +1,17 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import {
+  Router,
+  ActivatedRoute,
+  NavigationEnd,
+  Params,
+  PRIMARY_OUTLET,
+} from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
 
 class BreadcrumbItem {
   label: string;
+  params: Params;
   url: string;
 }
 
@@ -22,17 +29,17 @@ export class BreadcrumbComponent implements OnInit {
   ngOnInit(): void {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(
-        () =>
-          (this.breadcrumbs = this.createBreadcrumbs(this.activatedRoute.root))
-      );
+      .subscribe(() => {
+        this.breadcrumbs = this.createBreadcrumbs(this.activatedRoute.root);
+        console.log(this.breadcrumbs);
+      });
   }
 
   private createBreadcrumbs(
     route: ActivatedRoute,
-    url: string = '#',
-    breadcrumbs: BreadcrumbItem[] = []
-  ): BreadcrumbItem[] {
+    url: string = '',
+    breadcrumbs: any[] = []
+  ): any[] {
     const children: ActivatedRoute[] = route.children;
 
     if (children.length === 0) {
@@ -40,16 +47,23 @@ export class BreadcrumbComponent implements OnInit {
     }
 
     for (const child of children) {
-      const routeURL: string = child.snapshot.url
-        .map((segment) => segment.path)
-        .join('/');
-      if (routeURL !== '') {
-        url += `/${routeURL}`;
-      }
+      if (child.outlet !== PRIMARY_OUTLET) continue;
 
-      const label = child.snapshot.data[this.dataName];
-      if (!isNullOrUndefined(label)) {
-        breadcrumbs.push({ label, url });
+      if (child.snapshot.component !== undefined) {
+        console.log('snapshot', child.snapshot);
+
+        const routeURL: string = child.snapshot.url
+          .map((segment) => segment.path)
+          .join('/');
+        if (routeURL !== '') {
+          url += `/${routeURL}`;
+        }
+
+        const label = child.snapshot.data[this.dataName];
+        const params = child.snapshot.params;
+        if (!isNullOrUndefined(label)) {
+          breadcrumbs.push({ label, params, url });
+        }
       }
 
       return this.createBreadcrumbs(child, url, breadcrumbs);
