@@ -1,0 +1,6 @@
+<div class="breadcrumb" *ngIf="breadcrumbs?.length">
+    <ul class="list-unstyled list-horizontal">
+        <li *ngFor="let item of breadcrumbs"><a routerLinkActive="active" [routerLink]="item.url"
+                [routerLinkActiveOptions]="{exact: true}">{{ item.label }}</a></li>
+    </ul>
+</div>
