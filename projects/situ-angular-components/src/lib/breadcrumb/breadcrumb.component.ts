@@ -1,12 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import {
-  Router,
-  ActivatedRoute,
-  NavigationEnd,
-  Params,
-  PRIMARY_OUTLET,
-} from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { ActivatedRoute, Params, PRIMARY_OUTLET } from '@angular/router';
 import { isNullOrUndefined } from 'util';
 
 class BreadcrumbItem {
@@ -22,16 +15,13 @@ class BreadcrumbItem {
 })
 export class BreadcrumbComponent implements OnInit {
   @Input() dataName: string = 'breadcrumb';
+  @Input() root: ActivatedRoute;
   public breadcrumbs: BreadcrumbItem[];
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
+  constructor() {}
 
   ngOnInit(): void {
-    this.router.events
-      .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(() => {
-        this.breadcrumbs = this.createBreadcrumbs(this.activatedRoute.root);
-      });
+    this.breadcrumbs = this.createBreadcrumbs(this.root);
   }
 
   private createBreadcrumbs(
@@ -39,6 +29,8 @@ export class BreadcrumbComponent implements OnInit {
     url: string = '',
     breadcrumbs: any[] = []
   ): any[] {
+    if (!route) breadcrumbs;
+
     const children: ActivatedRoute[] = route.children;
 
     if (children.length === 0) {
