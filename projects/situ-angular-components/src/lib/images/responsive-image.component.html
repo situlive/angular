@@ -1,4 +1,5 @@
-<cl-image class="img-fluid" [public-id]="publicId" dpr="auto" width="auto" crop="scale" responsive *ngIf="publicId">
+<cl-image [class]="class" [public-id]="publicId" dpr="auto" [width]="width || 'auto'" crop="scale" responsive
+    *ngIf="publicId">
     <cl-placeholder type="pixelate">
     </cl-placeholder>
     <cl-transformation quality="auto" fetch-format="auto">

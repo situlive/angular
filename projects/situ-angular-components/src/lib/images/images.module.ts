@@ -10,7 +10,7 @@ import { ResponsiveImageComponent } from './responsive-image.component';
 
 @NgModule({
   declarations: [ResponsiveImageComponent],
-  exports: [ResponsiveImageComponent],
+  exports: [ResponsiveImageComponent, CloudinaryModule],
   imports: [CommonModule, CloudinaryModule],
 })
 export class ImagesModule {

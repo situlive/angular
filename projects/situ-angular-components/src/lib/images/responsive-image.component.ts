@@ -6,6 +6,8 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class ResponsiveImageComponent implements OnInit {
   @Input() publicId: string;
+  @Input() width: number;
+  @Input() class: string;
 
   constructor() {}
 
