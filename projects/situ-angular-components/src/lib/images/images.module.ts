@@ -4,8 +4,9 @@ import { CommonModule } from '@angular/common';
 import { CloudinaryModule } from '@cloudinary/angular-5.x';
 import * as Cloudinary from 'cloudinary-core';
 
-import { ImagesConfig } from './images-config';
-import { IMAGES_CONFIG } from './images-config.token';
+import { IMAGES_CONFIG } from '../_core/configs/images-config.token';
+import { ImagesConfig } from '../_core/configs/images-config';
+
 import { ResponsiveImageComponent } from './responsive-image.component';
 
 @NgModule({
