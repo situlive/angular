@@ -1,4 +1,6 @@
 {
+  "name": "@situlive/situ-angular-components",
+  "version": "1.5.0",
   "umdModuleIds": {
     "@angular/common": "@angular/common",
     "@angular/core": "@angular/core"
