@@ -6,9 +6,10 @@ import { map } from 'rxjs/operators';
 
 import * as jwt_decode from 'jwt-decode';
 
+import { TransferHttpService } from './transfer-http.service';
+
 import { Token } from '../models/token';
 import { AuthConfig, AUTH_CONFIG } from '../configs';
-import { TransferHttpService } from '@core';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
