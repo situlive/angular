@@ -6,10 +6,11 @@ import { createClient, Entry } from 'contentful';
 import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
 import { INLINES, BLOCKS } from '@contentful/rich-text-types';
 
+import { TransferHttpService } from './transfer-http.service';
+
 import { Content, Image, Menu, MenuItem, Page } from '../models';
 import { ContentfulConfig, CONTENTFUL_CONFIG } from '../configs';
 import { HrefService } from './href.service';
-import { TransferHttpService } from '@core';
 
 @Injectable({
   providedIn: 'root',
