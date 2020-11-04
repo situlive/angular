@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
+import { ContentfulService } from '../_core/services';
 
 class Footer {
   title: string;
@@ -15,19 +16,18 @@ class Footer {
   templateUrl: './footer.component.html',
 })
 export class FooterComponent implements OnInit {
-  @Input() promise: () => Promise<any>;
   @Input() hideCookiePreferences: Boolean;
 
   public section: Footer;
 
-  constructor() {}
+  constructor(private contentfulService: ContentfulService) {}
 
   async ngOnInit(): Promise<void> {
     await this.getComponent();
   }
 
   private async getComponent(): Promise<void> {
-    let component = await this.promise();
+    let component = await this.contentfulService.getFooter();
     this.section = {
       title: component.fields.title,
       content: documentToHtmlString(component.fields.content),
