@@ -6,10 +6,10 @@ import { AuthConfig, AUTH_CONFIG } from './_core/configs';
 @NgModule({
   imports: [CoreModule],
 })
-export class ContentfulModule {
+export class AuthModule {
   static forRoot(config: AuthConfig): ModuleWithProviders {
     return {
-      ngModule: CoreModule,
+      ngModule: AuthModule,
       providers: [{ provide: AUTH_CONFIG, useValue: config }],
     };
   }
