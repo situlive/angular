@@ -3,8 +3,7 @@
  */
 
 export * from './lib/_core/animations/index';
-export * from './lib/_core/services/tag-manager.service';
-export * from './lib/_core/services/transfer-http.service';
+export * from './lib/_core/services/index';
 
 /* These are exported so they can be referenced in code behind */
 export * from './lib/breadcrumb/breadcrumb.component';

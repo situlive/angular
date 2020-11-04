@@ -17,7 +17,7 @@
         "dist/situ-angular-components/situ-angular-components",
         "dist/situ-angular-components"
       ],
-      "@core": ["dist/situ-angular-components/public-api"]
+      "@core": ["projects/situ-angular-components/src/public-api"]
       // "@core": ["projects/situ-angular-components/src/lib/_core"],
       // "@configs": ["projects/situ-angular-components/src/lib/_core/configs"],
       // "@models": ["projects/situ-angular-components/src/lib/_core/models"],
