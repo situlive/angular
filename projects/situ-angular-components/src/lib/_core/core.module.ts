@@ -1,18 +1,9 @@
-import { ModuleWithProviders, NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { BrowserTransferStateModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
 
-import { CORE_CONFIG, CoreConfig } from '@configs';
+import { AnimateDirective } from './animations/animate.directive';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, BrowserTransferStateModule],
+  declarations: [AnimateDirective],
+  exports: [AnimateDirective],
 })
-export class CoreModule {
-  static forRoot(config: CoreConfig): ModuleWithProviders {
-    return {
-      ngModule: CoreModule,
-      providers: [{ provide: CORE_CONFIG, useValue: config }],
-    };
-  }
-}
+export class CoreModule {}
