@@ -1,6 +1,10 @@
 {
   "name": "@situlive/situ-angular-components",
-  "version": "1.2.1",
+  "version": "1.5.2",
+  "umdModuleIds": {
+    "@angular/common": "@angular/common",
+    "@angular/core": "@angular/core"
+  },
   "peerDependencies": {
     "@angular/common": "^9.1.12",
     "@angular/core": "^9.1.12"
