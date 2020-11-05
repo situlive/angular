@@ -2,22 +2,20 @@ import { Input, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 
 import { Page } from '../_core/models';
-import { locator } from '../_core/services';
 import { PageService } from '../_core/services/page.service';
 
 export class ContentfulPageComponent implements OnInit {
   private currentUrl: string = '/';
 
-  protected pageService: PageService;
   protected router: Router;
+  protected pageService: PageService;
 
   @Input() pages: Page[];
   public page: Page;
 
-  constructor() {
-    console.log(locator);
-    this.pageService = locator.get(PageService);
-    this.router = locator.get(Router);
+  constructor(router: Router, pageService: PageService) {
+    this.router = router;
+    this.pageService = pageService;
   }
 
   ngOnInit(): void {
