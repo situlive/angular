@@ -292,7 +292,7 @@ export class ContentfulService {
       title: page.fields['title'],
       slug: page.fields['path'],
       linkText: page.fields['linkText'],
-      content: page.fields['content'].map(createContent),
+      content: page.fields['content']?.map(createContent),
     };
   }
 
