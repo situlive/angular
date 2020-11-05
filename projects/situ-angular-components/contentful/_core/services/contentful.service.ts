@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Observable, from } from 'rxjs';
+import { Observable, from, BehaviorSubject } from 'rxjs';
 
 import { createClient, Entry } from 'contentful';
 import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
@@ -11,6 +11,7 @@ import { TransferHttpService } from './transfer-http.service';
 import { Content, Image, Menu, MenuItem, Page } from '../models';
 import { ContentfulConfig, CONTENTFUL_CONFIG } from '../configs';
 import { HrefService } from './href.service';
+import { finalize } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -39,12 +40,58 @@ export class ContentfulService {
     },
   });
 
+  public pages: BehaviorSubject<Page[]>;
+  public loading: BehaviorSubject<boolean>;
+
   constructor(
     @Inject(CONTENTFUL_CONFIG) private config: ContentfulConfig,
     private http: TransferHttpService,
     private sanitizer: DomSanitizer,
     private hrefService: HrefService
-  ) {}
+  ) {
+    this.pages = new BehaviorSubject<Page[]>([]);
+    this.loading = new BehaviorSubject<boolean>(false);
+  }
+
+  public getPages(): Observable<Page[]> {
+    this.loading.next(true);
+
+    return from(
+      this.client
+        .getEntries({ content_type: 'page', include: 3 })
+        .then((response: any) => {
+          let pages = response.items.map((item) =>
+            this.createPage(item, this.createContent)
+          );
+          this.pages.next(pages);
+          return pages;
+        })
+    ).pipe(finalize(() => this.loading.next(false)));
+  }
+
+  public getNavigation(): Observable<Menu> {
+    return from(
+      this.client
+        .getEntries({ content_type: 'navigationMenu' })
+        .then((response: any) => this.createMenu(response.items[0]))
+    );
+  }
+
+  async getFooter(): Promise<any> {
+    const response = await this.client.getEntries({
+      content_type: 'footer',
+      include: 2,
+    });
+    return response.items[0];
+  }
+
+  public getMetadata(): Observable<any> {
+    return from(
+      this.client
+        .getEntries({ content_type: 'metadata' })
+        .then((response: any) => response.items[0])
+    );
+  }
 
   public htmlToString(text: any): SafeHtml {
     const renderOptions = {
@@ -67,43 +114,6 @@ export class ContentfulService {
     const content = documentToHtmlString(text, renderOptions);
 
     return this.sanitizer.bypassSecurityTrustHtml(content);
-  }
-
-  public getMetadata(): Observable<any> {
-    return from(
-      this.client
-        .getEntries({ content_type: 'metadata' })
-        .then((response: any) => response.items[0])
-    );
-  }
-
-  public getPages(): Observable<Page[]> {
-    return from(
-      this.client
-        .getEntries({ content_type: 'page', include: 3 })
-        .then((response: any) => {
-          let pages = response.items.map((item) =>
-            this.createPage(item, this.createContent)
-          );
-          return pages;
-        })
-    );
-  }
-
-  public getNavigation(): Observable<Menu> {
-    return from(
-      this.client
-        .getEntries({ content_type: 'navigationMenu' })
-        .then((response: any) => this.createMenu(response.items[0]))
-    );
-  }
-
-  async getFooter(): Promise<any> {
-    const response = await this.client.getEntries({
-      content_type: 'footer',
-      include: 2,
-    });
-    return response.items[0];
   }
 
   public createImage(images: any[]): Image {

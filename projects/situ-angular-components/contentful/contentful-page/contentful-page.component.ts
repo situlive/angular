@@ -5,7 +5,7 @@ import { Page } from '../_core/models';
 import { locator } from '../_core/services';
 import { PageService } from '../_core/services/page.service';
 
-export class PageComponent implements OnInit {
+export class ContentfulPageComponent implements OnInit {
   private currentUrl: string = '/';
 
   protected pageService: PageService;
@@ -15,6 +15,7 @@ export class PageComponent implements OnInit {
   public page: Page;
 
   constructor() {
+    console.log(locator);
     this.pageService = locator.get(PageService);
     this.router = locator.get(Router);
   }

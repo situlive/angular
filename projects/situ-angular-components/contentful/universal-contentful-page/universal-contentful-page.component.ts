@@ -1,9 +1,11 @@
 import { OnInit } from '@angular/core';
 import { NavigationEnd } from '@angular/router';
 
-import { PageComponent } from '../page/page.component';
+import { ContentfulPageComponent } from '../contentful-page/contentful-page.component';
 
-export class UniversalPageComponent extends PageComponent implements OnInit {
+export class UniversalContentfulPageComponent
+  extends ContentfulPageComponent
+  implements OnInit {
   constructor() {
     super();
   }
