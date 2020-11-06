@@ -1,6 +1,6 @@
 {
   "name": "@situlive/situ-angular-components",
-  "version": "1.5.2",
+  "version": "1.6.2",
   "umdModuleIds": {
     "@angular/common": "@angular/common",
     "@angular/core": "@angular/core"
@@ -10,6 +10,6 @@
     "@angular/core": "^9.1.12"
   },
   "dependencies": {
-    "tslib": "^1.10.0"
+    "tslib": "^1.14.1"
   }
 }
