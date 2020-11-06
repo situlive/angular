@@ -18,7 +18,7 @@ export class AuthenticationService {
   constructor(
     @Inject(PLATFORM_ID) private platformId,
     @Inject(AUTH_CONFIG) private config: AuthConfig,
-    private http: TransferHttpService
+    private httpClient: TransferHttpService
   ) {
     this.currentUserSubject = new BehaviorSubject<Token>(
       JSON.parse(
@@ -48,7 +48,7 @@ export class AuthenticationService {
       }),
     };
 
-    return this.http
+    return this.httpClient
       .post(
         `${this.config.identityServerUrl}/connect/token`,
         params,
