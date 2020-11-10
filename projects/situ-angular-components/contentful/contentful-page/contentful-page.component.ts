@@ -20,10 +20,17 @@ export class ContentfulPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUrl = this.getCurrentUrl(this.router.url); // For initial page load
+
     this.getPage();
     this.setTitle();
 
     this.onNavigationEnd();
+  }
+
+  public getCurrentUrl(current: string): string {
+    let urlWithoutHash = current.split('#')[0];
+    let urlWithoutQuery = urlWithoutHash.split('?')[0];
+    return urlWithoutQuery;
   }
 
   private setTitle(): void {
@@ -50,11 +57,5 @@ export class ContentfulPageComponent implements OnInit {
       this.getPage();
       this.setTitle();
     });
-  }
-
-  private getCurrentUrl(current: string): string {
-    let urlWithoutHash = current.split('#')[0];
-    let urlWithoutQuery = urlWithoutHash.split('?')[0];
-    return urlWithoutQuery;
   }
 }

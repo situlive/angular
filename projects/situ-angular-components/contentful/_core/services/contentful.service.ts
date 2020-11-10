@@ -8,7 +8,7 @@ import { INLINES, BLOCKS } from '@contentful/rich-text-types';
 
 import { TransferHttpService } from './transfer-http.service';
 
-import { Content, Image, Menu, MenuItem, Page } from '../models';
+import { Element, Image, Menu, MenuItem, Page } from '../models';
 import { ContentfulConfig, CONTENTFUL_CONFIG } from '../configs';
 import { HrefService } from './href.service';
 import { finalize } from 'rxjs/operators';
@@ -60,13 +60,26 @@ export class ContentfulService {
       this.client
         .getEntries({ content_type: 'page', include: 3 })
         .then((response: any) => {
-          let pages = response.items.map((item) =>
-            this.createPage(item, this.createContent)
+          let pages = response.items.map((item: any) =>
+            this.createPage(item, this.createElement)
           );
           this.pages.next(pages);
           return pages;
         })
     ).pipe(finalize(() => this.loading.next(false)));
+  }
+
+  public getComponents(
+    componentName: string,
+    include: number = 1
+  ): Observable<Element[]> {
+    return from(
+      this.client
+        .getEntries({ content_type: componentName, include: include })
+        .then((response: any) =>
+          response.items.map((entry: Entry<any>) => this.createElement(entry))
+        )
+    );
   }
 
   public getNavigation(): Observable<Menu> {
@@ -77,19 +90,19 @@ export class ContentfulService {
     );
   }
 
-  async getFooter(): Promise<any> {
+  async getFooter(): Promise<Element> {
     const response = await this.client.getEntries({
       content_type: 'footer',
       include: 2,
     });
-    return response.items[0];
+    return this.createElement(response.items[0]);
   }
 
-  public getMetadata(): Observable<any> {
+  public getMetadata(): Observable<Element> {
     return from(
       this.client
         .getEntries({ content_type: 'metadata' })
-        .then((response: any) => response.items[0])
+        .then((response: any) => this.createElement(response.items[0]))
     );
   }
 
@@ -287,16 +300,16 @@ export class ContentfulService {
     };
   }
 
-  private createPage(page: Entry<any>, createContent: any): Page {
+  private createPage(page: Entry<any>, createElement: any): Page {
     return {
       title: page.fields['title'],
       slug: page.fields['path'],
       linkText: page.fields['linkText'],
-      content: page.fields['content']?.map(createContent),
+      elements: page.fields['content']?.map(createElement),
     };
   }
 
-  private createContent(component: Entry<any>): Content {
+  private createElement(component: Entry<any>): Element {
     return {
       type: component.sys.contentType.sys.id,
       fields: component.fields,
