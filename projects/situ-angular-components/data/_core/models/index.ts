@@ -27,6 +27,8 @@ export * from './product';
 export * from './profile';
 export * from './role';
 export * from './rule';
+export * from './search-result-brand';
+export * from './search-result';
 export * from './specification-data';
 export * from './theatre-plan';
 export * from './theatre';

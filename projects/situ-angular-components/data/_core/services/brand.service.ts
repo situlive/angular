@@ -4,7 +4,7 @@ import { finalize, map } from 'rxjs/operators';
 import { forkJoin, Observable } from 'rxjs';
 
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
-import { Brand, Attempt, BrandUser } from '../models';
+import { Brand, Attempt, BrandUser, SearchResultBrand } from '../models';
 import { BaseService } from './base.service';
 import { ListOptions } from '../models/list-options';
 
@@ -32,6 +32,20 @@ export class BrandService extends BaseService<Brand> {
       }),
       finalize(() => this.loading.next(false))
     );
+  }
+
+  search(searchTerm: string): Observable<SearchResultBrand> {
+    return this.httpClient
+      .post<Attempt<SearchResultBrand>>(
+        `${this.config.apiUrl}/${this.endpoint}/search`,
+        { searchTerm }
+      )
+      .pipe(
+        map((response: Attempt<SearchResultBrand>) => {
+          // TODO: Handle the response (i.e. handle any errors)
+          return response.result;
+        })
+      );
   }
 
   simple(): Observable<Brand[]> {
