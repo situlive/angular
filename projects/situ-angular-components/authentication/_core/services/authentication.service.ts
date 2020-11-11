@@ -4,7 +4,7 @@ import { HttpParams, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import * as jwt_decode from 'jwt-decode';
+import jwt_decode from 'jwt-decode';
 
 import { Token } from '../models/token';
 import { AuthConfig, AUTH_CONFIG } from '../configs';
@@ -118,7 +118,7 @@ export class AuthenticationService {
       )
       .pipe(
         map((response: any) => {
-          const decoded = jwt_decode(response.access_token);
+          const decoded: any = jwt_decode(response.access_token);
           response.name = decoded.name;
           response.firstName = decoded.given_name;
           response.lastName = decoded.family_name;

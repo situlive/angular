@@ -1,4 +1,12 @@
-import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import { isPlatformServer } from '@angular/common';
+import {
+  Component,
+  ElementRef,
+  Inject,
+  Input,
+  OnInit,
+  PLATFORM_ID,
+} from '@angular/core';
 
 @Component({
   selector: 'situ-responsive-image',
@@ -10,9 +18,13 @@ export class ResponsiveImageComponent implements OnInit {
   @Input() width: number;
   @Input() class: string;
 
-  constructor(private elementRef: ElementRef) {}
+  constructor(
+    @Inject(PLATFORM_ID) private platformId,
+    private elementRef: ElementRef
+  ) {}
 
   public ngOnInit(): void {
+    if (isPlatformServer(this.platformId)) return;
     this.setWidth();
   }
 

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import {
@@ -10,15 +10,21 @@ import {
 } from '@angular/common/http';
 
 import { NotificationService } from '../services';
+import { isPlatformServer } from '@angular/common';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor(private notificationService: NotificationService) {}
+  constructor(
+    @Inject(PLATFORM_ID) private platformId,
+    private notificationService: NotificationService
+  ) {}
 
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    if (isPlatformServer(this.platformId)) return next.handle(request);
+
     return next.handle(request).pipe(
       map((event: HttpEvent<any>) => {
         if (event instanceof HttpResponse && event.body) {
