@@ -3,6 +3,7 @@
  */
 
 export * from './lib/_core/animations';
+export * from './lib/_core/directives';
 export * from './lib/_core/services';
 
 /* These are exported so they can be referenced in code behind */

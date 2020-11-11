@@ -21,7 +21,7 @@ import {
 })
 export class AnimateDirective implements OnInit, OnDestroy {
   @Input() animateOnLoad: Boolean;
-  @Input() sxpAnimation: AnimationReferenceMetadata;
+  @Input() animation: AnimationReferenceMetadata;
   @HostListener('window:scroll', ['$event']) // for window scroll events
   onScroll() {
     this.animate();
@@ -65,8 +65,8 @@ export class AnimateDirective implements OnInit, OnDestroy {
   private initialize(): void {
     let animation: AnimationFactory;
 
-    if (this.sxpAnimation !== null && this.sxpAnimation !== undefined) {
-      animation = this.animationBuilder.build(this.sxpAnimation);
+    if (this.animation !== null && this.animation !== undefined) {
+      animation = this.animationBuilder.build(this.animation);
     } else {
       animation = this.animationBuilder.build([
         animate(

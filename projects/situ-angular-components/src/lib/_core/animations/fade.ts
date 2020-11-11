@@ -4,9 +4,10 @@ import {
   style,
   animate,
   state,
+  AnimationMetadata,
 } from '@angular/animations';
 
-export const fade = trigger('fade', [
+export const fade: AnimationMetadata = trigger('fade', [
   state(
     'collapsed',
     style({
