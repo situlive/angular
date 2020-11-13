@@ -8,7 +8,9 @@ import { Component, OnInit, Input } from '@angular/core';
 export class HeaderComponent implements OnInit {
   @Input() toggle: boolean;
   @Input() transparent: boolean;
-  @Input() color: string = 'blue';
+  @Input() color: 'blue' | 'white' | 'jade' = 'blue';
+  @Input() position: 'fixed' | 'relative' | 'absolute' = 'fixed';
+  @Input() top: string = '0';
 
   constructor() {}
 
