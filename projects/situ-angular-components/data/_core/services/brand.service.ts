@@ -48,9 +48,11 @@ export class BrandService extends BaseService<Brand> {
       );
   }
 
-  simple(): Observable<Brand[]> {
+  simple(onlyConfirmed: boolean = false): Observable<Brand[]> {
     return this.httpClient
-      .get<Attempt<Brand[]>>(`${this.config.apiUrl}/${this.endpoint}/simple`)
+      .get<Attempt<Brand[]>>(
+        `${this.config.apiUrl}/${this.endpoint}/simple?onlyConfirmed=${onlyConfirmed}`
+      )
       .pipe(
         map((response: Attempt<Brand[]>) => {
           // TODO: Handle the response (i.e. handle any errors)

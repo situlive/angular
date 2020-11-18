@@ -1,27 +1,22 @@
-<footer class="footer section section-dark-grey">
+<footer class="footer section section-dark-grey" *ngIf="section">
     <div class="container-fluid" *ngIf="section">
         <div class="row">
             <div class="col">
                 <div class="row">
                     <div class="col">
                         <ul class="list-unstyled list-horizontal-lg">
-                            <li>
-                                <a class="btn-link" [href]="section.termsLink" target="_blank">Terms &amp;
-                                    conditions</a>
+                            <li *ngFor="let item of section.links">
+                                <a class="btn-link" [routerLink]="item.path" routerLinkActive="active"
+                                    [routerLinkActiveOptions]="{exact: true}" data-category="navigate"
+                                    data-action="internal link">{{ item.text }}</a>
                             </li>
-                            <li>
-                                <a class="btn-link" [href]="section.privacyPolicyLink" target="_blank">Privacy
-                                    policy</a>
-                            </li>
-                            <li>
-                                <a class="btn-link" [href]="section.cookiePolicyLink" target="_blank">Cookie policy</a>
+                            <li *ngFor="let item of section.externalLinks">
+                                <a class="btn-link" [href]="item.url" routerLinkActive="active" data-category="navigate"
+                                    data-action="external link">{{ item.name }}</a>
                             </li>
                             <li *ngIf="!hideCookiePreferences">
                                 <button class="btn-link" type="button" onclick="displayPreferenceModal()">Cookie
                                     Preferences</button>
-                            </li>
-                            <li>
-                                <a class="btn-link" [href]="section.careersLink">Careers</a>
                             </li>
                         </ul>
                     </div>
@@ -44,8 +39,18 @@
                         <div [innerHtml]="section.content"></div>
                     </div>
                     <div class="col d-flex justify-content-center justify-content-lg-end align-items-end">
-                        <img class="logomark"
-                            src="https://res.cloudinary.com/situ-live/image/upload/c_scale,w_40/v1604074605/Situ-Live-Logomark-RGB-Blue-on-White_ozrvwn.png" />
+                        <!-- <ul class="list-unstyled">
+                            <li>
+                                <a class="btn-link" href="https://www.linkedin.com/company/situlive/" target="_blank"
+                                    data-category="navigate" data-action="external link">
+                                    <mat-icon svgIcon="linkedin"></mat-icon>
+                                </a></li>
+                            <li>
+                                <a class="btn-link" href="https://twitter.com/situlive" target="_blank"
+                                    data-category="navigate" data-action="external link">
+                                    <mat-icon svgIcon="twitter"></mat-icon>
+                                </a></li>
+                        </ul> -->
                     </div>
                 </div>
             </div>

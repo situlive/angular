@@ -90,12 +90,15 @@ export class ContentfulService {
     );
   }
 
-  async getFooter(): Promise<Element> {
-    const response = await this.client.getEntries({
-      content_type: 'footer',
-      include: 2,
-    });
-    return this.createElement(response.items[0]);
+  public getFooter(): Observable<Menu> {
+    return from(
+      this.client
+        .getEntries({
+          content_type: 'footer',
+          include: 2,
+        })
+        .then((response: any) => this.createMenu(response.items[0]))
+    );
   }
 
   public getMetadata(): Observable<Element> {
@@ -282,14 +285,22 @@ export class ContentfulService {
     return { lastIndex, replacedText };
   }
 
-  private createMenu(menu: any): Menu {
+  private createMenu(element: any): Menu {
     return {
-      title: menu.fields.title,
-      links: menu.fields.links.map(this.createMenuItem),
-      externalLinks: menu.fields.externalLinks?.map((item: any) => {
+      title: element.fields.title,
+      content: this.htmlToString(element.fields.content),
+      links: element.fields.links?.map(this.createMenuItem),
+      externalLinks: element.fields.externalLinks?.map((item: any) => {
         return { name: item.fields.name, url: item.fields.url };
       }),
-      buttons: menu.fields.buttons,
+      socialLinks: element.fields.socialLinks?.map((item: any) => {
+        return {
+          name: item.fields.name,
+          url: item.fields.url,
+          icon: item.fields.icon,
+        };
+      }),
+      buttons: element.fields.buttons,
     };
   }
 
@@ -302,10 +313,12 @@ export class ContentfulService {
 
   private createPage(page: Entry<any>, createElement: any): Page {
     return {
-      title: page.fields['title'],
-      slug: page.fields['path'],
-      linkText: page.fields['linkText'],
-      elements: page.fields['content']?.map(createElement),
+      title: page.fields.title,
+      description: page.fields.description,
+      image: this.createImage(page.fields.image),
+      slug: page.fields.path,
+      linkText: page.fields.linkText,
+      elements: page.fields.content?.map(createElement),
     };
   }
 

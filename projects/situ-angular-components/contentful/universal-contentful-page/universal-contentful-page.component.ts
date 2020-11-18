@@ -21,7 +21,7 @@ export class UniversalContentfulPageComponent
     this.router.events.subscribe((event: any) => {
       if (!(event instanceof NavigationEnd)) return;
 
-      this.pageService.setMetadata();
+      this.pageService.setMetadata(this.page);
     });
   }
 }

@@ -12,6 +12,7 @@ export class ContentfulPageComponent implements OnInit {
 
   @Input() pages: Page[];
   public page: Page;
+  public affix: string = ' | Situ Live';
 
   constructor(router: Router, pageService: PageService) {
     this.router = router;
@@ -34,7 +35,7 @@ export class ContentfulPageComponent implements OnInit {
   }
 
   private setTitle(): void {
-    this.pageService.setTitle(this.page?.title);
+    this.pageService.setTitle(this.page?.title + this.affix);
   }
 
   private getPage(): void {
