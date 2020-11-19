@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { BrowserTransferStateModule } from '@angular/platform-browser';
 
-import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 import { ContentfulConfig, CONTENTFUL_CONFIG } from './_core/configs';
 import { FooterComponent } from './footer/footer.component';
@@ -13,7 +13,8 @@ import { FooterComponent } from './footer/footer.component';
     CommonModule,
     RouterModule,
     BrowserTransferStateModule,
-    MatIconModule,
+
+    MatButtonModule,
   ],
   declarations: [FooterComponent],
   exports: [FooterComponent],

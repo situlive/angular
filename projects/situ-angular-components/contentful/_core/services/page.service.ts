@@ -25,25 +25,49 @@ export class PageService {
 
       let title = override?.title ?? metadata.title;
       let description = override?.description ?? metadata.description;
-      let image = override?.image?.secureUrl ?? metadata.image.secureUrl;
+      let image = override?.image ?? metadata.image;
 
-      this.meta.updateTag({
-        property: `og:site_name`,
-        content: metadata.title,
-      });
-      this.meta.updateTag({
-        property: `og:title`,
-        content: title,
-      });
-      this.meta.updateTag({
-        property: `og:image`,
-        content: image,
-      });
-      this.meta.updateTag({
-        property: `og:description`,
-        content: description,
-      });
+      this.updateFacebook({ title, description, image });
+      this.updateTwitter({ title, description, image });
       this.meta.updateTag({ name: 'description', content: description });
+    });
+  }
+
+  private updateTwitter(metadata: Metadata): void {
+    this.meta.updateTag({
+      property: `twitter:site_name`,
+      content: metadata.title,
+    });
+    this.meta.updateTag({
+      property: `twitter:title`,
+      content: metadata.title,
+    });
+    this.meta.updateTag({
+      property: `twitter:image`,
+      content: metadata.image.secureUrl,
+    });
+    this.meta.updateTag({
+      property: `twitter:description`,
+      content: metadata.description,
+    });
+  }
+
+  private updateFacebook(metadata: Metadata): void {
+    this.meta.updateTag({
+      property: `og:site_name`,
+      content: metadata.title,
+    });
+    this.meta.updateTag({
+      property: `og:title`,
+      content: metadata.title,
+    });
+    this.meta.updateTag({
+      property: `og:image`,
+      content: metadata.image.secureUrl,
+    });
+    this.meta.updateTag({
+      property: `og:description`,
+      content: metadata.description,
     });
   }
 

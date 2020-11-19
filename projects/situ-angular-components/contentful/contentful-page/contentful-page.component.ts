@@ -35,7 +35,7 @@ export class ContentfulPageComponent implements OnInit {
   }
 
   private setTitle(): void {
-    this.pageService.setTitle(this.page?.title + this.affix);
+    this.pageService.setTitle((this.page?.title ?? 'Home') + this.affix);
   }
 
   private getPage(): void {
