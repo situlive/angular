@@ -1,12 +1,6 @@
-import { isPlatformServer } from '@angular/common';
-import {
-  Component,
-  ElementRef,
-  Inject,
-  Input,
-  OnInit,
-  PLATFORM_ID,
-} from '@angular/core';
+import { Component, ElementRef, Input, OnInit } from '@angular/core';
+
+import { ImageOptions } from '../_core/models';
 
 @Component({
   selector: 'situ-responsive-image',
@@ -14,24 +8,44 @@ import {
   styleUrls: ['./responsive-image.component.scss'],
 })
 export class ResponsiveImageComponent implements OnInit {
-  @Input() publicId: string;
-  @Input() width: number;
-  @Input() class: string;
+  private defaults: ImageOptions = {
+    width: 0,
+    height: 0,
+    crop: 'crop',
+    multiplier: 1,
+  };
 
-  constructor(
-    @Inject(PLATFORM_ID) private platformId,
-    private elementRef: ElementRef
-  ) {}
+  @Input() publicId: string;
+  @Input() class: string;
+  @Input() options: ImageOptions;
+
+  public initialized: boolean;
+
+  constructor(private elementRef: ElementRef) {
+    this.options = { ...this.defaults, ...(this.options || {}) };
+  }
 
   public ngOnInit(): void {
-    if (isPlatformServer(this.platformId)) return;
     this.setWidth();
   }
 
   private setWidth(): void {
-    if (this.width) return;
-    this.width = Math.ceil(
-      this.elementRef.nativeElement.getBoundingClientRect().width
-    );
+    if (!this.options.width) {
+      this.options.width = Math.ceil(
+        Math.ceil(
+          this.elementRef.nativeElement.getBoundingClientRect().width *
+            this.options.multiplier
+        )
+      );
+    }
+
+    if (!this.options.height) {
+      this.options.height = Math.ceil(
+        this.elementRef.nativeElement.getBoundingClientRect().height
+      );
+    }
+
+    this.initialized = true;
+    console.log(this.options);
   }
 }

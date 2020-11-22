@@ -141,6 +141,13 @@ export class ContentfulService {
     };
   }
 
+  public createElement(component: Entry<any>): Element {
+    return {
+      type: component.sys.contentType.sys.id,
+      fields: component.fields,
+    };
+  }
+
   private parseList(node: any): string {
     return `<ul>${node.content
       .map((item: any) => this.parseListItem(item))
@@ -319,13 +326,6 @@ export class ContentfulService {
       slug: page.fields.path,
       linkText: page.fields.linkText,
       elements: page.fields.content?.map(createElement),
-    };
-  }
-
-  private createElement(component: Entry<any>): Element {
-    return {
-      type: component.sys.contentType.sys.id,
-      fields: component.fields,
     };
   }
 }
