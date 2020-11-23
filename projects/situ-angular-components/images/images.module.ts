@@ -5,11 +5,16 @@ import { CloudinaryModule } from '@cloudinary/angular-5.x';
 import * as Cloudinary from 'cloudinary-core';
 
 import { CloudinaryConfig, CLOUDINARY_CONFIG } from './_core/configs';
+import { ResponsiveBackgroundImageComponent } from './responsive-background-image/responsive-background-image.component';
 import { ResponsiveImageComponent } from './responsive-image/responsive-image.component';
 
 @NgModule({
-  declarations: [ResponsiveImageComponent],
-  exports: [ResponsiveImageComponent, CloudinaryModule],
+  declarations: [ResponsiveBackgroundImageComponent, ResponsiveImageComponent],
+  exports: [
+    ResponsiveBackgroundImageComponent,
+    ResponsiveImageComponent,
+    CloudinaryModule,
+  ],
   imports: [CommonModule, CloudinaryModule],
 })
 export class ImagesModule {

@@ -21,7 +21,7 @@ export class ResponsiveImageComponent implements OnInit {
 
   public initialized: boolean;
 
-  constructor(private elementRef: ElementRef) {
+  constructor(public elementRef: ElementRef) {
     this.options = { ...this.defaults, ...(this.options || {}) };
   }
 
@@ -46,6 +46,5 @@ export class ResponsiveImageComponent implements OnInit {
     }
 
     this.initialized = true;
-    console.log(this.options);
   }
 }

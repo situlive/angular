@@ -60,9 +60,7 @@ export class ContentfulService {
       this.client
         .getEntries({ content_type: 'page', include: 3 })
         .then((response: any) => {
-          let pages = response.items.map((item: any) =>
-            this.createPage(item, this.createElement)
-          );
+          let pages = response.items.map((item: any) => this.createPage(item));
           this.pages.next(pages);
           return pages;
         })
@@ -138,6 +136,19 @@ export class ContentfulService {
     return {
       publicId: image.public_id,
       secureUrl: image.secure_url,
+    };
+  }
+
+  public createPage(page: Entry<any>): Page {
+    return {
+      title: page.fields.title,
+      description: page.fields.description,
+      image: this.createImage(page.fields.image),
+      slug: page.fields.path,
+      linkText: page.fields.linkText,
+      elements: page.fields.content?.map((content: any) =>
+        this.createElement(content)
+      ),
     };
   }
 
@@ -315,17 +326,6 @@ export class ContentfulService {
     return {
       path: item.fields.path,
       text: item.fields.linkText,
-    };
-  }
-
-  private createPage(page: Entry<any>, createElement: any): Page {
-    return {
-      title: page.fields.title,
-      description: page.fields.description,
-      image: this.createImage(page.fields.image),
-      slug: page.fields.path,
-      linkText: page.fields.linkText,
-      elements: page.fields.content?.map(createElement),
     };
   }
 }
