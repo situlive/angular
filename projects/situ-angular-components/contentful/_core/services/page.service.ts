@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import { Metadata } from '../models';
+import { Metadata, Page } from '../models';
 import { ContentfulService } from './contentful.service';
 
 @Injectable({
@@ -13,6 +15,13 @@ export class PageService {
     private meta: Meta,
     private title: Title
   ) {}
+
+  public getPage<T extends Page>(
+    slug: string,
+    callback: (page: any) => T
+  ): Observable<T> {
+    return this.contentfulService.getPage(slug, callback);
+  }
 
   public setTitle(title: string): void {
     if (!title) return;

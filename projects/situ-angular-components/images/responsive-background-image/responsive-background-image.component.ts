@@ -18,6 +18,7 @@ export class ResponsiveBackgroundImageComponent implements AfterViewInit {
   responsiveImage: ResponsiveImageComponent;
 
   @Input() publicId: string;
+  @Input() debug: boolean;
 
   constructor(private renderer: Renderer2, private element: ElementRef) {}
 

@@ -18,6 +18,7 @@ export class ResponsiveImageComponent implements OnInit {
   @Input() publicId: string;
   @Input() class: string;
   @Input() options: ImageOptions;
+  @Input() debug: boolean;
 
   public initialized: boolean;
 

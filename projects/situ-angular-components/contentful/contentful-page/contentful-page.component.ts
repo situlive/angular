@@ -4,19 +4,25 @@ import { NavigationEnd, Router } from '@angular/router';
 import { Page } from '../_core/models';
 import { PageService } from '../_core/services/page.service';
 
-export class ContentfulPageComponent implements OnInit {
+export class ContentfulPageComponent<T extends Page> implements OnInit {
   private currentUrl: string = '/';
+  private callback: (page: any) => T;
 
   protected router: Router;
   protected pageService: PageService;
 
-  @Input() pages: Page[];
   public page: Page;
   public affix: string = ' | Situ Live';
+  public loaded: boolean;
 
-  constructor(router: Router, pageService: PageService) {
+  constructor(
+    router: Router,
+    pageService: PageService,
+    callback?: (page: any) => T
+  ) {
     this.router = router;
     this.pageService = pageService;
+    this.callback = callback;
   }
 
   ngOnInit(): void {
@@ -39,14 +45,14 @@ export class ContentfulPageComponent implements OnInit {
   }
 
   private getPage(): void {
-    this.page = this.pages.find((page: Page) => page.slug === this.currentUrl);
-
-    if (!this.page) {
-      this.page = this.pages.find(
-        (page: Page) =>
-          this.currentUrl.indexOf(page.slug) === 0 && page.slug !== '/'
-      );
-    }
+    this.loaded = false;
+    this.pageService
+      .getPage(this.currentUrl, this.callback)
+      .subscribe((page: T) => {
+        if (!page) return; // TODO: throw error or redirect to 404
+        this.page = page;
+        this.loaded = true;
+      });
   }
 
   private onNavigationEnd(): void {

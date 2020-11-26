@@ -67,6 +67,28 @@ export class ContentfulService {
     ).pipe(finalize(() => this.loading.next(false)));
   }
 
+  public getPage<T extends Page>(
+    slug: string,
+    callback: (page: any) => T
+  ): Observable<T> {
+    return from(
+      this.client
+        .getEntries({
+          content_type: 'page',
+          'fields.path[match]': slug,
+          include: 3,
+        })
+        .then((response: any) => {
+          let page = response.items.find(
+            (item: any) => item.fields?.path === slug
+          );
+          if (!page) return;
+
+          return callback(page);
+        })
+    );
+  }
+
   public getComponents(
     componentName: string,
     include: number = 1
@@ -156,6 +178,13 @@ export class ContentfulService {
     return {
       type: component.sys.contentType.sys.id,
       fields: component.fields,
+    };
+  }
+
+  public createMenuItem(item: any): MenuItem {
+    return {
+      path: item.fields.path,
+      text: item.fields.linkText,
     };
   }
 
@@ -319,13 +348,6 @@ export class ContentfulService {
         };
       }),
       buttons: element.fields.buttons,
-    };
-  }
-
-  private createMenuItem(item: any): MenuItem {
-    return {
-      path: item.fields.path,
-      text: item.fields.linkText,
     };
   }
 }

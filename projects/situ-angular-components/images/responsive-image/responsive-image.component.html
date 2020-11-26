@@ -1,4 +1,9 @@
-<cl-image [class]="class" [public-id]="publicId" dpr="auto" crop="scale" *ngIf="publicId && options.width">
+<div *ngIf="debug">
+    <p>publicId: {{publicId}}</p>
+    <p>options: {{options|json}}</p>
+</div>
+
+<cl-image [class]="class" [public-id]="publicId" dpr="auto" crop="scale" *ngIf="publicId">
     <cl-placeholder type="pixelate">
     </cl-placeholder>
     <cl-transformation attr.width="{{options.width}}" crop="scale" *ngIf="options.width > 0 && options.height === 0">
