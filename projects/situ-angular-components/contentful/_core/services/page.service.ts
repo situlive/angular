@@ -18,9 +18,10 @@ export class PageService {
 
   public getPage<T extends Page>(
     slug: string,
-    callback: (page: any) => T
+    callback: (page: any) => T,
+    options: any
   ): Observable<T> {
-    return this.contentfulService.getPage(slug, callback);
+    return this.contentfulService.getPage(slug, callback, options);
   }
 
   public setTitle(title: string): void {

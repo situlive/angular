@@ -1,4 +1,4 @@
-import { Input, OnInit } from '@angular/core';
+import { OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 
 import { Page } from '../_core/models';
@@ -14,6 +14,10 @@ export class ContentfulPageComponent<T extends Page> implements OnInit {
   public page: Page;
   public affix: string = ' | Situ Live';
   public loaded: boolean;
+  public options: {
+    content_type: 'page';
+    include: 3;
+  };
 
   constructor(
     router: Router,
@@ -47,11 +51,11 @@ export class ContentfulPageComponent<T extends Page> implements OnInit {
   private getPage(): void {
     this.loaded = false;
     this.pageService
-      .getPage(this.currentUrl, this.callback)
+      .getPage(this.currentUrl, this.callback, this.options)
       .subscribe((page: T) => {
+        this.loaded = true;
         if (!page) return; // TODO: throw error or redirect to 404
         this.page = page;
-        this.loaded = true;
       });
   }
 

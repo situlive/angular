@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { isPlatformServer } from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 
 declare global {
   interface Window {
@@ -10,11 +11,13 @@ declare global {
   providedIn: 'root',
 })
 export class TagManagerService {
-  constructor() {
+  constructor(@Inject(PLATFORM_ID) private platformId) {
+    if (isPlatformServer(this.platformId)) return;
     window.dataLayer = window.dataLayer || [];
   }
 
   public engage(action: string, label: string, value: string) {
+    if (isPlatformServer(this.platformId)) return;
     window.dataLayer.push({
       event: 'engage',
       category: 'engage',

@@ -5,6 +5,8 @@ import {
   Input,
   OnInit,
   OnDestroy,
+  Inject,
+  PLATFORM_ID,
 } from '@angular/core';
 import {
   AnimationReferenceMetadata,
@@ -15,6 +17,7 @@ import {
   animate,
   keyframes,
 } from '@angular/animations';
+import { isPlatformServer } from '@angular/common';
 
 @Directive({
   selector: '[situAnimate]',
@@ -36,11 +39,13 @@ export class AnimateDirective implements OnInit, OnDestroy {
   };
 
   constructor(
+    @Inject(PLATFORM_ID) private platformId,
     private element: ElementRef,
     private animationBuilder: AnimationBuilder
   ) {}
 
   ngOnInit(): void {
+    if (isPlatformServer(this.platformId)) return;
     this.initialize();
     this.observe();
     this.animate();

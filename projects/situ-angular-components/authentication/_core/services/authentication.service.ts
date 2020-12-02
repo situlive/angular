@@ -1,6 +1,6 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformServer } from '@angular/common';
-import { HttpParams, HttpHeaders } from '@angular/common/http';
+import { HttpParams, HttpHeaders, HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -9,8 +9,6 @@ import jwt_decode from 'jwt-decode';
 import { Token } from '../models/token';
 import { AuthConfig, AUTH_CONFIG } from '../configs';
 
-import { TransferHttpService } from './transfer-http.service';
-
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<Token>;
@@ -18,7 +16,7 @@ export class AuthenticationService {
   constructor(
     @Inject(PLATFORM_ID) private platformId,
     @Inject(AUTH_CONFIG) private config: AuthConfig,
-    private httpClient: TransferHttpService
+    private httpClient: HttpClient
   ) {
     this.currentUserSubject = new BehaviorSubject<Token>(
       JSON.parse(

@@ -6,12 +6,11 @@ import { createClient, Entry } from 'contentful';
 import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
 import { INLINES, BLOCKS } from '@contentful/rich-text-types';
 
-import { TransferHttpService } from './transfer-http.service';
-
 import { Element, Image, Menu, MenuItem, Page } from '../models';
 import { ContentfulConfig, CONTENTFUL_CONFIG } from '../configs';
 import { HrefService } from './href.service';
 import { finalize } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -45,7 +44,7 @@ export class ContentfulService {
 
   constructor(
     @Inject(CONTENTFUL_CONFIG) private config: ContentfulConfig,
-    private http: TransferHttpService,
+    private http: HttpClient,
     private sanitizer: DomSanitizer,
     private hrefService: HrefService
   ) {
@@ -69,14 +68,19 @@ export class ContentfulService {
 
   public getPage<T extends Page>(
     slug: string,
-    callback: (page: any) => T
+    callback: (page: any) => T = this.createPage.bind(this),
+    options: any = {
+      content_type: 'page',
+      include: 3,
+    }
   ): Observable<T> {
     return from(
       this.client
         .getEntries({
-          content_type: 'page',
-          'fields.path[match]': slug,
-          include: 3,
+          ...options,
+          ...{
+            'fields.path[match]': slug,
+          },
         })
         .then((response: any) => {
           let page = response.items.find(
@@ -152,9 +156,16 @@ export class ContentfulService {
     return this.sanitizer.bypassSecurityTrustHtml(content);
   }
 
-  public createImage(images: any[]): Image {
-    if (!images) return new Image();
-    let image = Array.isArray(images) ? images[0] : images;
+  public createImages(request: any[]): Image[] {
+    if (!request?.length) return [];
+    let images = [];
+    request.forEach((item: any) => images.push(this.createImage(item)));
+    return images;
+  }
+
+  public createImage(request: any): Image {
+    if (!request) return new Image();
+    let image = Array.isArray(request) ? request[0] : request;
     return {
       publicId: image.public_id,
       secureUrl: image.secure_url,
@@ -168,7 +179,7 @@ export class ContentfulService {
       image: this.createImage(page.fields.image),
       slug: page.fields.path,
       linkText: page.fields.linkText,
-      elements: page.fields.content?.map((content: any) =>
+      elements: this.toArray(page.fields.content).map((content: any) =>
         this.createElement(content)
       ),
     };
@@ -333,14 +344,17 @@ export class ContentfulService {
   }
 
   private createMenu(element: any): Menu {
+    console.log(element);
     return {
       title: element.fields.title,
       content: this.htmlToString(element.fields.content),
-      links: element.fields.links?.map(this.createMenuItem),
-      externalLinks: element.fields.externalLinks?.map((item: any) => {
-        return { name: item.fields.name, url: item.fields.url };
-      }),
-      socialLinks: element.fields.socialLinks?.map((item: any) => {
+      links: this.toArray(element.fields.links).map(this.createMenuItem),
+      externalLinks: this.toArray(element.fields.externalLinks).map(
+        (item: any) => {
+          return { name: item.fields.name, url: item.fields.url };
+        }
+      ),
+      socialLinks: this.toArray(element.fields.socialLinks).map((item: any) => {
         return {
           name: item.fields.name,
           url: item.fields.url,
@@ -349,5 +363,10 @@ export class ContentfulService {
       }),
       buttons: element.fields.buttons,
     };
+  }
+
+  private toArray(content: any[]): any[] {
+    if (!content?.length) return [];
+    return content;
   }
 }

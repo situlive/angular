@@ -1,4 +1,12 @@
-import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import { isPlatformServer } from '@angular/common';
+import {
+  Component,
+  ElementRef,
+  Inject,
+  Input,
+  OnInit,
+  PLATFORM_ID,
+} from '@angular/core';
 
 import { ImageOptions } from '../_core/models';
 
@@ -8,13 +16,6 @@ import { ImageOptions } from '../_core/models';
   styleUrls: ['./responsive-image.component.scss'],
 })
 export class ResponsiveImageComponent implements OnInit {
-  private defaults: ImageOptions = {
-    width: 0,
-    height: 0,
-    crop: 'crop',
-    multiplier: 1,
-  };
-
   @Input() publicId: string;
   @Input() class: string;
   @Input() options: ImageOptions;
@@ -22,21 +23,26 @@ export class ResponsiveImageComponent implements OnInit {
 
   public initialized: boolean;
 
-  constructor(public elementRef: ElementRef) {
-    this.options = { ...this.defaults, ...(this.options || {}) };
+  constructor(
+    @Inject(PLATFORM_ID) private platformId,
+    public elementRef: ElementRef
+  ) {
+    this.options = {
+      width: this.options?.width,
+      height: this.options?.height,
+      crop: this.options?.crop || 'crop',
+    };
   }
 
   public ngOnInit(): void {
+    if (isPlatformServer(this.platformId)) return;
     this.setWidth();
   }
 
   private setWidth(): void {
     if (!this.options.width) {
       this.options.width = Math.ceil(
-        Math.ceil(
-          this.elementRef.nativeElement.getBoundingClientRect().width *
-            this.options.multiplier
-        )
+        Math.ceil(this.elementRef.nativeElement.getBoundingClientRect().width)
       );
     }
 

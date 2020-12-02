@@ -27,7 +27,6 @@ export * from './role.service';
 export * from './rule.service';
 export * from './theatre-plan.service';
 export * from './theatre.service';
-export * from './transfer-http.service';
 export * from './transformation.service';
 export * from './user-role.service';
 export * from './user.service';
