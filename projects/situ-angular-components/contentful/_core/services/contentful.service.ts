@@ -344,7 +344,6 @@ export class ContentfulService {
   }
 
   private createMenu(element: any): Menu {
-    console.log(element);
     return {
       title: element.fields.title,
       content: this.htmlToString(element.fields.content),
