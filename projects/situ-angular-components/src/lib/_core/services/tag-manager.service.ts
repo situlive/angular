@@ -12,7 +12,8 @@ export class TagManagerService {
     private windowService: WindowService
   ) {
     if (isPlatformServer(this.platformId)) return;
-    this.windowService.nativeWindow.dataLayer = window.dataLayer || [];
+    this.windowService.nativeWindow.dataLayer =
+      this.windowService.nativeWindow.dataLayer || [];
   }
 
   public engage(action: string, label: string, value: string) {

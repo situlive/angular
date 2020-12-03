@@ -1,27 +1,209 @@
-# SituAngularComponents
+# Situ Angular Components
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.1.
+This package is used through the Situ Live applications to provider commonly used components, services, and directives.
 
-## Development server
+## Getting started
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+This package is split up into multiple modules to help facilitate tree shaking and allows you to cherry pick what you actually need in your application
 
-## Code scaffolding
+## Lazy modules
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Just like any other module, if you need to import any of the modules that have **forRoot** methods. Ensure that the **forRoot** method is imported in your **AppModule** (or **CoreModule** if you have one) and every module that needs to import another instance should do so by ommitting the **forRoot** method like so:
 
-## Build
+```
+@NgModule({
+  declarations: [],
+  exports: [],
+  imports: [
+    ComponentsModule,
+    ImagesModule,
+  ],
+})
+export class SharedModule {}
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+This will ensure services remain Singletons and new instances are not created erroneously.
 
-## Running unit tests
+## Animations
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+The animations module includes the **animate** directive and some common angular animations.
 
-## Running end-to-end tests
+### Get Started
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+To use this module in your application, simply import the **AnimationsModule** as follows:
 
-## Further help
+```
+@NgModule({
+  declarations: [],
+  imports: [
+    ...
+    AnimationsModule,
+  ],
+  providers: [],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+## Authentication
+
+All of our applications use a central Identity Server to authenticate and consume our APIs. Because of this, we have created a module that exposes services to facilitate authentication.
+
+### Get Started
+
+To use this module in your application, you need to import the **AuthModule** as follows:
+
+```
+@NgModule({
+  declarations: [],
+  imports: [
+    ...
+    AuthModule.forRoot(environment.authentication),
+  ],
+  providers: [],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+
+your **environment.authentication** object must implement the **AuthConfig**:
+
+```
+export interface AuthConfig {
+  basicAuthorization: string;
+  identityServerUrl: string;
+  grantType: string;
+  scopes: string;
+}
+```
+
+Your **AppModule** could look like this:
+
+```
+@NgModule({
+  declarations: [],
+  imports: [
+    ...
+    AuthModule.forRoot({
+        basicAuthorization: 'Basic Y2xpZW50OmtXdnlQJHBLWEFSNnFHLUg=',
+        identityServerUrl: 'https://localhost:44362',
+        scopes: 'sxp identity',
+        grantType: 'password',
+    }),
+  ],
+  providers: [],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+
+For security purposes, we suggest you keep your configuration in your **environments** file.
+
+## Contentful
+
+Our chosen CMS is Contentful. It is a headless CMS solution and provides use with great flexibility when creating new pages.
+A module has been created with all the components and services needed to interact with with Contentful.
+
+### Get Started
+
+To use this module in your application, you need to import the **ContentfulModule** as follows:
+
+```
+@NgModule({
+  declarations: [],
+  imports: [
+    ...
+    ContentfulModule.forRoot(environment.contentful),
+  ],
+  providers: [],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+
+your **environment.contentful** object must implement the **ContentfulConfig**:
+
+```
+export interface ContentfulConfig {
+  spaceId: string;
+  accessToken: string;
+}
+```
+
+Your **AppModule** could look like this:
+
+```
+@NgModule({
+  declarations: [],
+  imports: [
+    ...
+    ContentfulModule.forRoot({
+        spaceId: "123";
+        accessToken: "123";
+    }),
+  ],
+  providers: [],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+
+For security purposes, we suggest you keep your configuration in your **environments** file.
+
+## Data
+
+For ease of use when communicating with our API we have developed a set of services for every endpoint of our API.
+To use these services, you need to improt the **DataModule** into your application.
+
+### Get Started
+
+To use this module in your application, you need to import the **DataModule** as follows:
+
+```
+@NgModule({
+  declarations: [],
+  imports: [
+    ...
+    DataModule.forRoot(environment.data),
+  ],
+  providers: [],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+
+your **environment.data** object must implement the **HttpServiceConfig**:
+
+```
+export interface HttpServiceConfig {
+  apiUrl: string;
+  identityServerUrl: string;
+}
+```
+
+Your **AppModule** could look like this:
+
+```
+@NgModule({
+  declarations: [],
+  imports: [
+    ...
+    DataModule.forRoot({
+        apiUrl: 'https://localhost:44384';
+        identityServerUrl: 'https://localhost:44362';
+    }),
+  ],
+  providers: [],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+
+For security purposes, we suggest you keep your configuration in your **environments** file.
+
+## Images
+
+Our applications can be quite image/video heavy, so to help with performance, we have utilized Cloudinary for all our resizing needs.
+Cloudinary allows us to have responsive images and videos that resize based on the device requesting the image (for example, when looking at our applications from a mobile, Cloudinary will resize all images to match the device width to save on bandwidth).
+
+## Get Started

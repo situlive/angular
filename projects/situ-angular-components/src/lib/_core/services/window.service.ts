@@ -8,7 +8,7 @@ function getWindow(): any {
   providedIn: 'root',
 })
 export class WindowService {
-  get nativeWindow(): Window {
+  get nativeWindow(): any {
     return getWindow();
   }
 }
