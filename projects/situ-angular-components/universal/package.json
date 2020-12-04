@@ -1,0 +1,15 @@
+{
+  "ngPackage": {
+    "lib": {
+      "entryFile": "public-api.ts",
+      "umdModuleIds": {
+        "memory-cache": "memory-cache",
+        "@types/memory-cache": "@types/memory-cache"
+      }
+    }
+  },
+  "peerDependencies": {
+    "memory-cache": "^0.2.0",
+    "@types/memory-cache": "^0.2.1"
+  }
+}

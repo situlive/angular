@@ -207,3 +207,42 @@ Our applications can be quite image/video heavy, so to help with performance, we
 Cloudinary allows us to have responsive images and videos that resize based on the device requesting the image (for example, when looking at our applications from a mobile, Cloudinary will resize all images to match the device width to save on bandwidth).
 
 ## Get Started
+
+## Universal
+
+To help with Angular Universal and performance, we have a module that deals with caching server requests and serving the cached results to the browser. This eliminates multiple requests to the same endpoint.
+
+## Get Started
+
+Modules do not need to be imported to get this working.
+You must **provide** two interceptors. The first one must be in the **AppModule** (or CoreModule, if you have one) like this:
+
+```
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: BrowserStateInterceptor,
+      multi: true,
+    },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+  ],
+```
+
+And the second one must be in the **AppServerModule** like this:
+
+```
+@NgModule({
+  imports: [AppModule, ServerModule],
+  bootstrap: [AppComponent],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ServerStateInterceptor,
+      multi: true,
+    },
+  ],
+})
+export class AppServerModule {}
+```
+
+This will intercept all request and handle the caching of their responses using the url as a key.
