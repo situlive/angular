@@ -7,6 +7,7 @@ import { PageService } from '../_core/services/page.service';
 export class ContentfulPageComponent<T extends Page> implements OnInit {
   private currentUrl: string = '/';
   private callback: (page: any) => T;
+  private afterPageCallback: () => void;
 
   protected router: Router;
   protected pageService: PageService;
@@ -22,11 +23,13 @@ export class ContentfulPageComponent<T extends Page> implements OnInit {
   constructor(
     router: Router,
     pageService: PageService,
-    callback?: (page: any) => T
+    callback?: (page: any) => T,
+    afterPageCallback?: () => void
   ) {
     this.router = router;
     this.pageService = pageService;
     this.callback = callback;
+    this.afterPageCallback = afterPageCallback;
   }
 
   ngOnInit(): void {
@@ -56,6 +59,7 @@ export class ContentfulPageComponent<T extends Page> implements OnInit {
         this.loaded = true;
         if (!page) return; // TODO: throw error or redirect to 404
         this.page = page;
+        if (this.afterPageCallback) this.afterPageCallback();
       });
   }
 

@@ -6,6 +6,8 @@ import { createClient, Entry } from 'contentful';
 import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
 import { INLINES, BLOCKS } from '@contentful/rich-text-types';
 
+import { TransferHttpService } from './transfer-http.service';
+
 import { Element, Image, Menu, MenuItem, Page } from '../models';
 import { ContentfulConfig, CONTENTFUL_CONFIG } from '../configs';
 import { HrefService } from './href.service';
@@ -44,7 +46,7 @@ export class ContentfulService {
 
   constructor(
     @Inject(CONTENTFUL_CONFIG) private config: ContentfulConfig,
-    private http: HttpClient,
+    private http: TransferHttpService,
     private sanitizer: DomSanitizer,
     private hrefService: HrefService
   ) {

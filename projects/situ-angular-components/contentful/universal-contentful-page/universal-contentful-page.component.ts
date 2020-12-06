@@ -13,19 +13,8 @@ export class UniversalContentfulPageComponent<T extends Page>
     pageService: PageService,
     callback: (page: any) => T
   ) {
-    super(router, pageService, callback);
-  }
-
-  ngOnInit(): void {
-    super.ngOnInit();
-
-    this.onRouteChange();
-  }
-
-  private onRouteChange(): void {
-    this.router.events.subscribe((event: any) => {
-      if (!(event instanceof NavigationEnd)) return;
-
+    super(router, pageService, callback, () => {
+      //console.log(this.page);
       this.pageService.setMetadata(this.page);
     });
   }
