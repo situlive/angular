@@ -56,14 +56,11 @@ export class ImageComponent implements OnInit {
   }
 
   private setWidth(): void {
+    if (this.options.width || this.options.height) return;
+
     let rect = this.elementRef.nativeElement.getBoundingClientRect();
 
-    if (!this.options.width) {
-      this.options.width = Math.ceil(Math.ceil(rect.width));
-    }
-
-    if (!this.options.height) {
-      this.options.height = Math.ceil(rect.height);
-    }
+    this.options.width = Math.ceil(Math.ceil(rect.width));
+    this.options.height = Math.ceil(rect.height);
   }
 }
