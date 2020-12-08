@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class ImageService {
   get(clImage: any): any {
+    if (!clImage) return;
     let parent = clImage.el.nativeElement;
     let children = parent.children;
     if (children.length !== 1) return;

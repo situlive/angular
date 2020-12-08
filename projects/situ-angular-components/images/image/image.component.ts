@@ -48,7 +48,6 @@ export class ImageComponent implements OnInit {
 
   public load(): void {
     this.onLoaded.emit();
-    console.log('we have loaded');
   }
 
   private setAlt(): void {
@@ -58,7 +57,6 @@ export class ImageComponent implements OnInit {
 
   private setWidth(): void {
     let rect = this.elementRef.nativeElement.getBoundingClientRect();
-    //console.log(rect);
 
     if (!this.options.width) {
       this.options.width = Math.ceil(Math.ceil(rect.width));

@@ -1,4 +1,13 @@
 <cl-image #image [public-id]="publicId" loading="lazy" dpr="auto" quality="auto" fetch-format="auto"
-    attr.width="{{options.width}}" attr.height="{{options.height}}" attr.crop="{{options.crop}}" (onLoad)="load()">
-    <cl-placeholder type="pixelate"> </cl-placeholder>
+    attr.width="{{options.width}}" attr.height="{{options.height}}" attr.crop="{{options.crop}}" (onLoad)="load()"
+    *ngIf="options.width && options.height">
+</cl-image>
+
+<cl-image #image [public-id]="publicId" loading="lazy" dpr="auto" quality="auto" fetch-format="auto"
+    attr.width="{{options.width}}" attr.crop="{{options.crop}}" (onLoad)="load()"
+    *ngIf="options.width && !options.height">
+</cl-image>
+
+<cl-image #image [public-id]="publicId" loading="lazy" dpr="auto" quality="auto" fetch-format="auto" attr.crop="scale"
+    (onLoad)="load()" *ngIf="!options.width && !options.height">
 </cl-image>

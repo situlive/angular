@@ -6,7 +6,6 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  @Input() toggle: boolean;
   @Input() transparent: boolean;
   @Input() color: 'blue' | 'white' | 'jade' = 'blue';
   @Input() position: 'fixed' | 'relative' | 'absolute' = 'fixed';

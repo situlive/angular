@@ -1,5 +1,7 @@
 @import "../../../../../node_modules/bootstrap-scss/mixins";
 @import "../../../../../node_modules/@situlive/situ-theme/sass/global/variables";
+@import "../../../../../node_modules/@situlive/situ-theme/sass/global/mixins";
+@import "../../../../../node_modules/@situlive/situ-theme/sass/global/components/sections";
 
 $header-height: 100px !default;
 $logo-height: 36px !default;
@@ -37,21 +39,29 @@ $logo-height: 36px !default;
       height: $logo-height;
       width: 100%;
 
+      path {
+        transition: 0.25s ease-in-out;
+      }
+
       @include media-breakpoint-up(sm) {
         width: auto;
       }
+    }
+  }
+}
 
-      path {
-        stroke: $primary;
-        fill: $primary;
-      }
+.site-header:not(.header-transparent) {
+  .section-white {
+    .logo path {
+      stroke: $primary;
+      fill: $primary;
     }
   }
 
   .section-dark {
     .logo path {
-      stroke: white !important;
-      fill: white !important;
+      stroke: white;
+      fill: white;
     }
   }
 }

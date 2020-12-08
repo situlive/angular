@@ -1,6 +1,6 @@
 <header class="site-header" [class.header-transparent]="transparent" [style.position]="position" [style.top]="top">
-    <nav class="nav-main" [class.section-white]="!toggle && color === 'white' && !transparent"
-        [class.section-dark]="!toggle && color === 'blue' || transparent" [class.section-jade]="toggle">
+    <nav class="nav-main" [class.section-white]="color === 'white' && !transparent"
+        [class.section-dark]="color === 'blue' || transparent">
         <div class="container-fluid">
             <div class="row">
                 <div class="col">

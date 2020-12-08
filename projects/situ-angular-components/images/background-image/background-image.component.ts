@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 
 import { ImageComponent } from '../image/image.component';
+import { ImageOptions } from '../_core/models';
 
 @Component({
   selector: '[situ-background-image]',
@@ -19,16 +20,17 @@ export class BackgroundImageComponent implements OnInit {
   image: ImageComponent;
   @Input() publicId: string;
   @Input() debug: boolean;
+  @Input() options: ImageOptions;
 
-  constructor(private renderer: Renderer2, private element: ElementRef) {}
-
-  ngOnInit(): void {
-    this.renderer.setStyle(
-      this.image.elementRef.nativeElement,
-      'display',
-      'none'
-    );
+  constructor(private renderer: Renderer2, private element: ElementRef) {
+    this.options = {
+      width: this.options?.width,
+      height: this.options?.height,
+      crop: this.options?.crop || 'fill',
+    };
   }
+
+  ngOnInit(): void {}
 
   public loaded(): void {
     let parent = this.image.elementRef.nativeElement;
@@ -41,5 +43,7 @@ export class BackgroundImageComponent implements OnInit {
     this.renderer.setStyle(host, 'background-size', 'cover');
     this.renderer.setStyle(host, 'background-repeat', 'no-repeat');
     this.renderer.setStyle(host, 'background-position', 'center center');
+
+    this.renderer.setStyle(parent, 'display', 'none');
   }
 }
