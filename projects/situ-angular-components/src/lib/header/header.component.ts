@@ -3,7 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 @Component({
   selector: 'situ-header',
   templateUrl: './header.component.html',
-  styles: ['./header.component.scsss'],
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
   @Input() toggle: boolean;

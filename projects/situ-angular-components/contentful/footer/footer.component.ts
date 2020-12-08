@@ -1,11 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
+
 import { Menu } from '../_core/models';
 import { ContentfulService } from '../_core/services';
 
 @Component({
   selector: 'situ-footer',
   templateUrl: './footer.component.html',
+  styleUrls: ['./footer.component.scss'],
 })
 export class FooterComponent implements OnInit {
   @Input() hideCookiePreferences: Boolean;
