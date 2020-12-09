@@ -1,4 +1,5 @@
-<div class="section" [ngClass]="cssClass">
+<div class="section" [ngClass]="cssClass"
+    [ngStyle]="{ position: position, zIndex: position === 'relative' ? 'inherit' : '10000' }">
     <div class="lds-ring">
         <div></div>
         <div></div>

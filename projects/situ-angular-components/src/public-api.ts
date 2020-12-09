@@ -2,9 +2,7 @@
  * Public API Surface of situ-angular-components
  */
 
-export * from './lib/_core/animations/index';
-export * from './lib/_core/models/index';
-export * from './lib/_core/services/index';
+export * from './lib/_core/services';
 
 /* These are exported so they can be referenced in code behind */
 export * from './lib/breadcrumb/breadcrumb.component';

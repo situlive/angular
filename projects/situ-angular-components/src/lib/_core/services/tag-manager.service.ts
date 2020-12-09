@@ -1,21 +1,24 @@
-import { Injectable } from '@angular/core';
+import { isPlatformServer } from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 
-declare global {
-  interface Window {
-    dataLayer: any[];
-  }
-}
+import { WindowService } from './window.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TagManagerService {
-  constructor() {
-    window.dataLayer = window.dataLayer || [];
+  constructor(
+    @Inject(PLATFORM_ID) private platformId,
+    private windowService: WindowService
+  ) {
+    if (isPlatformServer(this.platformId)) return;
+    this.windowService.nativeWindow.dataLayer =
+      this.windowService.nativeWindow.dataLayer || [];
   }
 
   public engage(action: string, label: string, value: string) {
-    window.dataLayer.push({
+    if (isPlatformServer(this.platformId)) return;
+    this.windowService.nativeWindow.dataLayer.push({
       event: 'engage',
       category: 'engage',
       action,

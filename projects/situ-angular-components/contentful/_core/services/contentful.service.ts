@@ -8,10 +8,11 @@ import { INLINES, BLOCKS } from '@contentful/rich-text-types';
 
 import { TransferHttpService } from './transfer-http.service';
 
-import { Content, Image, Menu, MenuItem, Page } from '../models';
+import { Element, Image, Menu, MenuItem, Page } from '../models';
 import { ContentfulConfig, CONTENTFUL_CONFIG } from '../configs';
 import { HrefService } from './href.service';
 import { finalize } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -60,13 +61,51 @@ export class ContentfulService {
       this.client
         .getEntries({ content_type: 'page', include: 3 })
         .then((response: any) => {
-          let pages = response.items.map((item) =>
-            this.createPage(item, this.createContent)
-          );
+          let pages = response.items.map((item: any) => this.createPage(item));
           this.pages.next(pages);
           return pages;
         })
     ).pipe(finalize(() => this.loading.next(false)));
+  }
+
+  public getPage<T extends Page>(
+    slug: string,
+    callback: (page: any) => T = this.createPage.bind(this),
+    options: any = {
+      content_type: 'page',
+      include: 3,
+    }
+  ): Observable<T> {
+    return from(
+      this.client
+        .getEntries({
+          ...options,
+          ...{
+            'fields.path[match]': slug,
+          },
+        })
+        .then((response: any) => {
+          let page = response.items.find(
+            (item: any) => item.fields?.path === slug
+          );
+          if (!page) return;
+
+          return callback(page);
+        })
+    );
+  }
+
+  public getComponents(
+    componentName: string,
+    include: number = 1
+  ): Observable<Element[]> {
+    return from(
+      this.client
+        .getEntries({ content_type: componentName, include: include })
+        .then((response: any) =>
+          response.items.map((entry: Entry<any>) => this.createElement(entry))
+        )
+    );
   }
 
   public getNavigation(): Observable<Menu> {
@@ -77,19 +116,22 @@ export class ContentfulService {
     );
   }
 
-  async getFooter(): Promise<any> {
-    const response = await this.client.getEntries({
-      content_type: 'footer',
-      include: 2,
-    });
-    return response.items[0];
+  public getFooter(): Observable<Menu> {
+    return from(
+      this.client
+        .getEntries({
+          content_type: 'footer',
+          include: 2,
+        })
+        .then((response: any) => this.createMenu(response.items[0]))
+    );
   }
 
-  public getMetadata(): Observable<any> {
+  public getMetadata(): Observable<Element> {
     return from(
       this.client
         .getEntries({ content_type: 'metadata' })
-        .then((response: any) => response.items[0])
+        .then((response: any) => this.createElement(response.items[0]))
     );
   }
 
@@ -116,12 +158,46 @@ export class ContentfulService {
     return this.sanitizer.bypassSecurityTrustHtml(content);
   }
 
-  public createImage(images: any[]): Image {
-    if (!images) return new Image();
-    let image = Array.isArray(images) ? images[0] : images;
+  public createImages(request: any[]): Image[] {
+    if (!request?.length) return [];
+    let images = [];
+    request.forEach((item: any) => images.push(this.createImage(item)));
+    return images;
+  }
+
+  public createImage(request: any): Image {
+    if (!request) return new Image();
+    let image = Array.isArray(request) ? request[0] : request;
     return {
       publicId: image.public_id,
       secureUrl: image.secure_url,
+    };
+  }
+
+  public createPage(page: Entry<any>): Page {
+    return {
+      title: page.fields.title,
+      description: page.fields.description,
+      image: this.createImage(page.fields.image),
+      slug: page.fields.path,
+      linkText: page.fields.linkText,
+      elements: this.toArray(page.fields.content).map((content: any) =>
+        this.createElement(content)
+      ),
+    };
+  }
+
+  public createElement(component: Entry<any>): Element {
+    return {
+      type: component.sys.contentType.sys.id,
+      fields: component.fields,
+    };
+  }
+
+  public createMenuItem(item: any): MenuItem {
+    return {
+      path: item.fields.path,
+      text: item.fields.linkText,
     };
   }
 
@@ -269,37 +345,29 @@ export class ContentfulService {
     return { lastIndex, replacedText };
   }
 
-  private createMenu(menu: any): Menu {
+  private createMenu(element: any): Menu {
     return {
-      title: menu.fields.title,
-      links: menu.fields.links.map(this.createMenuItem),
-      externalLinks: menu.fields.externalLinks?.map((item: any) => {
-        return { name: item.fields.name, url: item.fields.url };
+      title: element.fields.title,
+      content: this.htmlToString(element.fields.content),
+      links: this.toArray(element.fields.links).map(this.createMenuItem),
+      externalLinks: this.toArray(element.fields.externalLinks).map(
+        (item: any) => {
+          return { name: item.fields.name, url: item.fields.url };
+        }
+      ),
+      socialLinks: this.toArray(element.fields.socialLinks).map((item: any) => {
+        return {
+          name: item.fields.name,
+          url: item.fields.url,
+          icon: item.fields.icon,
+        };
       }),
-      buttons: menu.fields.buttons,
+      buttons: element.fields.buttons,
     };
   }
 
-  private createMenuItem(item: any): MenuItem {
-    return {
-      path: item.fields.path,
-      text: item.fields.linkText,
-    };
-  }
-
-  private createPage(page: Entry<any>, createContent: any): Page {
-    return {
-      title: page.fields['title'],
-      slug: page.fields['path'],
-      linkText: page.fields['linkText'],
-      content: page.fields['content']?.map(createContent),
-    };
-  }
-
-  private createContent(component: Entry<any>): Content {
-    return {
-      type: component.sys.contentType.sys.id,
-      fields: component.fields,
-    };
+  private toArray(content: any[]): any[] {
+    if (!content?.length) return [];
+    return content;
   }
 }

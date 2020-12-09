@@ -1,4 +1,3 @@
-import { WHITE_ON_BLACK_CSS_CLASS } from '@angular/cdk/a11y/high-contrast-mode/high-contrast-mode-detector';
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
@@ -8,6 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class LoaderComponent implements OnInit {
   @Input() colour: string = 'white';
+  @Input() position: 'relative' | 'absolute' | 'fixed' = 'absolute';
   public cssClass: string;
 
   constructor() {}

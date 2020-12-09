@@ -1,40 +1,27 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
-import { ContentfulService } from '../_core/services';
 
-class Footer {
-  title: string;
-  content: string;
-  careersLink: string;
-  cookiePolicyLink: string;
-  privacyPolicyLink: string;
-  termsLink: string;
-}
+import { Menu } from '../_core/models';
+import { ContentfulService } from '../_core/services';
 
 @Component({
   selector: 'situ-footer',
   templateUrl: './footer.component.html',
+  styleUrls: ['./footer.component.scss'],
 })
 export class FooterComponent implements OnInit {
   @Input() hideCookiePreferences: Boolean;
 
-  public section: Footer;
+  public section: Menu;
 
   constructor(private contentfulService: ContentfulService) {}
 
-  async ngOnInit(): Promise<void> {
-    await this.getComponent();
+  ngOnInit(): void {
+    this.getComponent();
   }
 
-  private async getComponent(): Promise<void> {
-    let component = await this.contentfulService.getFooter();
-    this.section = {
-      title: component.fields.title,
-      content: documentToHtmlString(component.fields.content),
-      careersLink: component.fields.careersLink,
-      cookiePolicyLink: component.fields.cookiePolicyLink,
-      privacyPolicyLink: component.fields.privacyPolicyLink,
-      termsLink: component.fields.termsLink,
-    };
+  private getComponent(): void {
+    this.contentfulService
+      .getFooter()
+      .subscribe((footer: Menu) => (this.section = footer));
   }
 }
