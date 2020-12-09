@@ -15,8 +15,8 @@ export class FooterComponent implements OnInit {
 
   constructor(private contentfulService: ContentfulService) {}
 
-  async ngOnInit(): Promise<void> {
-    await this.getComponent();
+  ngOnInit(): void {
+    this.getComponent();
   }
 
   private getComponent(): void {
