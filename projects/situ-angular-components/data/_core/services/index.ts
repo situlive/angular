@@ -5,6 +5,7 @@ export * from './brand-category.service';
 export * from './brand-user.service';
 export * from './brand.service';
 export * from './category-group.service';
+export * from './category-product.service';
 export * from './category.service';
 export * from './claim-role.service';
 export * from './claim.service';
