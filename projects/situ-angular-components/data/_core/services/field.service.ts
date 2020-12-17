@@ -18,11 +18,11 @@ export class FieldService extends BaseService<Field> {
     super(config, 'fields', httpClient);
   }
 
-  list(categoryId: string, specificationOnly: boolean): Observable<Field[]> {
+  list(categoryId: string, onlySpecification: boolean): Observable<Field[]> {
     this.loading.next(true);
     return this.httpClient
       .get<Attempt<Field[]>>(
-        `${this.config.apiUrl}/categories/${categoryId}/fields?specificationOnly=${specificationOnly}`
+        `${this.config.apiUrl}/categories/${categoryId}/fields?onlySpecification=${onlySpecification}`
       )
       .pipe(
         map((response: Attempt<Field[]>) => {

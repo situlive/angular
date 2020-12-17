@@ -26,7 +26,7 @@ export class CategoryProductService {
 
     return this.httpClient
       .get<Attempt<Product[]>>(
-        `${this.config.apiUrl}/categories/${categoryId}/products/master`
+        `${this.config.apiUrl}/categories/${categoryId}/products`
       )
       .pipe(
         map((response: Attempt<Product[]>) => {

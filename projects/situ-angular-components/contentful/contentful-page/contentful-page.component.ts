@@ -36,7 +36,6 @@ export class ContentfulPageComponent<T extends Page> implements OnInit {
     this.currentUrl = this.getCurrentUrl(this.router.url); // For initial page load
 
     this.getPage();
-    this.setTitle();
 
     this.onNavigationEnd();
   }
@@ -59,6 +58,7 @@ export class ContentfulPageComponent<T extends Page> implements OnInit {
         this.loaded = true;
         if (!page) return; // TODO: throw error or redirect to 404
         this.page = page;
+        this.setTitle();
         if (this.afterPageCallback) this.afterPageCallback();
       });
   }
@@ -70,7 +70,6 @@ export class ContentfulPageComponent<T extends Page> implements OnInit {
       this.currentUrl = this.getCurrentUrl(event.urlAfterRedirects);
 
       this.getPage();
-      this.setTitle();
     });
   }
 }
