@@ -15,9 +15,9 @@ export class ContentfulPageComponent<T extends Page> implements OnInit {
   public page: Page;
   public affix: string = ' | Situ Live';
   public loaded: boolean;
-  public options: {
-    content_type: 'page';
-    include: 3;
+  public options: any = {
+    content_type: 'page',
+    include: 3,
   };
 
   constructor(
