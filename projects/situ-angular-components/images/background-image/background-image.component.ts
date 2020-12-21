@@ -1,8 +1,10 @@
 import {
   Component,
   ElementRef,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
   Renderer2,
   ViewChild,
 } from '@angular/core';
@@ -21,12 +23,14 @@ export class BackgroundImageComponent implements OnInit {
   @Input() publicId: string;
   @Input() debug: boolean;
   @Input() options: ImageOptions;
+  @Output() onLoaded: EventEmitter<void> = new EventEmitter();
 
   constructor(private renderer: Renderer2, private element: ElementRef) {
     this.options = {
       width: this.options?.width,
       height: this.options?.height,
       crop: this.options?.crop || 'fill',
+      placeholder: this.options?.placeholder || 'predominant',
     };
   }
 
@@ -45,5 +49,6 @@ export class BackgroundImageComponent implements OnInit {
     this.renderer.setStyle(host, 'background-position', 'center center');
 
     this.renderer.setStyle(parent, 'display', 'none');
+    this.onLoaded.emit();
   }
 }

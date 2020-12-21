@@ -37,6 +37,7 @@ export class ImageComponent implements OnInit {
       width: this.options?.width,
       height: this.options?.height,
       crop: this.options?.crop || 'crop',
+      placeholder: this.options?.placeholder || 'pixelate',
     };
   }
 
