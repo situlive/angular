@@ -97,11 +97,16 @@ export class ContentfulService {
 
   public getComponents(
     componentName: string,
-    include: number = 1
+    include: number = 1,
+    limit: number = 50
   ): Observable<Element[]> {
     return from(
       this.client
-        .getEntries({ content_type: componentName, include: include })
+        .getEntries({
+          content_type: componentName,
+          include,
+          limit,
+        })
         .then((response: any) =>
           response.items.map((entry: Entry<any>) => this.createElement(entry))
         )

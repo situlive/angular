@@ -3,4 +3,5 @@ export class ImageOptions {
   height?: number;
   crop?: 'fill' | 'scale' | 'crop';
   placeholder?: 'blur' | 'pixelate' | 'vectorize' | 'predominant';
+  loading?: string;
 }
