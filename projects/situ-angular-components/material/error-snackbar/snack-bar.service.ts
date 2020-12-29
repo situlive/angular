@@ -8,13 +8,13 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 export class SnackBarService {
   constructor(private snackBar: MatSnackBar) {}
 
-  show(notifcation: any) {
+  show(notifcation: any, controls: boolean = true) {
     let config: MatSnackBarConfig = {
       panelClass: notifcation.type,
       verticalPosition: 'top',
       duration: 5000,
     };
 
-    this.snackBar.open(notifcation.message, '', config);
+    this.snackBar.open(notifcation.message, controls ? 'Close' : '', config);
   }
 }
