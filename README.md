@@ -45,6 +45,69 @@ To use this module in your application, simply import the **AnimationsModule** a
 export class AppModule {}
 ```
 
+## Error snackbar
+
+The error snack module is used to display Angular Material snackbars.
+
+### Get Started
+
+To use this module in your application, simply import the **ErrorSnackbarModule** as follows:
+
+```
+@NgModule({
+  declarations: [],
+  imports: [
+    ...
+    ErrorSnackbarModule,
+  ],
+  providers: [],
+  bootstrap: [AppComponent],
+})
+export class AppModule {}
+```
+
+Once imported, you can use the `<situ-error-snackbar></situ-error-snackbar>` component within your project.
+If you wish to display the snackbars for all errors, you can simple add it to the **app.component.html** file. Otherwise, you can modually use it by including it in any component where you wish to view the snackbars.
+
+Including the component by itself will not display snackbars for all http errors. If you are using the Situ API, then you will need to register the **ErrorInterceptor** as follows:
+
+```
+providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+],
+```
+
+which is imported from `import { ErrorInterceptor } from '@situlive/situ-angular-components/data';`.
+This will handle any error attempts.
+
+If you are using another API, then you will have to create your own interceptor.
+The **ErrorInterceptor** makes use of the **NotificationService** which you can use in your own applicaiton.
+In order for your custom interceptor, you should inject the **NotificationService** into your interceptor and add the errors as follows:
+
+```
+this.notificationService.add({
+  message,
+  type: failed ? 'mat-warning' : 'mat-success',
+});
+```
+
+This will then allow the `<situ-error-snackbar></situ-error-snackbar>` to display any error messages added by your custom interceptor.
+Alternatively, you can use the **SnackBarService** to display your own snackbars for noticiation purposes and completely omit the **NotificationService**.
+To do this, import the **SnackBarService** into your component:
+
+```
+import { SnackBarService } from '@situlive/situ-angular-components/material/error-snackbar';
+```
+
+And then display your message as follows:
+
+```
+this.snackbarService.show({
+    message:
+        'You have successfully completed this product. Please go to the dashboard to review and approve it.',
+});
+```
+
 ## Authentication
 
 All of our applications use a central Identity Server to authenticate and consume our APIs. Because of this, we have created a module that exposes services to facilitate authentication.

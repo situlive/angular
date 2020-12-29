@@ -22,6 +22,7 @@ export * from './inclusion';
 export * from './list-options';
 export * from './location';
 export * from './mapping';
+export * from './notification';
 export * from './plan';
 export * from './product';
 export * from './profile';
