@@ -18,11 +18,11 @@ export class TheatreService extends BaseService<Theatre> {
     super(config, 'theatres', httpClient);
   }
 
-  list(floorId: number): Observable<Theatre[]> {
+  list(venueId: number): Observable<Theatre[]> {
     this.loading.next(true);
     return this.httpClient
       .get<Attempt<Theatre[]>>(
-        `${this.config.apiUrl}/floors/${floorId}/theatres`
+        `${this.config.apiUrl}/venue/${venueId}/theatres`
       )
       .pipe(
         map((response: Attempt<Theatre[]>) => {

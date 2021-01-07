@@ -15,7 +15,6 @@ export * from './criteria-match';
 export * from './criterion';
 export * from './feed';
 export * from './field';
-export * from './floor';
 export * from './formula';
 export * from './group';
 export * from './inclusion';
