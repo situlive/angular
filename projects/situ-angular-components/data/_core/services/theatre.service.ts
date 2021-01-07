@@ -22,7 +22,7 @@ export class TheatreService extends BaseService<Theatre> {
     this.loading.next(true);
     return this.httpClient
       .get<Attempt<Theatre[]>>(
-        `${this.config.apiUrl}/venue/${venueId}/theatres`
+        `${this.config.apiUrl}/venues/${venueId}/theatres`
       )
       .pipe(
         map((response: Attempt<Theatre[]>) => {
