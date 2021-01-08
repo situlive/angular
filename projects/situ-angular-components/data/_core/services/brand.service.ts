@@ -27,6 +27,7 @@ export class BrandService extends BaseService<Brand> {
 
     return this.httpClient.get<Attempt<Brand[]>>(url).pipe(
       map((response: Attempt<Brand[]>) => {
+        if (response.failure) return response.result;
         this.items.next(response.result);
         return response.result;
       }),

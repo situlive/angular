@@ -30,6 +30,7 @@ export class CategoryGroupService {
       )
       .pipe(
         map((response: Attempt<Group[]>) => {
+          if (response.failure) return response.result;
           let groups = response.result;
           this.items.next(groups);
           return groups;
@@ -49,6 +50,7 @@ export class CategoryGroupService {
       )
       .pipe(
         map((response: Attempt<Group>) => {
+          if (response.failure) return response.result;
           const items = this.items.value;
           items.push(item);
           this.items.next(items);
@@ -64,6 +66,7 @@ export class CategoryGroupService {
       )
       .pipe(
         map((response: Attempt<boolean>) => {
+          if (response.failure) return response.result;
           const items = this.items.value;
           this.remove(items, id);
           return response.result;

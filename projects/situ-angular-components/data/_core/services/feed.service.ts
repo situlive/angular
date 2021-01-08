@@ -26,6 +26,7 @@ export class FeedService extends BaseService<Feed> {
       )
       .pipe(
         map((response: Attempt<Feed[]>) => {
+          if (response.failure) return response.result;
           this.items.next(response.result);
           return response.result;
         }),

@@ -98,7 +98,7 @@ export class UserService {
       .get<Attempt<any>>(`${this.config.identityServerUrl}/users/current`)
       .pipe(
         map((response: Attempt<any>) => {
-          // TODO: Handle the response (i.e. handle any errors)
+          if (response.failure) return response.result;
           return response.result;
         })
       );
@@ -109,6 +109,7 @@ export class UserService {
       .post<Attempt<User>>(`${this.config.identityServerUrl}/users`, item)
       .pipe(
         map((response: Attempt<User>) => {
+          if (response.failure) return response.result;
           const newItem = response.result;
           const items = this.items.value;
           items.push(newItem);
@@ -123,6 +124,7 @@ export class UserService {
       .put<Attempt<User>>(`${this.config.identityServerUrl}/users`, item)
       .pipe(
         map((response: Attempt<User>) => {
+          if (response.failure) return response.result;
           const newItem = response.result;
           const items = this.items.value;
           this.remove(items, newItem.id);

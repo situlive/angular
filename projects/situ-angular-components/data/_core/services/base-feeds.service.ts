@@ -27,7 +27,9 @@ export class BaseFeedService<T extends BaseFeed> {
       )
       .pipe(finalize(() => this.loading.next(false)))
       .subscribe((response) => {
+        if (response.failure) return response.result;
         this.items.next(response.result);
+        return response.result;
       });
   }
 
@@ -36,6 +38,7 @@ export class BaseFeedService<T extends BaseFeed> {
       .post<Attempt<T>>(`${this.config.apiUrl}/${this.endpoint}`, filter)
       .pipe(
         map((response: Attempt<T>) => {
+          if (response.failure) return response.result;
           const message = response.message;
           const item = response.result;
 
@@ -54,6 +57,7 @@ export class BaseFeedService<T extends BaseFeed> {
       .put<Attempt<T>>(`${this.config.apiUrl}/${this.endpoint}`, filter)
       .pipe(
         map((response: Attempt<T>) => {
+          if (response.failure) return response.result;
           const message = response.message;
           const item = response.result;
 
@@ -73,6 +77,7 @@ export class BaseFeedService<T extends BaseFeed> {
       .delete<Attempt<boolean>>(`${this.config.apiUrl}/${this.endpoint}/${id}`)
       .pipe(
         map((response: Attempt<boolean>) => {
+          if (response.failure) return response.result;
           const items = this.items.value;
           items.forEach((item, i) => {
             if (item.id !== id) {

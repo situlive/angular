@@ -24,6 +24,7 @@ export class VenueService extends BaseService<Venue> {
       .get<Attempt<Venue[]>>(`${this.config.apiUrl}/venues`)
       .pipe(
         map((response: Attempt<Venue[]>) => {
+          if (response.failure) return response.result;
           this.items.next(response.result);
           return response.result;
         }),

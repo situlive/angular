@@ -30,6 +30,7 @@ export class CategoryProductService {
       )
       .pipe(
         map((response: Attempt<Product[]>) => {
+          if (response.failure) return response.result;
           let products = response.result;
           this.items.next(products);
           return products;
@@ -49,6 +50,7 @@ export class CategoryProductService {
       )
       .pipe(
         map((response: Attempt<Product>) => {
+          if (response.failure) return response.result;
           const items = this.items.value;
           items.push(item);
           this.items.next(items);
@@ -64,6 +66,7 @@ export class CategoryProductService {
       )
       .pipe(
         map((response: Attempt<boolean>) => {
+          if (response.failure) return response.result;
           const items = this.items.value;
           this.remove(items, id);
           return response.result;

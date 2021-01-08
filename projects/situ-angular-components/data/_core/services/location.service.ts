@@ -26,6 +26,7 @@ export class LocationService extends BaseService<Location> {
       )
       .pipe(
         map((response: Attempt<Location[]>) => {
+          if (response.failure) return response.result;
           this.items.next(response.result);
           return response.result;
         }),

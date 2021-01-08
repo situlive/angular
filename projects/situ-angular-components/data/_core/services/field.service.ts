@@ -26,6 +26,7 @@ export class FieldService extends BaseService<Field> {
       )
       .pipe(
         map((response: Attempt<Field[]>) => {
+          if (response.failure) return response.result;
           this.items.next(response.result);
           return response.result;
         }),

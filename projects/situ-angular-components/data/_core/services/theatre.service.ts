@@ -26,6 +26,7 @@ export class TheatreService extends BaseService<Theatre> {
       )
       .pipe(
         map((response: Attempt<Theatre[]>) => {
+          if (response.failure) return response.result;
           this.items.next(response.result);
           return response.result;
         }),

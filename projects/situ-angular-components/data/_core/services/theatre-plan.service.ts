@@ -27,6 +27,7 @@ export class TheatrePlanService {
       .get<Attempt<Plan[]>>(`${this.config.apiUrl}/theatres/${theatreId}/plans`)
       .pipe(
         map((response: Attempt<Plan[]>) => {
+          if (response.failure) return response.result;
           let items = response.result.map((item: Plan) => {
             var theatre = item.theatres?.find(
               (m: TheatrePlan) => m.theatreId === +theatreId
@@ -55,6 +56,7 @@ export class TheatrePlanService {
       )
       .pipe(
         map((response: Attempt<boolean>) => {
+          if (response.failure) return response.result;
           const items = this.items.value;
           items.push(item);
           this.items.next(items);
@@ -75,6 +77,7 @@ export class TheatrePlanService {
       )
       .pipe(
         map((response: Attempt<boolean>) => {
+          if (response.failure) return response.result;
           const items = this.items.value;
           this.remove(items, item.id);
           items.push(item);
@@ -91,6 +94,7 @@ export class TheatrePlanService {
       )
       .pipe(
         map((response: Attempt<boolean>) => {
+          if (response.failure) return response.result;
           const items = this.items.value;
           this.remove(items, id);
           return response.result;

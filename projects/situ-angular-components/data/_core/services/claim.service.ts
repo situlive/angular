@@ -24,6 +24,7 @@ export class ClaimService extends BaseService<Claim> {
       .get<Attempt<Claim[]>>(`${this.config.identityServerUrl}/claims`)
       .pipe(
         map((response: Attempt<Claim[]>) => {
+          if (response.failure) return response.result;
           this.items.next(response.result);
           return response.result;
         }),

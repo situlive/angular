@@ -29,6 +29,7 @@ export class CriterionService extends BaseService<Criterion> {
       )
       .pipe(
         map((response: Attempt<Criterion[]>) => {
+          if (response.failure) return response.result;
           this.items.next(response.result);
           return response.result;
         }),

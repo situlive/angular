@@ -24,6 +24,7 @@ export class GroupService extends BaseService<Group> {
       .get<Attempt<Group[]>>(`${this.config.apiUrl}/groups`)
       .pipe(
         map((response: Attempt<Group[]>) => {
+          if (response.failure) return response.result;
           this.items.next(response.result);
           return response.result;
         }),

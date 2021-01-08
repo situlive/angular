@@ -26,6 +26,7 @@ export class FormulaService extends BaseService<Formula> {
       )
       .pipe(
         map((response: Attempt<Formula[]>) => {
+          if (response.failure) return response.result;
           this.items.next(response.result);
           return response.result;
         }),

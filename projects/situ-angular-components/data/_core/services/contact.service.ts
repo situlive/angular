@@ -25,6 +25,7 @@ export class ContactService extends BaseService<Contact> {
       .get<Attempt<Contact[]>>(`${this.config.apiUrl}/brands/${id}/contacts`)
       .pipe(
         map((response: Attempt<Contact[]>) => {
+          if (response.failure) return response.result;
           this.items.next(response.result);
           return response.result;
         }),

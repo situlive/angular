@@ -24,6 +24,7 @@ export class RoleService extends BaseService<Role> {
       .get<Attempt<Role[]>>(`${this.config.identityServerUrl}/roles`)
       .pipe(
         map((response: Attempt<Role[]>) => {
+          if (response.failure) return response.result;
           this.items.next(response.result);
           return response.result;
         }),

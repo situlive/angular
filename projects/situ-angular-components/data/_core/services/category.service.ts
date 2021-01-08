@@ -23,6 +23,7 @@ export class CategoryService extends BaseService<Category> {
       .get<Attempt<Category[]>>(`${this.config.apiUrl}/categories`)
       .pipe(
         map((response: Attempt<Category[]>) => {
+          if (response.failure) return response.result;
           this.items.next(response.result);
           return response.result;
         }),

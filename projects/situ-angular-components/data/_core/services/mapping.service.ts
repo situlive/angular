@@ -24,6 +24,7 @@ export class MappingService extends BaseService<Mapping> {
       .get<Attempt<Mapping[]>>(`${this.config.apiUrl}/feeds/${feedId}/fields`)
       .pipe(
         map((response: Attempt<Mapping[]>) => {
+          if (response.failure) return response.result;
           this.items.next(response.result);
           return response.result;
         }),

@@ -19,21 +19,4 @@ export class Subscription {
   brand?: Brand;
   plan?: Plan;
   venue?: Venue;
-
-  public stateName(): string {
-    switch (this.state) {
-      case 0:
-        return 'Reserved';
-      case 1:
-        return 'Pending';
-      case 2:
-        return 'Active';
-      case 3:
-        return 'Cancelled';
-      case 4:
-        return 'Expired';
-      default:
-        return 'Unknown';
-    }
-  }
 }

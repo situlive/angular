@@ -24,6 +24,7 @@ export class PlanService extends BaseService<Plan> {
       .get<Attempt<Plan[]>>(`${this.config.apiUrl}/plans`)
       .pipe(
         map((response: Attempt<Plan[]>) => {
+          if (response.failure) return response.result;
           let items = response.result.map((item: Plan) => {
             let quantity = 0;
             let booked = 0;

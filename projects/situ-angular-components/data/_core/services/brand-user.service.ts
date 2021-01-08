@@ -71,6 +71,7 @@ export class BrandUserService {
       )
       .pipe(
         map((response: Attempt<BrandUser>) => {
+          if (response.failure) return response.result;
           const items = this.items.value;
           items.push(item);
           this.items.next(items);
@@ -92,6 +93,7 @@ export class BrandUserService {
       )
       .pipe(
         map((response: Attempt<BrandUser>) => {
+          if (response.failure) return response.result;
           const items = this.items.value;
           let match = items.find((user: User) => user.id === item.id);
           if (!match) return response.result;
@@ -109,6 +111,7 @@ export class BrandUserService {
       )
       .pipe(
         map((response: Attempt<boolean>) => {
+          if (response.failure) return response.result;
           const items = this.items.value;
           this.remove(items, id);
           return response.result;

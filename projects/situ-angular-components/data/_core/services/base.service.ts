@@ -37,6 +37,7 @@ export class BaseService<T extends Base> {
       .post<Attempt<T>>(`${this.url}/${this.endpoint}`, item)
       .pipe(
         map((response: Attempt<T>) => {
+          if (response.failure) return response.result;
           const newItem = response.result;
           const items = this.items.value;
           items.push(newItem);
@@ -51,6 +52,7 @@ export class BaseService<T extends Base> {
       .put<Attempt<T>>(`${this.url}/${this.endpoint}`, item)
       .pipe(
         map((response: Attempt<T>) => {
+          if (response.failure) return response.result;
           const newItem = response.result;
           const items = this.items.value;
           this.remove(items, newItem.id);
@@ -66,6 +68,7 @@ export class BaseService<T extends Base> {
       .delete<Attempt<boolean>>(`${this.url}/${this.endpoint}/${id}`)
       .pipe(
         map((response: Attempt<boolean>) => {
+          if (response.failure) return response.result;
           const items = this.items.value;
           this.remove(items, id);
           return response.result;

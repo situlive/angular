@@ -28,6 +28,7 @@ export class AttributeService extends BaseService<Attribute> {
       )
       .pipe(
         map((response: Attempt<Attribute[]>) => {
+          if (response.failure) return response.result;
           this.items.next(response.result);
           return response.result;
         })
