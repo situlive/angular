@@ -1,9 +1,8 @@
-<header class="site-header" [class.header-transparent]="transparent" [style.position]="position" [style.top]="top">
-    <nav class="nav-main" [class.section-white]="color === 'white' && !transparent"
-        [class.section-dark]="color === 'blue' || transparent">
+<header class="app-menu">
+    <nav class="nav-main" [class.section-white]="color === 'white'" [class.section-dark]="color === 'blue'">
         <div class="container-fluid">
             <div class="row">
-                <div class="col">
+                <div class="col d-flex align-items-center justify-content-between">
                     <a class="logo float-left" routerLink="/">
                         <svg viewBox="0 0 165 22" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -12,9 +11,39 @@
                         </svg>
                     </a>
 
-                    <ng-content></ng-content>
+                    <ng-content select="app-menu-header"></ng-content>
+
+                    <ul class="list-unstyled list-horizontal">
+                        <li>
+                            <a class="toggle" (click)="expand()">
+                                <div class="hamburger" [class.open]="isExpanded">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
     </nav>
 </header>
+
+<section class="app-menu-fixed-background section-dark-grey d-flex justify-content-end text-right" [@slide]="isExpanded"
+    id="navigation">
+    <nav>
+
+        <div class="container-fluid">
+            <div clas="row">
+                <div class="col">
+
+                    <ng-content></ng-content>
+
+                </div>
+            </div>
+        </div>
+
+    </nav>
+</section>

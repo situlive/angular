@@ -1,0 +1,47 @@
+.app-sub-menu {
+    li {
+        position: relative;
+
+        .app-sub-menu-toggle {
+            position: absolute;
+            right: -30px;
+            top: calc(25px - 12px);
+            cursor: pointer;
+        }
+    }
+
+    .list-unstyled:not(.app-sub-menu) {
+        margin-right: 10px;
+    }
+
+    .mat-white {
+        /* input color class */
+        input.mat-input-element {
+            color: white;
+
+            &::placeholder {
+                color: white;
+            }
+        }
+
+        /* underline border color */
+        .mat-form-field-underline {
+            background-color: white;
+        }
+
+        /* Change label color */
+        .mat-form-field-label {
+            color: white;
+        }
+
+        /* Change label color on focused */
+        .mat-form-field.mat-focused .mat-form-field-label {
+            color: white !important;
+        }
+
+        /* underline border color on focused */
+        .mat-focused .mat-form-field-underline .mat-form-field-ripple {
+            background-color: white !important;
+        }
+    }
+}

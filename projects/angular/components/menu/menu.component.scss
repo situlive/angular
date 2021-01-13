@@ -1,0 +1,207 @@
+@import "../../../../node_modules/@situlive/situ-theme/sass/global/variables";
+@import "../../../../node_modules/@situlive/situ-theme/sass/global/mixins";
+
+$header-height: 100px !default;
+$logo-height: 36px !default;
+$container-z-index: 1000;
+$top-z-index: 1001;
+
+.app-menu {
+  width: 100%;
+  min-height: $header-height;
+
+  .logo path {
+    stroke: white;
+    fill: white;
+  }
+
+  .hamburger span,
+  .hamburger.open span {
+    background: white;
+  }
+
+  .logo {
+    width: 50%;
+    position: relative;
+    z-index: $top-z-index;
+
+    @include media-breakpoint-up(sm) {
+      width: auto;
+    }
+
+    > svg {
+      overflow: visible;
+      margin: 32px 15px 32px 0;
+      height: $logo-height;
+      width: 100%;
+
+      path {
+        transition: 0.25s ease-in-out;
+      }
+
+      @include media-breakpoint-up(sm) {
+        width: auto;
+      }
+    }
+  }
+}
+
+.app-menu {
+  .section-white {
+    .logo path {
+      stroke: $primary;
+      fill: $primary;
+    }
+
+    .hamburger span,
+    .hamburger.open span {
+      background: $primary;
+    }
+  }
+
+  .section-dark {
+    .logo path {
+      stroke: white;
+      fill: white;
+    }
+
+    .hamburger span,
+    .hamburger.open span {
+      background: white;
+    }
+  }
+}
+
+.app-menu-fixed-background {
+  position: fixed;
+  top: 0px;
+  bottom: 0px;
+  right: 0px;
+  left: 0px;
+  z-index: $container-z-index;
+  width: 100vw;
+  height: 100vh;
+  padding-top: $header-height;
+  opacity: 0;
+  overflow: auto;
+
+  .btn-link {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+
+    &:not(:disabled):not(.disabled):active,
+    &:not(:disabled):not(.disabled):focus,
+    &:not(:disabled):not(.disabled):hover,
+    &:not(:disabled):not(.disabled).active,
+    &:not(:disabled):not(.disabled).focus {
+      &:after {
+        left: 0 !important;
+        right: 0 !important;
+      }
+    }
+  }
+}
+
+.app-menu-header {
+  flex: 1 1 auto !important;
+}
+
+.app-menu-header-align-end {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-link {
+  display: inline-block;
+  color: white !important;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+
+  &:not(:disabled):not(.disabled):active,
+  &:not(:disabled):not(.disabled):focus,
+  &:not(:disabled):not(.disabled):hover,
+  &:not(:disabled):not(.disabled).active,
+  &:not(:disabled):not(.disabled).focus {
+    &:after {
+      background-color: white !important;
+      left: 10px !important;
+      right: 10px !important;
+    }
+  }
+}
+
+.toggle {
+  position: relative;
+  z-index: $top-z-index;
+  display: flex;
+  align-items: center;
+  padding: 0 0 0 40px;
+  cursor: pointer;
+
+  &:active,
+  &:focus,
+  &:hover,
+  &.active,
+  &.hover {
+    text-decoration: none;
+  }
+}
+
+.hamburger {
+  width: 30px;
+  height: 20px;
+  position: relative;
+  margin: 0 auto;
+  transform: rotate(0deg);
+  transition: 0.5s ease-in-out;
+}
+
+.hamburger span {
+  display: block;
+  position: absolute;
+  height: 4px;
+  width: 100%;
+  background: white;
+  border-radius: 4px;
+  opacity: 1;
+  left: 0;
+  transform: rotate(0deg);
+  transition: 0.25s ease-in-out;
+}
+
+.hamburger span:nth-child(1) {
+  top: 0px;
+}
+
+.hamburger span:nth-child(2),
+.hamburger span:nth-child(3) {
+  top: 8px;
+}
+
+.hamburger span:nth-child(4) {
+  top: 16px;
+}
+
+.hamburger.open span {
+  background: white;
+}
+
+.hamburger.open span:nth-child(1) {
+  top: 8px;
+  width: 0%;
+  left: 50%;
+}
+
+.hamburger.open span:nth-child(2) {
+  transform: rotate(45deg);
+}
+
+.hamburger.open span:nth-child(3) {
+  transform: rotate(-45deg);
+}
+
+.hamburger.open span:nth-child(4) {
+  top: 8px;
+  width: 0%;
+  left: 50%;
+}
