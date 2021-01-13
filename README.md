@@ -77,7 +77,7 @@ providers: [
 ],
 ```
 
-which is imported from `import { ErrorInterceptor } from '@situlive/situ-angular-components/data';`.
+which is imported from `import { ErrorInterceptor } from '@situlive/angular/data';`.
 This will handle any error attempts.
 
 If you are using another API, then you will have to create your own interceptor.
@@ -96,7 +96,7 @@ Alternatively, you can use the **SnackBarService** to display your own snackbars
 To do this, import the **SnackBarService** into your component:
 
 ```
-import { SnackBarService } from '@situlive/situ-angular-components/material/error-snackbar';
+import { SnackBarService } from '@situlive/angular/material/error-snackbar';
 ```
 
 And then display your message as follows:

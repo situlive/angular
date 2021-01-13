@@ -3,10 +3,10 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "situ-angular-components": {
+    "angular": {
       "projectType": "library",
-      "root": "projects/situ-angular-components",
-      "sourceRoot": "projects/situ-angular-components/src",
+      "root": "projects/angular",
+      "sourceRoot": "projects/angular/src",
       "prefix": "situ",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,29 +17,29 @@
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "tsConfig": "projects/situ-angular-components/tsconfig.lib.json",
-            "project": "projects/situ-angular-components/ng-package.json"
+            "tsConfig": "projects/angular/tsconfig.lib.json",
+            "project": "projects/angular/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/situ-angular-components/tsconfig.lib.prod.json"
+              "tsConfig": "projects/angular/tsconfig.lib.prod.json"
             }
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/situ-angular-components/src/test.ts",
-            "tsConfig": "projects/situ-angular-components/tsconfig.spec.json",
-            "karmaConfig": "projects/situ-angular-components/karma.conf.js"
+            "main": "projects/angular/src/test.ts",
+            "tsConfig": "projects/angular/tsconfig.spec.json",
+            "karmaConfig": "projects/angular/karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/situ-angular-components/tsconfig.lib.json",
-              "projects/situ-angular-components/tsconfig.spec.json"
+              "projects/angular/tsconfig.lib.json",
+              "projects/angular/tsconfig.spec.json"
             ],
             "exclude": ["**/node_modules/**"]
           }
@@ -50,5 +50,5 @@
   "cli": {
     "analytics": "8db81fee-b0bd-41b0-a453-27aa6be6cc88"
   },
-  "defaultProject": "situ-angular-components"
+  "defaultProject": "angular"
 }
