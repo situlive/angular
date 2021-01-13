@@ -41,7 +41,12 @@ export class ImageComponent implements OnInit {
       loading: isPlatformServer(this.platformId)
         ? ''
         : this.options?.loading || 'lazy',
+      gravity: this.options?.gravity || 'faces',
+      quality: this.options?.quality || 'auto',
     };
+
+    if (this.options.crop !== 'crop' && this.options.crop !== 'fill')
+      this.options.gravity = 'auto';
   }
 
   public ngOnInit(): void {
