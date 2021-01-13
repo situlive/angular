@@ -1,0 +1,8 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/angular",
+  "assets": [".npmrc", "styles.scss", "assets"],
+  "lib": {
+    "entryFile": "core/public-api.ts"
+  }
+}

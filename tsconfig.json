@@ -13,18 +13,7 @@
     "target": "es2015",
     "lib": ["es2018", "dom"],
     "paths": {
-      "situ-angular-components": [
-        "dist/situ-angular-components/situ-angular-components",
-        "dist/situ-angular-components"
-      ],
-      "@core": ["projects/situ-angular-components/src/public-api"]
-      // "@core": ["projects/situ-angular-components/src/lib/_core"],
-      // "@configs": ["projects/situ-angular-components/src/lib/_core/configs"],
-      // "@models": ["projects/situ-angular-components/src/lib/_core/models"],
-      // "@services": ["projects/situ-angular-components/src/lib/_core/services"],
-      // "@validators": [
-      //   "projects/situ-angular-components/src/lib/_core/validators"
-      // ]
+      "@situlive/*": ["./projects/*"] // took this from https://github.com/angular/angular/blob/master/packages/tsconfig.json
     }
   },
   "angularCompilerOptions": {

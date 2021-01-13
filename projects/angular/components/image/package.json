@@ -1,0 +1,15 @@
+{
+  "ngPackage": {
+    "lib": {
+      "entryFile": "public-api.ts",
+      "umdModuleIds": {
+        "@cloudinary/angular-5.x": "@cloudinary/angular-5.x",
+        "cloudinary-core": "cloudinary-core"
+      }
+    }
+  },
+  "peerDependencies": {
+    "@cloudinary/angular-5.x": "^1.3.3",
+    "cloudinary-core": "^2.11.3"
+  }
+}
