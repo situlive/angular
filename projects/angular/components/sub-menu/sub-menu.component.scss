@@ -1,0 +1,16 @@
+.app-sub-menu {
+  li {
+    position: relative;
+
+    .app-sub-menu-toggle {
+      position: absolute;
+      right: -30px;
+      top: calc(25px - 12px);
+      cursor: pointer;
+    }
+  }
+
+  .list-unstyled:not(.app-sub-menu) {
+    margin-right: 10px;
+  }
+}

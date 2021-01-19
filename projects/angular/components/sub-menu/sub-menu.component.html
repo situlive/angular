@@ -1,0 +1,19 @@
+<ul class="app-sub-menu list-unstyled">
+    <ng-template #nestedList let-items>
+        <ng-container *ngFor="let item of items; let i = index;">
+            <li routerLinkActive="active"><a class="btn-link" [routerLink]="item.path" routerLinkActive="active"
+                    [routerLinkActiveOptions]="{exact: item.path === '/'}">{{ item.label }}</a>
+
+                <span class="app-sub-menu-toggle" *ngIf="item.children" (click)="item.open = !item.open;">
+                    <mat-icon *ngIf="!item.open">keyboard_arrow_down</mat-icon>
+                    <mat-icon *ngIf="item.open">keyboard_arrow_up</mat-icon>
+                </span>
+
+                <ul class="list-unstyled" [@open]="item.open" *ngIf="item.children">
+                    <ng-container *ngTemplateOutlet="nestedList; context: { $implicit: item.children }"></ng-container>
+                </ul>
+            </li>
+        </ng-container>
+    </ng-template>
+    <ng-container *ngTemplateOutlet="nestedList; context: { $implicit: items }"></ng-container>
+</ul>

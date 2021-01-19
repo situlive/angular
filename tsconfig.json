@@ -13,7 +13,7 @@
     "target": "es2015",
     "lib": ["es2018", "dom"],
     "paths": {
-      "@situlive/*": ["./projects/*"] // took this from https://github.com/angular/angular/blob/master/packages/tsconfig.json
+      "@situlive/angular/*": ["./projects/angular/*"] // took this from https://github.com/angular/angular/blob/master/packages/tsconfig.json
     }
   },
   "angularCompilerOptions": {

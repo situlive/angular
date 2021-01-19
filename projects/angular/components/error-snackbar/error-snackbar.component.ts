@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 
-import { Notification, NotificationService } from '@situlive/angular/data';
-
-import { SnackBarService } from './snack-bar.service';
+import {
+  MatSnackBarRef,
+  MAT_SNACK_BAR_DATA,
+} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'situ-error-snackbar',
@@ -13,16 +14,13 @@ export class ErrorSnackbarComponent implements OnInit {
   @Input() duration: number = 5000;
 
   public constructor(
-    private notificationService: NotificationService,
-    private snackbarService: SnackBarService
+    @Inject(MAT_SNACK_BAR_DATA) public message: string,
+    public snackBarRef: MatSnackBarRef<ErrorSnackbarComponent>
   ) {}
 
-  public ngOnInit(): void {
-    this.notificationService.notifications.subscribe(
-      (notifications: Notification[]) =>
-        notifications.forEach((notification: Notification) =>
-          this.snackbarService.show(notification)
-        )
-    );
+  public ngOnInit(): void {}
+
+  public close(): void {
+    this.snackBarRef.dismiss();
   }
 }
