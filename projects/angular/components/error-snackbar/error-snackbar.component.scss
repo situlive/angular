@@ -1,0 +1,11 @@
+.situ-error-snackbar .mat-button-base {
+  &:not(:disabled):not(.disabled):active,
+  &:not(:disabled):not(.disabled):focus,
+  &:not(:disabled):not(.disabled):hover,
+  &:not(:disabled):not(.disabled).active,
+  &:not(:disabled):not(.disabled).focus {
+    outline: none;
+    box-shadow: none;
+    text-decoration: none;
+  }
+}
