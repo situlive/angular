@@ -1,8 +1,6 @@
 export class MenuItem {
-    label: string;
-    path: string;
-    filterChildren?: string;
-    open?: boolean;
-    children?: MenuItem[];
-    childrenCount?: number;
+  label: string;
+  path: string;
+  open?: boolean;
+  children?: MenuItem[];
 }

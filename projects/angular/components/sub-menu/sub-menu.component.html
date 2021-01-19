@@ -1,8 +1,7 @@
 <ul class="app-sub-menu list-unstyled">
     <ng-template #nestedList let-items>
         <ng-container *ngFor="let item of items; let i = index;">
-            <li routerLinkActive="active" *ngIf="!filterable || i < maxChildren"><a class="btn-link"
-                    [routerLink]="item.path" routerLinkActive="active"
+            <li routerLinkActive="active"><a class="btn-link" [routerLink]="item.path" routerLinkActive="active"
                     [routerLinkActiveOptions]="{exact: item.path === '/'}">{{ item.label }}</a>
 
                 <span class="app-sub-menu-toggle" *ngIf="item.children" (click)="item.open = !item.open;">
@@ -11,16 +10,6 @@
                 </span>
 
                 <ul class="list-unstyled" [@open]="item.open" *ngIf="item.children">
-                    <li *ngIf="filterable && item.childrenCount > maxChildren">
-                        <mat-form-field class="example-form-field" color="white">
-                            <mat-label>Search</mat-label>
-                            <input matInput type="text" [(ngModel)]="item.filterChildren" (keyup)="filter(item)">
-                            <button mat-button matSuffix mat-icon-button aria-label="Clear"
-                                (click)="item.filterChildren=''" *ngIf="item.filterChildren">
-                                <mat-icon>close</mat-icon>
-                            </button>
-                        </mat-form-field>
-                    </li>
                     <ng-container *ngTemplateOutlet="nestedList; context: { $implicit: item.children }"></ng-container>
                 </ul>
             </li>

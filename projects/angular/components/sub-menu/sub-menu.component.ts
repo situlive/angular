@@ -1,10 +1,4 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  ViewEncapsulation,
-} from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import {
   animate,
   state,
@@ -14,7 +8,6 @@ import {
 } from '@angular/animations';
 
 import { MenuItem } from './menu-item';
-import { NavigationStart, Router } from '@angular/router';
 
 @Component({
   selector: 'situ-sub-menu',
@@ -34,64 +27,10 @@ import { NavigationStart, Router } from '@angular/router';
     ]),
   ],
 })
-export class SubMenuComponent implements OnInit, OnChanges {
-  private copy: MenuItem[];
-  private path: string;
-
+export class SubMenuComponent implements OnInit {
   @Input() items: MenuItem[];
-  @Input() filterable: boolean = false;
-  @Input() maxChildren: number = 10;
 
-  constructor(private router: Router) {}
+  constructor() {}
 
-  public ngOnInit(): void {
-    this.routeChange();
-  }
-
-  ngOnChanges(): void {
-    if (!this.items?.length) return;
-
-    this.items.forEach((item: MenuItem) => this.updateChildrenCount(item));
-    this.copy = JSON.parse(JSON.stringify(this.items));
-  }
-
-  public filter(target: MenuItem): void {
-    let link = this.items.find((link: MenuItem) => link.path === target.path); // Get our filterable list item
-    if (!link) return;
-
-    this.copy.forEach((item: MenuItem) => {
-      if (item.path !== link.path) return;
-
-      link.children = item.children.filter(
-        (child: MenuItem) =>
-          !target.filterChildren ||
-          child.label
-            .toLowerCase()
-            .indexOf(target.filterChildren.toLowerCase()) > -1
-      );
-    });
-  }
-
-  private updateChildrenCount(item: MenuItem): void {
-    item.childrenCount = item.children?.length;
-    item.open =
-      (item.path.indexOf(this.path) > -1 &&
-        item.path !== '/' &&
-        item.path.length <= this.path.length) ||
-      item.path === this.path;
-
-    if (!item.children?.length) return;
-
-    item.children.forEach((child: MenuItem) => this.updateChildrenCount(child));
-  }
-
-  private routeChange(): void {
-    this.path = this.router.url;
-
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationStart) {
-        this.path = this.router.url;
-      }
-    });
-  }
+  public ngOnInit(): void {}
 }

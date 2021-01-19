@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { AnimateDirective } from './_core/directives';
+import { AnimateDirective } from './animate.directive';
 
 @NgModule({
   imports: [CommonModule],
   declarations: [AnimateDirective],
   exports: [AnimateDirective],
 })
-export class AnimationsModule {}
+export class AnimateModule {}
