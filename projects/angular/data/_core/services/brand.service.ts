@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { finalize, map } from 'rxjs/operators';
-import { forkJoin, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
 import { Brand, Attempt, BrandUser, SearchResultBrand } from '../models';
@@ -62,20 +62,13 @@ export class BrandService extends BaseService<Brand> {
       );
   }
 
-  addUser(brandId: number, brandUser: BrandUser): Observable<any> {
-    var updateUser = this.httpClient.put<Attempt<any>>(
-      `${this.config.identityServerUrl}/users`,
-      brandUser
-    );
-    var createBrandUser = this.httpClient.post<Attempt<boolean>>(
-      `${this.config.apiUrl}/${this.endpoint}/${brandId}/users`,
-      brandUser
-    );
-
-    var attempts = [];
-    attempts.push(updateUser);
-    attempts.push(createBrandUser);
-
-    return forkJoin(attempts);
+  getBySlug(slug: string): Observable<Brand> {
+    return this.httpClient
+      .get<Attempt<Brand>>(`${this.config.apiUrl}/${this.endpoint}/${slug}`)
+      .pipe(
+        map((response: Attempt<Brand>) => {
+          return response.result;
+        })
+      );
   }
 }

@@ -1,10 +1,12 @@
 import { BaseModel } from './base-model';
 
 export class Brand implements BaseModel {
-    id: number;
-    name: string;
-    domains: string;
-    qualityCheckPassed: boolean;
-    commercialCheckPassed: boolean;
-    notes: string;
+  id: number;
+  name: string;
+  description?: string;
+  slug?: string;
+  domains?: string;
+  qualityCheckPassed?: boolean;
+  commercialCheckPassed?: boolean;
+  notes?: string;
 }

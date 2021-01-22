@@ -7,4 +7,7 @@ export class Token {
   name: string;
   role?: string;
   expires?: number;
+  userId?: string;
+  firstName?: string;
+  lastName?: string;
 }

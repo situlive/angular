@@ -11,7 +11,12 @@ import { AuthConfig, AUTH_CONFIG } from '../configs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-  private currentUserSubject: BehaviorSubject<Token>;
+  public currentUserSubject: BehaviorSubject<Token>; // Public, so we can trigger the currentUser subscriptions manually by invoking .next(getCurrent())
+  public currentUser: Observable<Token>;
+
+  public get getCurrent(): Token {
+    return this.currentUserSubject.value;
+  }
 
   constructor(
     @Inject(PLATFORM_ID) private platformId,
@@ -25,10 +30,22 @@ export class AuthenticationService {
           : localStorage.getItem('currentUser')
       )
     );
+    this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  public get getCurrent(): Token {
-    return this.currentUserSubject.value;
+  addPassword(
+    userId: string,
+    token: string,
+    password: string,
+    confirmPassword: string
+  ) {
+    return this.setOrResetPassword(
+      userId,
+      token,
+      password,
+      confirmPassword,
+      'confirm'
+    );
   }
 
   public resetPassword(
@@ -128,5 +145,24 @@ export class AuthenticationService {
           return response;
         })
       );
+  }
+
+  private setOrResetPassword(
+    userId: string,
+    token: string,
+    password: string,
+    confirmPassword: string,
+    path: string
+  ) {
+    return this.httpClient.post<any>(
+      `${this.config.identityServerUrl}/users/${path}`,
+      {
+        userId,
+        token,
+        password,
+        confirmPassword,
+        callbackUrl: `${location?.origin}/add-password`,
+      }
+    );
   }
 }

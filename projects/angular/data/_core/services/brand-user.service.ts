@@ -45,7 +45,7 @@ export class BrandUserService {
         let users: User[] = [];
         usersAttempt.result.forEach((user: User) => {
           let brandUser = brandUsersAttempt.result.find(
-            (brandUser: BrandUser) => brandUser.userId === user.id
+            (brandUser: BrandUser) => brandUser.userId === user.userId
           );
           if (!brandUser) return;
           users.push({ ...user, ...brandUser });
@@ -61,7 +61,7 @@ export class BrandUserService {
   create(brandId: number, item: User): Observable<BrandUser> {
     let brandUser: BrandUser = {
       brandId: brandId,
-      userId: item.id,
+      userId: item.userId,
       confirmed: item.confirmed,
     };
     return this.httpClient
@@ -83,7 +83,7 @@ export class BrandUserService {
   update(brandId: number, item: User): Observable<BrandUser> {
     let brandUser: BrandUser = {
       brandId: brandId,
-      userId: item.id,
+      userId: item.userId,
       confirmed: item.confirmed,
     };
     return this.httpClient
@@ -95,7 +95,7 @@ export class BrandUserService {
         map((response: Attempt<BrandUser>) => {
           if (response.failure) return response.result;
           const items = this.items.value;
-          let match = items.find((user: User) => user.id === item.id);
+          let match = items.find((user: User) => user.userId === item.userId);
           if (!match) return response.result;
           match.confirmed = item.confirmed;
           this.items.next(items);
@@ -121,7 +121,7 @@ export class BrandUserService {
 
   private remove(items: User[], id: string) {
     items.forEach((item, i) => {
-      if (item.id !== id) {
+      if (item.userId !== id) {
         return;
       }
       items.splice(i, 1);

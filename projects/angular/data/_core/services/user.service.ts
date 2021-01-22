@@ -45,7 +45,7 @@ export class UserService {
         let users: User[] = [];
         usersAttempt.result.forEach((user: User) => {
           let brandUser = brandUsersAttempt.result.find(
-            (brandUser: User) => brandUser.id === user.id
+            (brandUser: User) => brandUser.userId === user.userId
           );
           users.push({ ...user, ...brandUser });
         });
@@ -127,7 +127,7 @@ export class UserService {
           if (response.failure) return response.result;
           const newItem = response.result;
           const items = this.items.value;
-          this.remove(items, newItem.id);
+          this.remove(items, newItem.userId);
           items.push(newItem);
           this.items.next(items);
           return response.result;
@@ -164,7 +164,7 @@ export class UserService {
 
   private remove(items: User[], id: string) {
     items.forEach((item, i) => {
-      if (item.id !== id) {
+      if (item.userId !== id) {
         return;
       }
       items.splice(i, 1);
