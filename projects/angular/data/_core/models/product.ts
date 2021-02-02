@@ -5,7 +5,7 @@ export class Product implements BaseModel {
   id: string;
   variant: string;
   title: string;
-  categoryId: string;
+  categoryId: number;
   state: 'Complete' | 'Incomplete' | 'Live' | 'NewEntry';
   specification: SpecificationData;
   images: string[];

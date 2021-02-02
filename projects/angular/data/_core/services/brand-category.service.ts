@@ -59,7 +59,7 @@ export class BrandCategoryService {
       );
   }
 
-  delete(brandId: number, id: string): Observable<boolean> {
+  delete(brandId: number, id: number): Observable<boolean> {
     return this.httpClient
       .delete<Attempt<boolean>>(
         `${this.config.apiUrl}/brands/${brandId}/categories/${id}`
@@ -74,7 +74,7 @@ export class BrandCategoryService {
       );
   }
 
-  private remove(items: Category[], id: string) {
+  private remove(items: Category[], id: number) {
     items.forEach((item, i) => {
       if (item.id !== id) {
         return;

@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { finalize, map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
 import { Brand, Attempt, BrandUser, SearchResultBrand } from '../models';
@@ -35,6 +35,21 @@ export class BrandService extends BaseService<Brand> {
     );
   }
 
+  listSubscriptions(brandId: number): Observable<Subscription[]> {
+    this.loading.next(true);
+
+    return this.httpClient
+      .get<Attempt<Subscription[]>>(
+        `${this.config.apiUrl}/${this.endpoint}/${brandId}/subscriptions`
+      )
+      .pipe(
+        map((response: Attempt<Subscription[]>) => {
+          if (response.failure) return response.result;
+          return response.result;
+        })
+      );
+  }
+
   search(searchTerm: string): Observable<SearchResultBrand> {
     return this.httpClient
       .post<Attempt<SearchResultBrand>>(
@@ -64,7 +79,9 @@ export class BrandService extends BaseService<Brand> {
 
   getBySlug(slug: string): Observable<Brand> {
     return this.httpClient
-      .get<Attempt<Brand>>(`${this.config.apiUrl}/${this.endpoint}/${slug}`)
+      .get<Attempt<Brand>>(
+        `${this.config.apiUrl}/${this.endpoint}/slug/${slug}`
+      )
       .pipe(
         map((response: Attempt<Brand>) => {
           return response.result;

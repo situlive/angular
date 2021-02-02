@@ -1,4 +1,6 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { isPlatformServer } from '@angular/common';
+import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import {
@@ -10,12 +12,12 @@ import {
 } from '@angular/common/http';
 
 import { NotificationService } from '../services';
-import { isPlatformServer } from '@angular/common';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
   constructor(
     @Inject(PLATFORM_ID) private platformId,
+    private router: Router,
     private notificationService: NotificationService
   ) {}
 
@@ -49,6 +51,12 @@ export class ErrorInterceptor implements HttpInterceptor {
                 'You do not have sufficient permssions to perform this action. If you feel this is erroneous, please contact your system administrator.',
               type: 'mat-warning',
             });
+            break;
+          case 401:
+            this.router.navigate([
+              '/login',
+              { queryParams: { returnUrl: this.router.url } },
+            ]); // Redirect and remember the return url
             break;
           default:
             let message = '';

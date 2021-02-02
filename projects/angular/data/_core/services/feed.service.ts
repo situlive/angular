@@ -18,7 +18,7 @@ export class FeedService extends BaseService<Feed> {
     super(config, 'feeds', httpClient);
   }
 
-  list(categoryId: string): Observable<Feed[]> {
+  list(categoryId: number): Observable<Feed[]> {
     this.loading.next(true);
     return this.httpClient
       .get<Attempt<Feed[]>>(

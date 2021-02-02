@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 
 import { NotificationService, Notification } from '@situlive/angular/data';
-import { ErrorSnackbarComponent } from '@situlive/angular/components/error-snackbar';
 
 @Injectable({
   providedIn: 'root',
@@ -31,14 +30,13 @@ export class SnackBarService implements OnDestroy {
     );
   }
 
-  public show(notifcation: any): void {
+  public show(notification: any): void {
     let config: MatSnackBarConfig = {
-      panelClass: notifcation.type,
+      panelClass: notification.type,
       verticalPosition: 'top',
       duration: 5000,
-      data: notifcation.message,
     };
 
-    this.snackBar.openFromComponent(ErrorSnackbarComponent, config);
+    this.snackBar.open(notification.message, null, config);
   }
 }

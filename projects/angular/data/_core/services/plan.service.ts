@@ -4,7 +4,7 @@ import { finalize, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
-import { Plan, Attempt, TheatrePlan } from '../models';
+import { Plan, Attempt } from '../models';
 import { BaseService } from './base.service';
 
 @Injectable({
@@ -25,19 +25,7 @@ export class PlanService extends BaseService<Plan> {
       .pipe(
         map((response: Attempt<Plan[]>) => {
           if (response.failure) return response.result;
-          let items = response.result.map((item: Plan) => {
-            let quantity = 0;
-            let booked = 0;
-            item.theatres?.forEach((m: TheatrePlan) => {
-              quantity += m.quantity;
-              booked += m.booked;
-            });
-            item.quantity = quantity;
-            item.booked = booked;
-            item.available = quantity - booked;
-            return item;
-          });
-
+          let items = response.result;
           this.items.next(items);
           return items;
         }),

@@ -21,7 +21,7 @@ export class CategoryGroupService {
     this.loading = new BehaviorSubject<boolean>(false);
   }
 
-  list(categoryId: string): Observable<Group[]> {
+  list(categoryId: number): Observable<Group[]> {
     this.loading.next(true);
 
     return this.httpClient
@@ -39,7 +39,7 @@ export class CategoryGroupService {
       );
   }
 
-  create(categoryId: string, item: Group): Observable<Group> {
+  create(categoryId: number, item: Group): Observable<Group> {
     return this.httpClient
       .post<Attempt<Group>>(
         `${this.config.apiUrl}/categories/${categoryId}/groups`,
@@ -59,7 +59,7 @@ export class CategoryGroupService {
       );
   }
 
-  delete(categoryId: string, id: number): Observable<boolean> {
+  delete(categoryId: number, id: number): Observable<boolean> {
     return this.httpClient
       .delete<Attempt<boolean>>(
         `${this.config.apiUrl}/categories/${categoryId}/groups/${id}`

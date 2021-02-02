@@ -22,6 +22,7 @@ class BreadcrumbItem {
 })
 export class BreadcrumbComponent implements OnInit {
   @Input() dataName: string = 'breadcrumb';
+  @Input() affix: string;
   @Input() root: ActivatedRoute;
   public breadcrumbs: BreadcrumbItem[];
 
@@ -61,7 +62,13 @@ export class BreadcrumbComponent implements OnInit {
         const label = child.snapshot.data[this.dataName];
         const params = child.snapshot.params;
         if (!isNullOrUndefined(label)) {
-          breadcrumbs.push({ label, params, url });
+          if (this.affix) url = `/${this.affix}/${url}`;
+
+          var match = breadcrumbs.find(
+            (breadcrumb: BreadcrumbItem) => breadcrumb.url === url
+          );
+
+          if (!match) breadcrumbs.push({ label, params, url });
         }
       }
 

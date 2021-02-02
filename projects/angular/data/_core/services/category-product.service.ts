@@ -21,7 +21,7 @@ export class CategoryProductService {
     this.loading = new BehaviorSubject<boolean>(false);
   }
 
-  list(categoryId: string): Observable<Product[]> {
+  list(categoryId: number): Observable<Product[]> {
     this.loading.next(true);
 
     return this.httpClient
@@ -39,7 +39,7 @@ export class CategoryProductService {
       );
   }
 
-  create(categoryId: string, item: Product): Observable<Product> {
+  create(categoryId: number, item: Product): Observable<Product> {
     return this.httpClient
       .post<Attempt<Product>>(
         `${this.config.apiUrl}/categories/${categoryId}/products`,
@@ -59,7 +59,7 @@ export class CategoryProductService {
       );
   }
 
-  delete(categoryId: string, id: string): Observable<boolean> {
+  delete(categoryId: number, id: string): Observable<boolean> {
     return this.httpClient
       .delete<Attempt<boolean>>(
         `${this.config.apiUrl}/categories/${categoryId}/products/${id}`

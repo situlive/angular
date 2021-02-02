@@ -3,13 +3,13 @@ import { CriteriaMatch } from './criteria-match';
 import { BaseModel } from './base-model';
 
 export class Criterion implements BaseModel {
-    categoryId: string;
-    description: string;
-    highlight: boolean;
-    id: number;
-    name: string;
-    order?: number;
-    attributes?: Attribute[];
-    match?: CriteriaMatch;
-    selected?: boolean;
+  categoryId: number;
+  description: string;
+  highlight: boolean;
+  id: number;
+  name: string;
+  order?: number;
+  attributes?: Attribute[];
+  match?: CriteriaMatch;
+  selected?: boolean;
 }

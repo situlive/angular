@@ -31,7 +31,6 @@ export * from './search-result-brand';
 export * from './search-result';
 export * from './specification-data';
 export * from './subscription';
-export * from './theatre-plan';
 export * from './theatre';
 export * from './transformation';
 export * from './user';

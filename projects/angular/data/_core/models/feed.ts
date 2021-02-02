@@ -7,7 +7,7 @@ import { BaseModel } from './base-model';
 
 export class Feed implements BaseModel {
   id: number;
-  categoryId: string;
+  categoryId: number;
   name: string;
   url: string;
   type: number;

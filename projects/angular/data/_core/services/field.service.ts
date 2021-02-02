@@ -18,7 +18,7 @@ export class FieldService extends BaseService<Field> {
     super(config, 'fields', httpClient);
   }
 
-  list(categoryId: string, onlySpecification: boolean): Observable<Field[]> {
+  list(categoryId: number, onlySpecification: boolean): Observable<Field[]> {
     this.loading.next(true);
     return this.httpClient
       .get<Attempt<Field[]>>(
