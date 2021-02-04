@@ -6,6 +6,7 @@ export class Brand implements BaseModel {
   description?: string;
   slug?: string;
   domains?: string;
+  images?: string;
   qualityCheckPassed?: boolean;
   commercialCheckPassed?: boolean;
   notes?: string;

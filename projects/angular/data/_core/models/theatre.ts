@@ -5,4 +5,5 @@ export class Theatre implements BaseModel {
   venueId: number;
   name: string;
   description?: string;
+  images?: string;
 }
