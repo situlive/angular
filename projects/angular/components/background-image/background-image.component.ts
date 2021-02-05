@@ -21,7 +21,6 @@ export class BackgroundImageComponent implements OnInit {
   @ViewChild('background', { static: false })
   image: ImageComponent;
   @Input() publicId: string;
-  @Input() debug: boolean;
   @Input() options: ImageOptions;
   @Output() onLoaded: EventEmitter<void> = new EventEmitter();
 
