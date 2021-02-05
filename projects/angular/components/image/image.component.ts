@@ -24,33 +24,17 @@ export class ImageComponent implements OnInit {
   @Input() publicId: string;
   @Input() class: string;
   @Input() options: ImageOptions;
-  @Input() debug: boolean;
   @Output() onLoaded: EventEmitter<void> = new EventEmitter();
 
   constructor(
     @Inject(PLATFORM_ID) private platformId,
     public elementRef: ElementRef,
     private imageService: ImageService
-  ) {
-    this.options = {
-      width: this.options?.width,
-      height: this.options?.height,
-      crop: this.options?.crop || 'crop',
-      placeholder: this.options?.placeholder || 'pixelate',
-      loading: isPlatformServer(this.platformId)
-        ? ''
-        : this.options?.loading || 'lazy',
-      gravity: this.options?.gravity || 'faces',
-      quality: this.options?.quality || 'auto',
-    };
-
-    if (this.options.crop !== 'crop' && this.options.crop !== 'fill')
-      this.options.gravity = 'auto';
-  }
+  ) {}
 
   public ngOnInit(): void {
     if (isPlatformServer(this.platformId)) return;
-    this.setWidth();
+    this.getOptions();
     this.setAlt();
   }
 
@@ -63,7 +47,18 @@ export class ImageComponent implements OnInit {
     if (!image) return;
   }
 
-  private setWidth(): void {
+  private getOptions(): void {
+    this.options = {
+      width: this.options?.width,
+      height: this.options?.height,
+      crop: this.options?.crop || 'crop',
+      placeholder: this.options?.placeholder || 'pixelate',
+      gravity: this.options?.gravity || 'faces',
+      quality: this.options?.quality || 'good',
+    };
+
+    if (this.options.crop !== 'crop' && this.options.crop !== 'fill')
+      this.options.gravity = 'auto';
     if (this.options.width || this.options.height) return;
 
     let rect = this.elementRef.nativeElement.getBoundingClientRect();

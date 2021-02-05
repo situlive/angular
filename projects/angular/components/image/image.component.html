@@ -1,23 +1,21 @@
-<cl-image #image [public-id]="publicId" [class]="class" [loading]="options.loading" dpr="auto" quality="auto"
-    fetch-format="auto" attr.crop="{{options.crop}}" (onLoad)="load()">
+<cl-image #image [public-id]="publicId" [class]="class" (onLoad)="load()">
+    <cl-transformation attr.width="{{options.width}}" attr.height="{{options.height}}"
+        attr.gravity="{{options.crop === 'fill' || options.crop === 'crop' ? options.gravity : ''}}"
+        attr.crop="{{options.crop}}" quality="auto" dpr="auto" fetch-format="auto"
+        *ngIf="options.width && options.height">
+    </cl-transformation>
 
-    <ng-template [ngIf]="options.width && options.height">
-        <cl-transformation attr.width="{{options.width}}" attr.height="{{options.height}}"
-            attr.gravity="{{options.crop === 'fill' || options.crop === 'crop' ? options.gravity : ''}}">
-        </cl-transformation>
-    </ng-template>
+    <cl-transformation attr.width="{{options.width}}"
+        attr.gravity="{{options.crop === 'fill' || options.crop === 'crop' ? options.gravity : ''}}"
+        attr.crop="{{options.crop}}" quality="auto" dpr="auto" fetch-format="auto"
+        *ngIf="options.width && !options.height">
+    </cl-transformation>
 
-    <ng-template [ngIf]="options.width && !options.height">
-        <cl-transformation attr.width="{{options.width}}"
-            attr.gravity="{{options.crop === 'fill' || options.crop === 'crop' ? options.gravity : ''}}">
-        </cl-transformation>
-    </ng-template>
-
-    <ng-template [ngIf]="!options.width && options.height">
-        <cl-transformation attr.height="{{options.height}}"
-            attr.gravity="{{options.crop === 'fill' || options.crop === 'crop' ? options.gravity : ''}}">
-        </cl-transformation>
-    </ng-template>
+    <cl-transformation attr.height="{{options.height}}"
+        attr.gravity="{{options.crop === 'fill' || options.crop === 'crop' ? options.gravity : ''}}"
+        attr.crop="{{options.crop}}" quality="auto" dpr="auto" fetch-format="auto"
+        *ngIf="!options.width && options.height">
+    </cl-transformation>
 
     <cl-placeholder [type]="options.placeholder"></cl-placeholder>
 </cl-image>

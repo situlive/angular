@@ -1,6 +1,6 @@
 {
   "name": "@situlive/angular",
-  "version": "1.0.35",
+  "version": "1.0.37",
   "umdModuleIds": {
     "@situlive/situ-theme": "@situlive/situ-theme",
     "@angular/common": "@angular/common",
