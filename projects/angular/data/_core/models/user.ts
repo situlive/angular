@@ -4,7 +4,7 @@ import { Plan } from './plan';
 import { Theatre } from './theatre';
 
 export class User {
-  userId: string;
+  id: string;
   firstName: string;
   lastName: string;
   userName?: string;
