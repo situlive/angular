@@ -42,7 +42,7 @@ export class UserService {
         let usersAttempt = response[0];
         let brandUsersAttempt = response[1];
 
-        if (usersAttempt.failure || brandUsersAttempt.failure) return undefined;
+        if (usersAttempt.failure) return undefined;
 
         let users: User[] = [];
         usersAttempt.result.forEach((user: User) => {
@@ -158,18 +158,17 @@ export class UserService {
 
   delete(id: string, options?: RequestOptions): Observable<boolean> {
     var attempts = [];
-
-    var deleteUser = this.httpClient.delete<Attempt<boolean>>(
-      `${this.config.apiUrl}/users/${id}`,
-      options?.getRequestOptions()
-    );
     var deleteIdentity = this.httpClient.delete<Attempt<boolean>>(
       `${this.config.identityServerUrl}/users/${id}`,
       options?.getRequestOptions()
     );
+    var deleteUser = this.httpClient.delete<Attempt<boolean>>(
+      `${this.config.apiUrl}/users/${id}`,
+      new RequestOptions(true).getRequestOptions() // Always try to silently delete the api user
+    );
 
-    attempts.push(deleteUser);
     attempts.push(deleteIdentity);
+    attempts.push(deleteUser);
 
     return forkJoin(attempts).pipe(
       map((response: Attempt<boolean>[]) => {
