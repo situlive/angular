@@ -22,7 +22,7 @@ export class SubscriptionService extends BaseService<Subscription> {
     this.loading.next(true);
 
     let url = `${this.config.apiUrl}/${this.endpoint}`;
-    if (options.skip || options.take)
+    if (options?.skip || options?.take)
       url += `?skip=${options.skip}&take=${options.take}`;
 
     return this.httpClient

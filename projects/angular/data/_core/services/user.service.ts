@@ -77,7 +77,7 @@ export class UserService {
     if (includeApiUser) {
       let apiUser = this.httpClient.get<Attempt<User>>(
         `${this.config.apiUrl}/users/${id}`,
-        options?.getRequestOptions()
+        new RequestOptions(true).getRequestOptions() // Always try to silently delete the api user
       );
       attempts.push(apiUser);
     }

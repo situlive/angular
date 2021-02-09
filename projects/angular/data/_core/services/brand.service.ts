@@ -22,7 +22,7 @@ export class BrandService extends BaseService<Brand> {
     this.loading.next(true);
 
     let url = `${this.config.apiUrl}/brands`;
-    if (options.skip || options.take)
+    if (options?.skip || options?.take)
       url += `?skip=${options.skip}&take=${options.take}`;
 
     return this.httpClient

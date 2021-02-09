@@ -24,6 +24,11 @@ export class BearerInterceptor implements HttpInterceptor {
     if (!request.url.startsWith('http') && !request.url.startsWith('www'))
       return next.handle(request); // Only process web requests
 
+    if (this.config.debug)
+      console.log(
+        '--------------------- BEARER INTERCEPTOR START ---------------------'
+      );
+
     const currentUser = this.authenticationService.getCurrent;
     const endpoints = this.config.endpoints;
 
@@ -59,6 +64,11 @@ export class BearerInterceptor implements HttpInterceptor {
         Authorization: `Bearer ${currentUser.access_token}`,
       },
     });
+
+    if (this.config.debug)
+      console.log(
+        '--------------------- BEARER INTERCEPTOR END ---------------------'
+      );
 
     return next.handle(request); // If we have no matches
   }

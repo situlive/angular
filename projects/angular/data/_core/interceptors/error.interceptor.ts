@@ -12,11 +12,13 @@ import {
 } from '@angular/common/http';
 
 import { NotificationService } from '../services';
+import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
   constructor(
     @Inject(PLATFORM_ID) private platformId,
+    @Inject(HTTP_SERVICE_CONFIG) private config: HttpServiceConfig,
     private router: Router,
     private notificationService: NotificationService
   ) {}
@@ -27,7 +29,19 @@ export class ErrorInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     if (isPlatformServer(this.platformId)) return next.handle(request);
 
+    if (this.config.debug)
+      console.log(
+        '--------------------- ERROR INTERCEPTOR START ---------------------'
+      );
+
+    if (this.config.debug) console.log(request);
+
     if (request.headers.has('Silent-Request')) {
+      if (this.config.debug)
+        console.log(
+          'handling a silent request, return errors has undefined',
+          request.url
+        );
       const headers = request.headers.delete('Silent-Request');
       const directRequest = request.clone({ headers });
       return next.handle(directRequest).pipe(
@@ -35,6 +49,14 @@ export class ErrorInterceptor implements HttpInterceptor {
         catchError(() => undefined)
       );
     }
+
+    if (this.config.debug)
+      console.log('this is not a silent request', request.url);
+
+    if (this.config.debug)
+      console.log(
+        '--------------------- ERROR INTERCEPTOR END ---------------------'
+      );
 
     return next.handle(request).pipe(
       map((event: HttpEvent<any>) => {
