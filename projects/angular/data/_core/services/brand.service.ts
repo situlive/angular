@@ -4,9 +4,8 @@ import { finalize, map } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
 
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
-import { Brand, Attempt, BrandUser, SearchResultBrand } from '../models';
+import { Brand, Attempt, SearchResultBrand, RequestOptions } from '../models';
 import { BaseService } from './base.service';
-import { ListOptions } from '../models/list-options';
 
 @Injectable({
   providedIn: 'root',
@@ -19,28 +18,35 @@ export class BrandService extends BaseService<Brand> {
     super(config, 'brands', httpClient);
   }
 
-  list(options?: ListOptions): Observable<Brand[]> {
+  list(options?: RequestOptions): Observable<Brand[]> {
     this.loading.next(true);
 
     let url = `${this.config.apiUrl}/brands`;
-    if (options) url += `?skip=${options.skip}&take=${options.take}`;
+    if (options.skip || options.take)
+      url += `?skip=${options.skip}&take=${options.take}`;
 
-    return this.httpClient.get<Attempt<Brand[]>>(url).pipe(
-      map((response: Attempt<Brand[]>) => {
-        if (response.failure) return response.result;
-        this.items.next(response.result);
-        return response.result;
-      }),
-      finalize(() => this.loading.next(false))
-    );
+    return this.httpClient
+      .get<Attempt<Brand[]>>(url, options?.getRequestOptions())
+      .pipe(
+        map((response: Attempt<Brand[]>) => {
+          if (response.failure) return response.result;
+          this.items.next(response.result);
+          return response.result;
+        }),
+        finalize(() => this.loading.next(false))
+      );
   }
 
-  listSubscriptions(brandId: number): Observable<Subscription[]> {
+  listSubscriptions(
+    brandId: number,
+    options?: RequestOptions
+  ): Observable<Subscription[]> {
     this.loading.next(true);
 
     return this.httpClient
       .get<Attempt<Subscription[]>>(
-        `${this.config.apiUrl}/${this.endpoint}/${brandId}/subscriptions`
+        `${this.config.apiUrl}/${this.endpoint}/${brandId}/subscriptions`,
+        options?.getRequestOptions()
       )
       .pipe(
         map((response: Attempt<Subscription[]>) => {
@@ -50,11 +56,15 @@ export class BrandService extends BaseService<Brand> {
       );
   }
 
-  search(searchTerm: string): Observable<SearchResultBrand> {
+  search(
+    searchTerm: string,
+    options?: RequestOptions
+  ): Observable<SearchResultBrand> {
     return this.httpClient
       .post<Attempt<SearchResultBrand>>(
         `${this.config.apiUrl}/${this.endpoint}/search`,
-        { searchTerm }
+        { searchTerm },
+        options?.getRequestOptions()
       )
       .pipe(
         map((response: Attempt<SearchResultBrand>) => {
@@ -64,10 +74,14 @@ export class BrandService extends BaseService<Brand> {
       );
   }
 
-  simple(onlyConfirmed: boolean = false): Observable<Brand[]> {
+  simple(
+    onlyConfirmed: boolean = false,
+    options?: RequestOptions
+  ): Observable<Brand[]> {
     return this.httpClient
       .get<Attempt<Brand[]>>(
-        `${this.config.apiUrl}/${this.endpoint}/simple?onlyConfirmed=${onlyConfirmed}`
+        `${this.config.apiUrl}/${this.endpoint}/simple?onlyConfirmed=${onlyConfirmed}`,
+        options?.getRequestOptions()
       )
       .pipe(
         map((response: Attempt<Brand[]>) => {
@@ -77,10 +91,11 @@ export class BrandService extends BaseService<Brand> {
       );
   }
 
-  getBySlug(slug: string): Observable<Brand> {
+  getBySlug(slug: string, options?: RequestOptions): Observable<Brand> {
     return this.httpClient
       .get<Attempt<Brand>>(
-        `${this.config.apiUrl}/${this.endpoint}/slug/${slug}`
+        `${this.config.apiUrl}/${this.endpoint}/slug/${slug}`,
+        options?.getRequestOptions()
       )
       .pipe(
         map((response: Attempt<Brand>) => {

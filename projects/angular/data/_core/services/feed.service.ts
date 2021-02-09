@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { finalize, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
-import { Feed, Attempt } from '../models';
+import { Feed, Attempt, RequestOptions } from '../models';
 import { BaseService } from './base.service';
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
 
@@ -18,11 +18,12 @@ export class FeedService extends BaseService<Feed> {
     super(config, 'feeds', httpClient);
   }
 
-  list(categoryId: number): Observable<Feed[]> {
+  list(categoryId: number, options?: RequestOptions): Observable<Feed[]> {
     this.loading.next(true);
     return this.httpClient
       .get<Attempt<Feed[]>>(
-        `${this.config.apiUrl}/categories/${categoryId}/feeds`
+        `${this.config.apiUrl}/categories/${categoryId}/feeds`,
+        options?.getRequestOptions()
       )
       .pipe(
         map((response: Attempt<Feed[]>) => {
@@ -34,9 +35,12 @@ export class FeedService extends BaseService<Feed> {
       );
   }
 
-  get(id: number): Observable<Feed> {
+  get(id: number, options?: RequestOptions): Observable<Feed> {
     return this.httpClient
-      .get<Attempt<Feed>>(`${this.config.apiUrl}/feeds/${id}`)
+      .get<Attempt<Feed>>(
+        `${this.config.apiUrl}/feeds/${id}`,
+        options?.getRequestOptions()
+      )
       .pipe(
         map((response: Attempt<Feed>) => {
           return response.result;
@@ -44,11 +48,15 @@ export class FeedService extends BaseService<Feed> {
       );
   }
 
-  createFile(file: File): Observable<string> {
+  createFile(file: File, options?: RequestOptions): Observable<string> {
     const formData = new FormData();
     formData.append('file', file);
     return this.httpClient
-      .post<Attempt<string>>(`${this.config.apiUrl}/feeds/files`, formData)
+      .post<Attempt<string>>(
+        `${this.config.apiUrl}/feeds/files`,
+        formData,
+        options?.getRequestOptions()
+      )
       .pipe(
         map((response: Attempt<string>) => {
           return response.result;

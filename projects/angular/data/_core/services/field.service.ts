@@ -4,7 +4,7 @@ import { finalize, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
-import { Attempt, Field } from '../models';
+import { Attempt, Field, RequestOptions } from '../models';
 import { BaseService } from './base.service';
 
 @Injectable({
@@ -18,11 +18,16 @@ export class FieldService extends BaseService<Field> {
     super(config, 'fields', httpClient);
   }
 
-  list(categoryId: number, onlySpecification: boolean): Observable<Field[]> {
+  list(
+    categoryId: number,
+    onlySpecification: boolean,
+    options?: RequestOptions
+  ): Observable<Field[]> {
     this.loading.next(true);
     return this.httpClient
       .get<Attempt<Field[]>>(
-        `${this.config.apiUrl}/categories/${categoryId}/fields?onlySpecification=${onlySpecification}`
+        `${this.config.apiUrl}/categories/${categoryId}/fields?onlySpecification=${onlySpecification}`,
+        options?.getRequestOptions()
       )
       .pipe(
         map((response: Attempt<Field[]>) => {

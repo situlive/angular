@@ -27,6 +27,15 @@ export class ErrorInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     if (isPlatformServer(this.platformId)) return next.handle(request);
 
+    if (request.headers.has('Silent-Request')) {
+      const headers = request.headers.delete('Silent-Request');
+      const directRequest = request.clone({ headers });
+      return next.handle(directRequest).pipe(
+        map((response: any) => response),
+        catchError(() => undefined)
+      );
+    }
+
     return next.handle(request).pipe(
       map((event: HttpEvent<any>) => {
         if (event instanceof HttpResponse && event.body) {

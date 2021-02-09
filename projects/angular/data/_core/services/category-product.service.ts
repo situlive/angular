@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
-import { Attempt, Product } from '../models';
+import { Attempt, Product, RequestOptions } from '../models';
 
 @Injectable({
   providedIn: 'root',
@@ -21,12 +21,13 @@ export class CategoryProductService {
     this.loading = new BehaviorSubject<boolean>(false);
   }
 
-  list(categoryId: number): Observable<Product[]> {
+  list(categoryId: number, options?: RequestOptions): Observable<Product[]> {
     this.loading.next(true);
 
     return this.httpClient
       .get<Attempt<Product[]>>(
-        `${this.config.apiUrl}/categories/${categoryId}/products`
+        `${this.config.apiUrl}/categories/${categoryId}/products`,
+        options?.getRequestOptions()
       )
       .pipe(
         map((response: Attempt<Product[]>) => {
@@ -39,14 +40,19 @@ export class CategoryProductService {
       );
   }
 
-  create(categoryId: number, item: Product): Observable<Product> {
+  create(
+    categoryId: number,
+    item: Product,
+    options?: RequestOptions
+  ): Observable<Product> {
     return this.httpClient
       .post<Attempt<Product>>(
         `${this.config.apiUrl}/categories/${categoryId}/products`,
         {
           categoryId,
           productId: item.id,
-        }
+        },
+        options?.getRequestOptions()
       )
       .pipe(
         map((response: Attempt<Product>) => {
@@ -59,10 +65,15 @@ export class CategoryProductService {
       );
   }
 
-  delete(categoryId: number, id: string): Observable<boolean> {
+  delete(
+    categoryId: number,
+    id: string,
+    options?: RequestOptions
+  ): Observable<boolean> {
     return this.httpClient
       .delete<Attempt<boolean>>(
-        `${this.config.apiUrl}/categories/${categoryId}/products/${id}`
+        `${this.config.apiUrl}/categories/${categoryId}/products/${id}`,
+        options?.getRequestOptions()
       )
       .pipe(
         map((response: Attempt<boolean>) => {

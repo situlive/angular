@@ -4,11 +4,14 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
-import { Attempt } from '../models/attempt';
-import { Plan } from '../models/plan';
-import { Profile } from '../models/profile';
-import { Theatre } from '../models/theatre';
-import { User } from '../models/user';
+import {
+  Attempt,
+  Plan,
+  Profile,
+  RequestOptions,
+  Theatre,
+  User,
+} from '../models';
 
 @Injectable({
   providedIn: 'root',
@@ -42,9 +45,12 @@ export class InterestService {
     private httpClient: HttpClient
   ) {}
 
-  public getUser(id: string): Observable<Profile> {
+  public getUser(id: string, options?: RequestOptions): Observable<Profile> {
     return this.httpClient
-      .get<Attempt<User>>(`${this.config.apiUrl}/${this.endpoint}/${id}`)
+      .get<Attempt<User>>(
+        `${this.config.apiUrl}/${this.endpoint}/${id}`,
+        options?.getRequestOptions()
+      )
       .pipe(
         map((response: Attempt<User>) => {
           if (response.failure) return;

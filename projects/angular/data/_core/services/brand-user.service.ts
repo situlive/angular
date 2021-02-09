@@ -4,7 +4,7 @@ import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
-import { BrandUser, Attempt, User } from '../models';
+import { BrandUser, Attempt, User, RequestOptions } from '../models';
 
 @Injectable({
   providedIn: 'root',
@@ -28,8 +28,10 @@ export class BrandUserService {
     let listUsers = this.httpClient.get<Attempt<User[]>>(
       `${this.config.identityServerUrl}/users`
     );
+    let options = new RequestOptions(true);
     let listBrandUsers = this.httpClient.get<Attempt<BrandUser[]>>(
-      `${this.config.apiUrl}/brands/${brandId}/users`
+      `${this.config.apiUrl}/brands/${brandId}/users`,
+      options.getRequestOptions()
     );
 
     attempts.push(listUsers);
@@ -58,7 +60,11 @@ export class BrandUserService {
     );
   }
 
-  create(brandId: number, item: User): Observable<BrandUser> {
+  create(
+    brandId: number,
+    item: User,
+    options?: RequestOptions
+  ): Observable<BrandUser> {
     let brandUser: BrandUser = {
       brandId: brandId,
       userId: item.userId,
@@ -67,7 +73,8 @@ export class BrandUserService {
     return this.httpClient
       .post<Attempt<BrandUser>>(
         `${this.config.apiUrl}/brands/${brandId}/users`,
-        brandUser
+        brandUser,
+        options?.getRequestOptions()
       )
       .pipe(
         map((response: Attempt<BrandUser>) => {
@@ -80,7 +87,11 @@ export class BrandUserService {
       );
   }
 
-  update(brandId: number, item: User): Observable<BrandUser> {
+  update(
+    brandId: number,
+    item: User,
+    options?: RequestOptions
+  ): Observable<BrandUser> {
     let brandUser: BrandUser = {
       brandId: brandId,
       userId: item.userId,
@@ -89,7 +100,8 @@ export class BrandUserService {
     return this.httpClient
       .put<Attempt<BrandUser>>(
         `${this.config.apiUrl}/brands/${brandId}/users`,
-        brandUser
+        brandUser,
+        options?.getRequestOptions()
       )
       .pipe(
         map((response: Attempt<BrandUser>) => {
@@ -104,10 +116,15 @@ export class BrandUserService {
       );
   }
 
-  delete(brandId: number, id: string): Observable<boolean> {
+  delete(
+    brandId: number,
+    id: string,
+    options?: RequestOptions
+  ): Observable<boolean> {
     return this.httpClient
       .delete<Attempt<boolean>>(
-        `${this.config.apiUrl}/brands/${brandId}/users/${id}`
+        `${this.config.apiUrl}/brands/${brandId}/users/${id}`,
+        options?.getRequestOptions()
       )
       .pipe(
         map((response: Attempt<boolean>) => {

@@ -3,8 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
 import { HttpServiceConfig } from '../configs';
-import { BaseFeed } from '../models/base-feed';
-import { Attempt } from '../models/attempt';
+import { Attempt, BaseFeed, RequestOptions } from '../models';
 
 export class BaseFeedService<T extends BaseFeed> {
   items: BehaviorSubject<T[]>;
@@ -19,11 +18,12 @@ export class BaseFeedService<T extends BaseFeed> {
     this.loading = new BehaviorSubject<boolean>(false);
   }
 
-  initialize(feedId: number) {
+  public initialize(feedId: number, options?: RequestOptions) {
     this.loading.next(true);
     this.httpClient
       .get<Attempt<T[]>>(
-        `${this.config.apiUrl}/feeds/${feedId}/${this.endpoint}`
+        `${this.config.apiUrl}/feeds/${feedId}/${this.endpoint}`,
+        options?.getRequestOptions()
       )
       .pipe(finalize(() => this.loading.next(false)))
       .subscribe((response) => {
@@ -33,9 +33,13 @@ export class BaseFeedService<T extends BaseFeed> {
       });
   }
 
-  create(filter: any): Observable<T> {
+  public create(filter: any, options?: RequestOptions): Observable<T> {
     return this.httpClient
-      .post<Attempt<T>>(`${this.config.apiUrl}/${this.endpoint}`, filter)
+      .post<Attempt<T>>(
+        `${this.config.apiUrl}/${this.endpoint}`,
+        filter,
+        options?.getRequestOptions()
+      )
       .pipe(
         map((response: Attempt<T>) => {
           if (response.failure) return response.result;
@@ -52,9 +56,13 @@ export class BaseFeedService<T extends BaseFeed> {
       );
   }
 
-  update(filter: any): Observable<T> {
+  public update(filter: any, options?: RequestOptions): Observable<T> {
     return this.httpClient
-      .put<Attempt<T>>(`${this.config.apiUrl}/${this.endpoint}`, filter)
+      .put<Attempt<T>>(
+        `${this.config.apiUrl}/${this.endpoint}`,
+        filter,
+        options?.getRequestOptions()
+      )
       .pipe(
         map((response: Attempt<T>) => {
           if (response.failure) return response.result;
@@ -72,9 +80,12 @@ export class BaseFeedService<T extends BaseFeed> {
       );
   }
 
-  delete(id: number): Observable<boolean> {
+  public delete(id: number, options?: RequestOptions): Observable<boolean> {
     return this.httpClient
-      .delete<Attempt<boolean>>(`${this.config.apiUrl}/${this.endpoint}/${id}`)
+      .delete<Attempt<boolean>>(
+        `${this.config.apiUrl}/${this.endpoint}/${id}`,
+        options?.getRequestOptions()
+      )
       .pipe(
         map((response: Attempt<boolean>) => {
           if (response.failure) return response.result;

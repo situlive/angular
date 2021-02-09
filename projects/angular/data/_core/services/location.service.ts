@@ -4,7 +4,7 @@ import { finalize, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
-import { Location, Attempt } from '../models';
+import { Location, Attempt, RequestOptions } from '../models';
 import { BaseService } from './base.service';
 
 @Injectable({
@@ -18,11 +18,12 @@ export class LocationService extends BaseService<Location> {
     super(config, 'locations', httpClient);
   }
 
-  list(theatreId: number): Observable<Location[]> {
+  list(theatreId: number, options?: RequestOptions): Observable<Location[]> {
     this.loading.next(true);
     return this.httpClient
       .get<Attempt<Location[]>>(
-        `${this.config.apiUrl}/theatres/${theatreId}/locations`
+        `${this.config.apiUrl}/theatres/${theatreId}/locations`,
+        options?.getRequestOptions()
       )
       .pipe(
         map((response: Attempt<Location[]>) => {

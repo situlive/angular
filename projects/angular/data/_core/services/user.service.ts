@@ -4,7 +4,7 @@ import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
-import { User, Attempt } from '../models';
+import { User, Attempt, RequestOptions } from '../models';
 
 @Injectable({
   providedIn: 'root',
@@ -21,15 +21,17 @@ export class UserService {
     this.loading = new BehaviorSubject<boolean>(false);
   }
 
-  list(): Observable<User[]> {
+  list(options?: RequestOptions): Observable<User[]> {
     this.loading.next(true);
 
     let attempts = [];
     let listUsers = this.httpClient.get<Attempt<User[]>>(
-      `${this.config.identityServerUrl}/users`
+      `${this.config.identityServerUrl}/users`,
+      options?.getRequestOptions()
     );
     let apiUsers = this.httpClient.get<Attempt<User[]>>(
-      `${this.config.apiUrl}/users`
+      `${this.config.apiUrl}/users`,
+      options?.getRequestOptions()
     );
 
     attempts.push(listUsers);
@@ -57,20 +59,28 @@ export class UserService {
     );
   }
 
-  get(id: string, includeApiUser: boolean = true): Observable<User> {
+  get(
+    id: string,
+    includeApiUser: boolean = true,
+    options?: RequestOptions
+  ): Observable<User> {
     this.loading.next(true);
 
     let attempts = [];
     let getUser = this.httpClient.get<Attempt<User>>(
-      `${this.config.identityServerUrl}/users/${id}`
-    );
-    let apiUser = this.httpClient.get<Attempt<User>>(
-      `${this.config.apiUrl}/users/${id}`
+      `${this.config.identityServerUrl}/users/${id}`,
+      options?.getRequestOptions()
     );
 
     attempts.push(getUser);
 
-    if (includeApiUser) attempts.push(apiUser);
+    if (includeApiUser) {
+      let apiUser = this.httpClient.get<Attempt<User>>(
+        `${this.config.apiUrl}/users/${id}`,
+        options?.getRequestOptions()
+      );
+      attempts.push(apiUser);
+    }
 
     return forkJoin(attempts).pipe(
       map((response: Attempt<User>[]) => {
@@ -93,9 +103,12 @@ export class UserService {
     );
   }
 
-  current(): any {
+  current(options?: RequestOptions): any {
     return this.httpClient
-      .get<Attempt<any>>(`${this.config.identityServerUrl}/users/current`)
+      .get<Attempt<any>>(
+        `${this.config.identityServerUrl}/users/current`,
+        options?.getRequestOptions()
+      )
       .pipe(
         map((response: Attempt<any>) => {
           if (response.failure) return response.result;
@@ -104,9 +117,13 @@ export class UserService {
       );
   }
 
-  create(item: User): Observable<User> {
+  create(item: User, options?: RequestOptions): Observable<User> {
     return this.httpClient
-      .post<Attempt<User>>(`${this.config.identityServerUrl}/users`, item)
+      .post<Attempt<User>>(
+        `${this.config.identityServerUrl}/users`,
+        item,
+        options?.getRequestOptions()
+      )
       .pipe(
         map((response: Attempt<User>) => {
           if (response.failure) return response.result;
@@ -119,9 +136,13 @@ export class UserService {
       );
   }
 
-  update(item: User): Observable<User> {
+  update(item: User, options?: RequestOptions): Observable<User> {
     return this.httpClient
-      .put<Attempt<User>>(`${this.config.identityServerUrl}/users`, item)
+      .put<Attempt<User>>(
+        `${this.config.identityServerUrl}/users`,
+        item,
+        options?.getRequestOptions()
+      )
       .pipe(
         map((response: Attempt<User>) => {
           if (response.failure) return response.result;
@@ -135,14 +156,16 @@ export class UserService {
       );
   }
 
-  delete(id: string): Observable<boolean> {
+  delete(id: string, options?: RequestOptions): Observable<boolean> {
     var attempts = [];
 
     var deleteUser = this.httpClient.delete<Attempt<boolean>>(
-      `${this.config.apiUrl}/users/${id}`
+      `${this.config.apiUrl}/users/${id}`,
+      options?.getRequestOptions()
     );
     var deleteIdentity = this.httpClient.delete<Attempt<boolean>>(
-      `${this.config.identityServerUrl}/users/${id}`
+      `${this.config.identityServerUrl}/users/${id}`,
+      options?.getRequestOptions()
     );
 
     attempts.push(deleteUser);
