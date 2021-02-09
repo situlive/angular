@@ -5,12 +5,25 @@ import { Rule } from './rule';
 import { Transformation } from './transformation';
 import { BaseModel } from './base-model';
 
+export enum FeedType {
+  Catalogue,
+  Range,
+  Specification,
+}
+
+export enum DataType {
+  Json,
+  Xml,
+  Csv,
+}
+
 export class Feed implements BaseModel {
   id: number;
   categoryId: number;
   name: string;
   url: string;
-  type: number;
+  type: FeedType;
+  dataType: DataType;
   active: boolean;
 
   brands: Brand[];

@@ -60,10 +60,13 @@ export class BearerInterceptor implements HttpInterceptor {
       );
 
     request = request.clone({
-      setHeaders: {
-        Authorization: `Bearer ${currentUser.access_token}`,
-      },
+      headers: request.headers.set(
+        'Authorization',
+        `Bearer ${currentUser.access_token}`
+      ),
     });
+
+    if (this.config.debug) console.log(request);
 
     if (this.config.debug)
       console.log(

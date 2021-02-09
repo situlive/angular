@@ -11,9 +11,10 @@ export class RequestOptions {
 
   public getRequestOptions(): { headers?: HttpHeaders } {
     if (!this.silent) return {};
-
-    const headers = new HttpHeaders();
-    headers.append('Silent-Request', 'true');
-    return { headers: headers };
+    return {
+      headers: new HttpHeaders({
+        'Silent-Request': 'true',
+      }),
+    };
   }
 }
