@@ -5,6 +5,8 @@ import { Theatre } from './theatre';
 
 export class User {
   id: string;
+  image: string;
+  jobTitle: string;
   firstName: string;
   lastName: string;
   userName?: string;

@@ -49,7 +49,7 @@ export class UserService {
           let brandUser = brandUsersAttempt.result.find(
             (brandUser: User) => brandUser.id === user.id
           );
-          users.push({ ...user, ...brandUser });
+          users.push({ ...brandUser, ...user });
         });
 
         this.items.next(users);
@@ -95,7 +95,10 @@ export class UserService {
         let apiUserAttempt = response[1];
         let apiUser = apiUserAttempt.result;
 
-        user = { ...user, ...apiUser };
+        if (this.config.debug) console.log('apiUser', apiUser);
+        if (this.config.debug) console.log('user', user);
+
+        user = { ...apiUser, ...user };
 
         return user;
       }),
