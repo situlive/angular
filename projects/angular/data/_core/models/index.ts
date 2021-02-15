@@ -19,6 +19,7 @@ export * from './filter-operator';
 export * from './formula';
 export * from './group';
 export * from './inclusion';
+export * from './invite-user';
 export * from './location';
 export * from './mapping';
 export * from './notification';

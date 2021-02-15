@@ -4,7 +4,13 @@ import { finalize, map } from 'rxjs/operators';
 import { Observable, Subscription } from 'rxjs';
 
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
-import { Brand, Attempt, SearchResultBrand, RequestOptions } from '../models';
+import {
+  Brand,
+  Attempt,
+  SearchResultBrand,
+  RequestOptions,
+  InviteUser,
+} from '../models';
 import { BaseService } from './base.service';
 
 @Injectable({
@@ -56,6 +62,23 @@ export class BrandService extends BaseService<Brand> {
       );
   }
 
+  inviteUsers(
+    model: InviteUser,
+    options?: RequestOptions
+  ): Observable<boolean> {
+    return this.httpClient
+      .post<Attempt<boolean>>(
+        `${this.config.apiUrl}/${this.endpoint}/invite`,
+        model,
+        options?.getRequestOptions()
+      )
+      .pipe(
+        map((response: Attempt<boolean>) => {
+          return response.result;
+        })
+      );
+  }
+
   search(
     searchTerm: string,
     options?: RequestOptions
@@ -68,7 +91,6 @@ export class BrandService extends BaseService<Brand> {
       )
       .pipe(
         map((response: Attempt<SearchResultBrand>) => {
-          // TODO: Handle the response (i.e. handle any errors)
           return response.result;
         })
       );
@@ -85,7 +107,6 @@ export class BrandService extends BaseService<Brand> {
       )
       .pipe(
         map((response: Attempt<Brand[]>) => {
-          // TODO: Handle the response (i.e. handle any errors)
           return response.result;
         })
       );

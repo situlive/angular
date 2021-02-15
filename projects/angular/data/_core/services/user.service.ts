@@ -120,7 +120,7 @@ export class UserService {
       );
   }
 
-  create(item: User, options?: RequestOptions): Observable<User> {
+  create(item: any, options?: RequestOptions): Observable<User> {
     return this.httpClient
       .post<Attempt<User>>(
         `${this.config.identityServerUrl}/users`,

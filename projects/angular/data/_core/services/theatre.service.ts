@@ -43,7 +43,6 @@ export class TheatreService extends BaseService<Theatre> {
       )
       .pipe(
         map((response: Attempt<void>) => {
-          // TODO: Handle the response (i.e. handle any errors)
           return response.result;
         })
       );
