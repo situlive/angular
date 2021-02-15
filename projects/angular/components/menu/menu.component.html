@@ -1,5 +1,6 @@
-<header class="app-menu">
-    <nav class="nav-main" [class.section-white]="color === 'white'" [class.section-dark]="color === 'blue'">
+<header class="app-menu" [style.position]="position">
+    <nav class="nav-main" [class.section-white]="color === 'white'"
+        [class.section-dark]="color === 'blue' || isExpanded" [class.transparent]="transparent === true">
         <div class="container-fluid">
             <div class="row">
                 <div class="col d-flex align-items-center justify-content-between">

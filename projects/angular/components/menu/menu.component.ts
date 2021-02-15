@@ -38,6 +38,8 @@ export class MenuComponent implements OnInit {
   public isExpanded: boolean = false;
 
   @Input() color: color = 'blue';
+  @Input() position: 'relative' | 'absolute' = 'relative';
+  @Input() transparent: boolean = false;
 
   constructor(private router: Router) {}
 
