@@ -15,7 +15,10 @@ export class AuthenticationService {
   public currentUser: Observable<Token>;
 
   public get getCurrent(): Token {
-    return this.currentUserSubject.value;
+    let token = this.currentUserSubject.value;
+    if (!token) return null;
+
+    return this.hasExpired(token) ? null : token;
   }
 
   constructor(
@@ -23,11 +26,13 @@ export class AuthenticationService {
     @Inject(AUTH_CONFIG) private config: AuthConfig,
     private httpClient: HttpClient
   ) {
+    let token = JSON.parse(localStorage.getItem('currentUser'));
+
     this.currentUserSubject = new BehaviorSubject<Token>(
       JSON.parse(
-        isPlatformServer(this.platformId)
+        isPlatformServer(this.platformId) || this.hasExpired(token)
           ? '{}'
-          : localStorage.getItem('currentUser')
+          : token
       )
     );
     this.currentUser = this.currentUserSubject.asObservable();
@@ -122,6 +127,22 @@ export class AuthenticationService {
     // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
+  }
+
+  private hasExpired(token: Token): boolean {
+    if (!token) return true;
+
+    let now = new Date();
+    let expires = new Date(token.expires);
+
+    if (this.config.debug) {
+      console.log(now);
+      console.log(expires);
+      console.log(now > expires);
+      console.log(now > expires ? null : token);
+    }
+
+    return now > expires;
   }
 
   private baseLogin(params: HttpParams, httpOptions: any): Observable<any> {
