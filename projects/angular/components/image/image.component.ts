@@ -51,7 +51,7 @@ export class ImageComponent implements OnInit {
     this.options = {
       width: this.options?.width,
       height: this.options?.height,
-      crop: this.options?.crop || 'crop',
+      crop: this.options?.crop || 'scale',
       placeholder: this.options?.placeholder || 'pixelate',
       gravity: this.options?.gravity || 'faces',
       quality: this.options?.quality || 'good',
