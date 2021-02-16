@@ -29,11 +29,7 @@ export class AuthenticationService {
     let token = JSON.parse(localStorage.getItem('currentUser'));
 
     this.currentUserSubject = new BehaviorSubject<Token>(
-      JSON.parse(
-        isPlatformServer(this.platformId) || this.hasExpired(token)
-          ? '{}'
-          : token
-      )
+      isPlatformServer(this.platformId) || this.hasExpired(token) ? '{}' : token
     );
     this.currentUser = this.currentUserSubject.asObservable();
   }

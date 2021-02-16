@@ -1,5 +1,10 @@
+import { Brand } from './brand';
+
 export class BrandUser {
-    brandId: number;
-    userId: string;
-    confirmed: boolean;
+  id?: number;
+  brandId: number;
+  userId: string;
+  confirmed: boolean;
+
+  brand?: Brand;
 }
