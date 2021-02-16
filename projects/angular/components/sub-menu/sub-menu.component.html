@@ -1,3 +1,5 @@
+<ng-content select=".app-sub-menu-header"></ng-content>
+
 <ul class="app-sub-menu list-unstyled">
     <ng-template #nestedList let-items>
         <ng-container *ngFor="let item of items; let i = index;">
@@ -17,3 +19,5 @@
     </ng-template>
     <ng-container *ngTemplateOutlet="nestedList; context: { $implicit: items }"></ng-container>
 </ul>
+
+<ng-content select=".app-sub-menu-footer"></ng-content>
