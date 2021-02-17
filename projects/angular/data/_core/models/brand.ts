@@ -14,4 +14,6 @@ export class Brand implements BaseModel {
   qualityCheckPassed?: boolean;
   commercialCheckPassed?: boolean;
   confirmed?: boolean;
+
+  users: { userId: string; confirmed: boolean };
 }
