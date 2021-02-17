@@ -75,9 +75,10 @@ export class UserService {
     attempts.push(getUser);
 
     if (includeApiUser) {
+      let requestOptions = new RequestOptions(true);
       let apiUser = this.httpClient.get<Attempt<User>>(
         `${this.config.apiUrl}/users/${id}`,
-        new RequestOptions(true).getRequestOptions() // Always try to silently delete the api user
+        requestOptions.getRequestOptions() // Always try to silently get the api user
       );
       attempts.push(apiUser);
     }
@@ -165,9 +166,10 @@ export class UserService {
       `${this.config.identityServerUrl}/users/${id}`,
       options?.getRequestOptions()
     );
+    let requestOptions = new RequestOptions(true);
     var deleteUser = this.httpClient.delete<Attempt<boolean>>(
       `${this.config.apiUrl}/users/${id}`,
-      new RequestOptions(true).getRequestOptions() // Always try to silently delete the api user
+      requestOptions.getRequestOptions() // Always try to silently delete the api user
     );
 
     attempts.push(deleteIdentity);

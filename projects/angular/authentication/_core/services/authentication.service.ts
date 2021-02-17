@@ -26,10 +26,14 @@ export class AuthenticationService {
     @Inject(AUTH_CONFIG) private config: AuthConfig,
     private httpClient: HttpClient
   ) {
-    let token = JSON.parse(localStorage.getItem('currentUser'));
+    let token = JSON.parse(
+      isPlatformServer(this.platformId)
+        ? '{}'
+        : localStorage.getItem('currentUser')
+    );
 
     this.currentUserSubject = new BehaviorSubject<Token>(
-      isPlatformServer(this.platformId) || this.hasExpired(token) ? '{}' : token
+      this.hasExpired(token) ? '{}' : token
     );
     this.currentUser = this.currentUserSubject.asObservable();
   }
