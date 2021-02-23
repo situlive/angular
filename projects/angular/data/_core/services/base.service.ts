@@ -1,11 +1,11 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { HttpServiceConfig } from '../configs';
-import { Base, Attempt, RequestOptions } from '../models';
+import { Orderable, Attempt, RequestOptions } from '../models';
 
-export class BaseService<T extends Base> {
+export class BaseService<T extends Orderable> {
   private url: string;
 
   public items: BehaviorSubject<T[]>;

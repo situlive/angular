@@ -69,6 +69,7 @@ export class BrandUserService {
       brandId: brandId,
       userId: item.id,
       confirmed: item.confirmed,
+      domain: item.userName.split('@')[1],
     };
     return this.httpClient
       .post<Attempt<BrandUser>>(

@@ -52,7 +52,7 @@ export class AnimateDirective implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.observer.disconnect();
+    this.observer && this.observer.disconnect();
   }
 
   private observe(): void {

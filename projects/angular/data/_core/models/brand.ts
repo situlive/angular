@@ -1,6 +1,7 @@
-import { BaseModel } from './base-model';
+import { Base } from './base';
+import { IKey } from './key';
 
-export class Brand implements BaseModel {
+export class Brand extends Base implements IKey {
   id: number;
   parentId?: number;
   crmId?: number;
@@ -15,5 +16,5 @@ export class Brand implements BaseModel {
   commercialCheckPassed?: boolean;
   confirmed?: boolean;
 
-  users: { userId: string; confirmed: boolean };
+  users?: { userId: string; confirmed: boolean }[];
 }

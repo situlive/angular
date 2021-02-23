@@ -1,7 +1,8 @@
 import { SpecificationData } from './specification-data';
-import { BaseModel } from './base-model';
+import { Base } from './base';
+import { IKey } from './key';
 
-export class Product implements BaseModel {
+export class Product extends Base implements IKey {
   id: string;
   variant: string;
   title: string;

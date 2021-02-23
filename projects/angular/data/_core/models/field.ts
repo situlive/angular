@@ -1,4 +1,5 @@
-import { BaseModel } from './base-model';
+import { Base } from './base';
+import { IKey } from './key';
 export enum FieldDataType {
   Text,
   Integer,
@@ -7,7 +8,7 @@ export enum FieldDataType {
   Boolean,
 }
 
-export class Field implements BaseModel {
+export class Field extends Base implements IKey {
   id: number;
   categoryId: number;
   name: string;

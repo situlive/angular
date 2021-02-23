@@ -3,7 +3,8 @@ import { Conversion } from './conversion';
 import { Inclusion } from './inclusion';
 import { Rule } from './rule';
 import { Transformation } from './transformation';
-import { BaseModel } from './base-model';
+import { Base } from './base';
+import { IKey } from './key';
 
 export enum FeedType {
   Catalogue,
@@ -17,7 +18,7 @@ export enum DataType {
   Csv,
 }
 
-export class Feed implements BaseModel {
+export class Feed extends Base implements IKey {
   id: number;
   categoryId: number;
   name: string;
