@@ -23,6 +23,7 @@ export * from './location.service';
 export * from './mapping.service';
 export * from './notification.service';
 export * from './plan.service';
+export * from './product.service';
 export * from './role.service';
 export * from './rule.service';
 export * from './subscription.service';
