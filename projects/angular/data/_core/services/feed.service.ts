@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { finalize, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
-import { Feed, Attempt, RequestOptions } from '../models';
+import { Feed, Attempt, RequestOptions, Product } from '../models';
 import { BaseService } from './base.service';
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
 
@@ -32,6 +32,19 @@ export class FeedService extends BaseService<Feed> {
           return response.result;
         }),
         finalize(() => this.loading.next(false))
+      );
+  }
+
+  products(id: number, options?: RequestOptions): Observable<Product> {
+    return this.httpClient
+      .get<Attempt<Product>>(
+        `${this.config.apiUrl}/feeds/${id}/products`,
+        options?.getRequestOptions()
+      )
+      .pipe(
+        map((response: Attempt<Product>) => {
+          return response.result;
+        })
       );
   }
 

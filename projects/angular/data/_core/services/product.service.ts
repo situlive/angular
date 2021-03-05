@@ -1,28 +1,33 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { finalize, map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { Product, Attempt, RequestOptions } from '../models';
-import { BaseService } from './base.service';
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProductService extends BaseService<Product> {
+export class ProductService {
+  private endpoint: string = 'products';
+
+  public items: BehaviorSubject<Product[]>;
+  public loading: BehaviorSubject<boolean>;
+
   constructor(
     @Inject(HTTP_SERVICE_CONFIG) public config: HttpServiceConfig,
-    httpClient: HttpClient
+    private httpClient: HttpClient
   ) {
-    super(config, 'products', httpClient);
+    this.items = new BehaviorSubject<Product[]>([]);
+    this.loading = new BehaviorSubject<boolean>(false);
   }
 
   list(categoryId: number, options?: RequestOptions): Observable<Product[]> {
     this.loading.next(true);
     return this.httpClient
       .get<Attempt<Product[]>>(
-        `${this.config.apiUrl}/categories/${categoryId}/products/master`,
+        `${this.config.apiUrl}/categories/${categoryId}/${this.endpoint}/master`,
         options?.getRequestOptions()
       )
       .pipe(
@@ -35,14 +40,33 @@ export class ProductService extends BaseService<Product> {
       );
   }
 
-  get(id: number, options?: RequestOptions): Observable<Product> {
+  get(id: number, slug: string, options?: RequestOptions): Observable<Product> {
     return this.httpClient
       .get<Attempt<Product>>(
-        `${this.config.apiUrl}/products/${id}`,
+        `${this.config.apiUrl}/${this.endpoint}/${id}?slug=${slug}`,
         options?.getRequestOptions()
       )
       .pipe(
         map((response: Attempt<Product>) => {
+          return response.result;
+        })
+      );
+  }
+
+  public create(item: Product, options?: RequestOptions): Observable<Product> {
+    return this.httpClient
+      .post<Attempt<Product>>(
+        `${this.config.apiUrl}/${this.endpoint}`,
+        item,
+        options?.getRequestOptions()
+      )
+      .pipe(
+        map((response: Attempt<Product>) => {
+          if (response.failure) return response.result;
+          const newItem = response.result;
+          const items = this.items.value;
+          items.push(newItem);
+          this.items.next(items);
           return response.result;
         })
       );
@@ -63,7 +87,7 @@ export class ProductService extends BaseService<Product> {
           if (response.failure) return response.result;
           const newItem = response.result;
           const items = this.items.value;
-          this.removeProduct(items, newItem.id);
+          this.remove(items, newItem.id);
           items.push(newItem);
           this.items.next(items);
           return response.result;
@@ -83,7 +107,7 @@ export class ProductService extends BaseService<Product> {
           if (response.failure) return response.result;
           const newItem = response.result;
           const items = this.items.value;
-          this.removeProduct(items, newItem.id);
+          this.remove(items, newItem.id);
           items.push(newItem);
           this.items.next(items);
           return response.result;
@@ -103,7 +127,7 @@ export class ProductService extends BaseService<Product> {
           if (response.failure) return response.result;
           const newItem = response.result;
           const items = this.items.value;
-          this.removeProduct(items, newItem.id);
+          this.remove(items, newItem.id);
           items.push(newItem);
           this.items.next(items);
           return response.result;
@@ -111,7 +135,7 @@ export class ProductService extends BaseService<Product> {
       );
   }
 
-  private removeProduct(items: Product[], id: number | string) {
+  private remove(items: Product[], id: number | string) {
     items.forEach((item, i) => {
       if (item.id !== id) {
         return;
