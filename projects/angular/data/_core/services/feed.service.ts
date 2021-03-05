@@ -35,14 +35,14 @@ export class FeedService extends BaseService<Feed> {
       );
   }
 
-  products(id: number, options?: RequestOptions): Observable<Product> {
+  products(id: number, options?: RequestOptions): Observable<Product[]> {
     return this.httpClient
-      .get<Attempt<Product>>(
+      .get<Attempt<Product[]>>(
         `${this.config.apiUrl}/feeds/${id}/products`,
         options?.getRequestOptions()
       )
       .pipe(
-        map((response: Attempt<Product>) => {
+        map((response: Attempt<Product[]>) => {
           return response.result;
         })
       );
