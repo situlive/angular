@@ -5,7 +5,7 @@ import { IKey } from './key';
 export class Product extends Base implements IKey {
   id: string;
   variant: string;
-  categoryId: string;
+  categorySlug: string;
 
   title: string;
   brand: string;
@@ -19,21 +19,23 @@ export class Product extends Base implements IKey {
 
   scenarios?: string[];
 
-  state: 'Complete' | 'Incomplete' | 'Live' | 'NewEntry';
+  state:
+    | 'Unverified'
+    | 'Pending'
+    | 'Verified'
+    | 'Live'
+    | 'Excluded'
+    | 'Offline';
 
   hasSpecification?: boolean;
-  specification?: SpecificationData;
+  specificationData?: SpecificationData;
   specificationFeedId?: number;
 
-  hasContextualData?: boolean;
+  hasContextData?: boolean;
   contextData?: any;
-  contextualizationCreated?: string;
-  contextualizationUpdated?: string;
 
   images?: string[];
   retailers?: any[];
-  retailersUpdated?: string;
-  priceDropPercentage?: number;
 
   selected?: boolean;
 }

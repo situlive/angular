@@ -72,13 +72,10 @@ export class ProductService {
       );
   }
 
-  public updateSpecification(
-    item: Product,
-    options?: RequestOptions
-  ): Observable<Product> {
+  public update(item: Product, options?: RequestOptions): Observable<Product> {
     return this.httpClient
       .put<Attempt<Product>>(
-        `${this.config.apiUrl}/${this.endpoint}/specification`,
+        `${this.config.apiUrl}/${this.endpoint}`,
         item,
         options?.getRequestOptions()
       )
