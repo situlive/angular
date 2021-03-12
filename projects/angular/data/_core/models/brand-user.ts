@@ -6,6 +6,11 @@ export class BrandUser {
   userId: string;
   confirmed: boolean;
   domain?: string;
+  image?: string;
+  jobTitle?: string;
+  firstName?: string;
+  lastName?: string;
+  userName?: string;
 
   brand?: Brand;
 }

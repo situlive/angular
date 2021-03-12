@@ -10,18 +10,18 @@ import { BrandUser, Attempt, User, RequestOptions } from '../models';
   providedIn: 'root',
 })
 export class BrandUserService {
-  public items: BehaviorSubject<User[]>;
+  public items: BehaviorSubject<BrandUser[]>;
   public loading: BehaviorSubject<boolean>;
 
   constructor(
     @Inject(HTTP_SERVICE_CONFIG) private config: HttpServiceConfig,
     public httpClient: HttpClient
   ) {
-    this.items = new BehaviorSubject<User[]>([]);
+    this.items = new BehaviorSubject<BrandUser[]>([]);
     this.loading = new BehaviorSubject<boolean>(false);
   }
 
-  list(brandId: number): Observable<User[]> {
+  list(brandId: number): Observable<BrandUser[]> {
     this.loading.next(true);
 
     let attempts = [];
@@ -44,13 +44,22 @@ export class BrandUserService {
 
         if (usersAttempt.failure || brandUsersAttempt.failure) return undefined;
 
-        let users: User[] = [];
+        let users: BrandUser[] = [];
         usersAttempt.result.forEach((user: User) => {
           let brandUser = brandUsersAttempt.result.find(
             (brandUser: BrandUser) => brandUser.userId === user.id
           );
           if (!brandUser) return;
-          users.push({ ...user, ...brandUser });
+          users.push({
+            ...brandUser,
+            ...{
+              userId: user.id,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              jobTitle: user.jobTitle,
+              image: user.image,
+            },
+          });
         });
 
         this.items.next(users);
@@ -81,7 +90,7 @@ export class BrandUserService {
         map((response: Attempt<BrandUser>) => {
           if (response.failure) return response.result;
           const items = this.items.value;
-          items.push(item);
+          items.push(response.result);
           this.items.next(items);
           return response.result;
         })
@@ -108,7 +117,7 @@ export class BrandUserService {
         map((response: Attempt<BrandUser>) => {
           if (response.failure) return response.result;
           const items = this.items.value;
-          let match = items.find((user: User) => user.id === item.id);
+          let match = items.find((user: BrandUser) => user.userId === item.id);
           if (!match) return response.result;
           match.confirmed = item.confirmed;
           this.items.next(items);
@@ -119,7 +128,7 @@ export class BrandUserService {
 
   delete(
     brandId: number,
-    id: string,
+    id: number,
     options?: RequestOptions
   ): Observable<boolean> {
     return this.httpClient
@@ -137,7 +146,7 @@ export class BrandUserService {
       );
   }
 
-  private remove(items: User[], id: string) {
+  private remove(items: BrandUser[], id: number) {
     items.forEach((item, i) => {
       if (item.id !== id) {
         return;
