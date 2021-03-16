@@ -4,29 +4,31 @@ import { finalize, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
-import { Category, Attempt, RequestOptions } from '../models';
-import { BaseService } from './base.service';
+import { Subscription, Attempt, RequestOptions } from '../models';
+import { SubscriptionService } from './subscription.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CategoryService extends BaseService<Category> {
+export class VenueSubscriptionService extends SubscriptionService {
   constructor(
     @Inject(HTTP_SERVICE_CONFIG) public config: HttpServiceConfig,
     public httpClient: HttpClient
   ) {
-    super(config, 'categories', httpClient);
+    super(config, httpClient);
   }
 
-  list(options?: RequestOptions): Observable<Category[]> {
+  list(venueId: number, options?: RequestOptions): Observable<Subscription[]> {
     this.loading.next(true);
+
+    let url = `${this.config.apiUrl}/venues/${venueId}/subscriptions`;
+    if (options?.skip || options?.take)
+      url += `?skip=${options.skip}&take=${options.take}`;
+
     return this.httpClient
-      .get<Attempt<Category[]>>(
-        `${this.config.apiUrl}/categories`,
-        options?.getRequestOptions()
-      )
+      .get<Attempt<Subscription[]>>(url, options?.getRequestOptions())
       .pipe(
-        map((response: Attempt<Category[]>) => {
+        map((response: Attempt<Subscription[]>) => {
           if (response.failure) return response.result;
           this.items.next(response.result);
           return response.result;

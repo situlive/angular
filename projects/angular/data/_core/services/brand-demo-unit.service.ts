@@ -4,29 +4,29 @@ import { finalize, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
-import { Category, Attempt, RequestOptions } from '../models';
-import { BaseService } from './base.service';
+import { DemoUnit, Attempt, RequestOptions } from '../models';
+import { DemoUnitService } from './demo-unit.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CategoryService extends BaseService<Category> {
+export class BrandDemoUnitService extends DemoUnitService {
   constructor(
     @Inject(HTTP_SERVICE_CONFIG) public config: HttpServiceConfig,
     public httpClient: HttpClient
   ) {
-    super(config, 'categories', httpClient);
+    super(config, httpClient);
   }
 
-  list(options?: RequestOptions): Observable<Category[]> {
+  list(brandId: number, options?: RequestOptions): Observable<DemoUnit[]> {
     this.loading.next(true);
     return this.httpClient
-      .get<Attempt<Category[]>>(
-        `${this.config.apiUrl}/categories`,
+      .get<Attempt<DemoUnit[]>>(
+        `${this.config.apiUrl}/brands/${brandId}/demoUnits`,
         options?.getRequestOptions()
       )
       .pipe(
-        map((response: Attempt<Category[]>) => {
+        map((response: Attempt<DemoUnit[]>) => {
           if (response.failure) return response.result;
           this.items.next(response.result);
           return response.result;
