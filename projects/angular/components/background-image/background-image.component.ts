@@ -30,8 +30,8 @@ export class BackgroundImageComponent implements OnInit {
       height: this.options?.height,
       crop: this.options?.crop || 'fill',
       placeholder: this.options?.placeholder || 'predominant',
-      gravity: this.options?.gravity || 'faces',
-      quality: this.options?.quality || 'low',
+      gravity: this.options?.gravity,
+      quality: this.options?.quality || 70,
     };
   }
 

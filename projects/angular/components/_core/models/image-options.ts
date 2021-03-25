@@ -1,7 +1,7 @@
 export class ImageOptions {
   width?: number;
   height?: number;
-  crop?: 'fill' | 'scale' | 'crop';
+  crop?: 'fill' | 'scale' | 'crop' | 'fit';
   placeholder?: 'blur' | 'pixelate' | 'vectorize' | 'predominant';
   gravity:
     | 'auto'
@@ -15,6 +15,8 @@ export class ImageOptions {
     | 'south_east'
     | 'south_west'
     | 'east'
-    | 'west';
-  quality: 'auto' | 'best' | 'good' | 'eco' | 'low';
+    | 'west'
+    | 'auto:none'
+    | '';
+  quality: number;
 }

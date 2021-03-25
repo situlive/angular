@@ -62,12 +62,13 @@ export class ImageComponent implements OnInit {
       height: this.options?.height,
       crop: this.options?.crop || 'scale',
       placeholder: this.options?.placeholder || 'pixelate',
-      gravity: this.options?.gravity || 'faces',
-      quality: this.options?.quality || 'good',
+      gravity: this.options?.gravity,
+      quality: this.options?.quality || 80,
     };
 
-    if (this.options.crop !== 'crop' && this.options.crop !== 'fill')
-      this.options.gravity = 'auto';
+    if (['fill', 'crop'].indexOf(this.options.crop) === -1)
+      this.options.gravity = '';
+
     if (this.options.width || this.options.height) return;
 
     let rect = this.elementRef.nativeElement.getBoundingClientRect();
