@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
@@ -16,6 +16,23 @@ export class SubscriptionService extends BaseService<Subscription> {
     public httpClient: HttpClient
   ) {
     super(config, 'subscriptions', httpClient);
+  }
+
+  list(options?: RequestOptions): Observable<Subscription[]> {
+    this.loading.next(true);
+    return this.httpClient
+      .get<Attempt<Subscription[]>>(
+        `${this.config.apiUrl}/subscriptions`,
+        options?.getRequestOptions()
+      )
+      .pipe(
+        map((response: Attempt<Subscription[]>) => {
+          if (response.failure) return response.result;
+          this.items.next(response.result);
+          return response.result;
+        }),
+        finalize(() => this.loading.next(false))
+      );
   }
 
   cancel(id: number, options?: RequestOptions): Observable<Subscription> {
