@@ -43,25 +43,6 @@ export class BrandService extends BaseService<Brand> {
       );
   }
 
-  listSubscriptions(
-    brandId: number,
-    options?: RequestOptions
-  ): Observable<Subscription[]> {
-    this.loading.next(true);
-
-    return this.httpClient
-      .get<Attempt<Subscription[]>>(
-        `${this.config.apiUrl}/${this.endpoint}/${brandId}/subscriptions`,
-        options?.getRequestOptions()
-      )
-      .pipe(
-        map((response: Attempt<Subscription[]>) => {
-          if (response.failure) return response.result;
-          return response.result;
-        })
-      );
-  }
-
   inviteUsers(
     model: InviteUser,
     options?: RequestOptions

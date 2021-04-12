@@ -6,14 +6,17 @@ export enum DemoUnitState {
 
 export class DemoUnit {
   public id: number;
-  public subscriptionId: number;
+  public brandId: number;
+  public venueId: number;
+  public subscriptionId?: number;
   public returnAddressId?: number;
   public locationId?: number;
-  public gtin?: string;
+  public productName: string;
+  public gtin: string;
   public referenceNumber?: string;
   public serialNumber?: string;
-  public images?: string;
   public state: DemoUnitState;
+  public started: string;
   public expired?: string;
   public notes?: string;
 }

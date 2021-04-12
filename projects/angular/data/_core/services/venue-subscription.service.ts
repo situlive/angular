@@ -18,7 +18,10 @@ export class VenueSubscriptionService extends SubscriptionService {
     super(config, httpClient);
   }
 
-  list(venueId: number, options?: RequestOptions): Observable<Subscription[]> {
+  listVenueSubscriptions(
+    venueId: number,
+    options?: RequestOptions
+  ): Observable<Subscription[]> {
     this.loading.next(true);
 
     let url = `${this.config.apiUrl}/venues/${venueId}/subscriptions`;

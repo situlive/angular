@@ -4,13 +4,13 @@ import { finalize, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
-import { Subscription, Attempt, RequestOptions } from '../models';
-import { SubscriptionService } from './subscription.service';
+import { Location, Attempt, RequestOptions } from '../models';
+import { LocationService } from './location.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class BrandSubscriptionService extends SubscriptionService {
+export class TheatreLocationService extends LocationService {
   constructor(
     @Inject(HTTP_SERVICE_CONFIG) public config: HttpServiceConfig,
     public httpClient: HttpClient
@@ -18,20 +18,15 @@ export class BrandSubscriptionService extends SubscriptionService {
     super(config, httpClient);
   }
 
-  listBrandSubscriptions(
-    brandId: number,
-    options?: RequestOptions
-  ): Observable<Subscription[]> {
+  list(theatreId: number, options?: RequestOptions): Observable<Location[]> {
     this.loading.next(true);
-
-    let url = `${this.config.apiUrl}/brands/${brandId}/subscriptions`;
-    if (options?.skip || options?.take)
-      url += `?skip=${options.skip}&take=${options.take}`;
-
     return this.httpClient
-      .get<Attempt<Subscription[]>>(url, options?.getRequestOptions())
+      .get<Attempt<Location[]>>(
+        `${this.config.apiUrl}/theatres/${theatreId}/locations`,
+        options?.getRequestOptions()
+      )
       .pipe(
-        map((response: Attempt<Subscription[]>) => {
+        map((response: Attempt<Location[]>) => {
           if (response.failure) return response.result;
           this.items.next(response.result);
           return response.result;
