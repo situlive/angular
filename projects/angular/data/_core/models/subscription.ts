@@ -1,5 +1,6 @@
 import { Brand } from './brand';
 import { Plan } from './plan';
+import { SubscriptionLine } from './subscription-line';
 import { Venue } from './venue';
 
 export enum SubscriptionState {
@@ -28,4 +29,5 @@ export class Subscription {
   brand?: Brand;
   plan?: Plan;
   venue?: Venue;
+  lines?: SubscriptionLine[];
 }

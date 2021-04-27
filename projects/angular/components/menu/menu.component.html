@@ -15,7 +15,7 @@
 
                     <ng-content select="app-menu-header"></ng-content>
 
-                    <ul class="list-unstyled list-horizontal">
+                    <ul class="list-unstyled list-horizontal" *ngIf="!hideToggle">
                         <li>
                             <a class="toggle" (click)="expand()">
                                 <div class="hamburger" [class.open]="isExpanded">

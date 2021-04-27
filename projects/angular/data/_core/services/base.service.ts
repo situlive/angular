@@ -66,8 +66,10 @@ export class BaseService<T extends Orderable> {
           if (response.failure) return response.result;
           const newItem = response.result;
           const items = this.items.value;
-          this.remove(items, newItem.id);
-          items.push(newItem);
+          items.forEach((item: Orderable) => {
+            if (item.id !== newItem.id) return;
+            item = { ...item, ...newItem };
+          });
           this.items.next(items);
           return response.result;
         })

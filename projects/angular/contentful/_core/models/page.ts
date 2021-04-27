@@ -10,4 +10,5 @@ export class Page implements Metadata {
   slug: string;
   linkText: string;
   elements: Element[];
+  menu?: Element;
 }

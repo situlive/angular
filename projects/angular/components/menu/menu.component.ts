@@ -40,6 +40,7 @@ export class MenuComponent implements OnInit {
   @Input() color: color = 'blue';
   @Input() position: 'relative' | 'absolute' = 'relative';
   @Input() transparent: boolean = false;
+  @Input() hideToggle: boolean = false;
 
   constructor(private router: Router) {}
 

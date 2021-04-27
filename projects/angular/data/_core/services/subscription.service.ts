@@ -38,7 +38,7 @@ export class SubscriptionService extends BaseService<Subscription> {
   cancel(id: number, options?: RequestOptions): Observable<Subscription> {
     return this.httpClient
       .delete<Attempt<Subscription>>(
-        `${this.config.apiUrl}/${this.endpoint}/${id}`,
+        `${this.config.apiUrl}/${this.endpoint}/${id}/cancel`,
         options?.getRequestOptions()
       )
       .pipe(
@@ -46,20 +46,12 @@ export class SubscriptionService extends BaseService<Subscription> {
           if (response.failure) return response.result;
           const newItem = response.result;
           const items = this.items.value;
-          this.removeFromSubscription(items, newItem.id);
-          items.push(newItem);
-          this.items.next(items);
+          items.forEach((item: Subscription) => {
+            if (item.id !== newItem.id) return;
+            item = { ...item, ...newItem };
+          });
           return response.result;
         })
       );
-  }
-
-  private removeFromSubscription(items: Subscription[], id: number | string) {
-    items.forEach((item, i) => {
-      if (item.id !== id) {
-        return;
-      }
-      items.splice(i, 1);
-    });
   }
 }
