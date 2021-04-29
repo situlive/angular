@@ -4,61 +4,82 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
-import { Attempt, Group, RequestOptions } from '../models';
+import { DemoUnitAddress, Attempt, RequestOptions } from '../models';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CategoryGroupService {
-  public items: BehaviorSubject<Group[]>;
+export class DemoUnitAddressService {
+  public items: BehaviorSubject<DemoUnitAddress[]>;
   public loading: BehaviorSubject<boolean>;
 
   constructor(
     @Inject(HTTP_SERVICE_CONFIG) private config: HttpServiceConfig,
     public httpClient: HttpClient
   ) {
-    this.items = new BehaviorSubject<Group[]>([]);
+    this.items = new BehaviorSubject<DemoUnitAddress[]>([]);
     this.loading = new BehaviorSubject<boolean>(false);
   }
 
-  list(categoryId: number, options?: RequestOptions): Observable<Group[]> {
+  list(
+    demoUnitId: number,
+    options?: RequestOptions
+  ): Observable<DemoUnitAddress[]> {
     this.loading.next(true);
 
     return this.httpClient
-      .get<Attempt<Group[]>>(
-        `${this.config.apiUrl}/categories/${categoryId}/groups`,
+      .get<Attempt<DemoUnitAddress[]>>(
+        `${this.config.apiUrl}/demoUnits/${demoUnitId}/addresses`,
         options?.getRequestOptions()
       )
       .pipe(
-        map((response: Attempt<Group[]>) => {
+        map((response: Attempt<DemoUnitAddress[]>) => {
           if (response.failure) return response.result;
-          let groups = response.result;
-          this.items.next(groups);
-          return groups;
+          this.items.next(response.result);
+          return response.result;
         }),
         finalize(() => this.loading.next(false))
       );
   }
 
   create(
-    categoryId: number,
-    item: Group,
+    model: DemoUnitAddress,
     options?: RequestOptions
-  ): Observable<Group> {
+  ): Observable<DemoUnitAddress> {
     return this.httpClient
-      .post<Attempt<Group>>(
-        `${this.config.apiUrl}/categories/${categoryId}/groups`,
-        {
-          categoryId,
-          groupId: item.id,
-        },
+      .post<Attempt<DemoUnitAddress>>(
+        `${this.config.apiUrl}/demoUnits/${model.demoUnitId}/addresses`,
+        model,
         options?.getRequestOptions()
       )
       .pipe(
-        map((response: Attempt<Group>) => {
+        map((response: Attempt<DemoUnitAddress>) => {
           if (response.failure) return response.result;
           const items = this.items.value;
-          items.push(item);
+          items.push(response.result);
+          this.items.next(items);
+          return response.result;
+        })
+      );
+  }
+
+  update(
+    model: DemoUnitAddress,
+    options?: RequestOptions
+  ): Observable<DemoUnitAddress> {
+    return this.httpClient
+      .put<Attempt<DemoUnitAddress>>(
+        `${this.config.apiUrl}/demoUnits/${model.demoUnitId}/addresses`,
+        model,
+        options?.getRequestOptions()
+      )
+      .pipe(
+        map((response: Attempt<DemoUnitAddress>) => {
+          if (response.failure) return response.result;
+          const newItem = response.result;
+          const items = this.items.value;
+          this.remove(items, newItem.id);
+          items.push(newItem);
           this.items.next(items);
           return response.result;
         })
@@ -66,13 +87,13 @@ export class CategoryGroupService {
   }
 
   delete(
-    categoryId: number,
+    demoUnitId: number,
     id: number,
     options?: RequestOptions
   ): Observable<boolean> {
     return this.httpClient
       .delete<Attempt<boolean>>(
-        `${this.config.apiUrl}/categories/${categoryId}/groups/${id}`,
+        `${this.config.apiUrl}/demoUnits/${demoUnitId}/addresses/${id}`,
         options?.getRequestOptions()
       )
       .pipe(
@@ -86,7 +107,7 @@ export class CategoryGroupService {
       );
   }
 
-  private remove(items: Group[], id: number) {
+  private remove(items: DemoUnitAddress[], id: number) {
     items.forEach((item, i) => {
       if (item.id !== id) {
         return;

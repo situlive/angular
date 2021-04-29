@@ -80,6 +80,7 @@ export class BrandCategoryService {
           if (response.failure) return response.result;
           const items = this.items.value;
           this.remove(items, id);
+          this.items.next(items);
           return response.result;
         })
       );

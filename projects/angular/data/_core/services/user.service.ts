@@ -179,6 +179,7 @@ export class UserService {
       map((response: Attempt<boolean>[]) => {
         const items = this.items.value;
         this.remove(items, id);
+        this.items.next(items);
         let success = true;
         response.forEach((attempt: Attempt<boolean>) => {
           if (attempt.success) return;

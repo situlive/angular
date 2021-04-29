@@ -26,7 +26,7 @@ export class PlanLineService {
 
     return this.httpClient
       .get<Attempt<PlanLine[]>>(
-        `${this.config.apiUrl}/subscriptions/${planId}/lines`,
+        `${this.config.apiUrl}/plans/${planId}/lines`,
         options?.getRequestOptions()
       )
       .pipe(
@@ -42,7 +42,7 @@ export class PlanLineService {
   create(model: PlanLine, options?: RequestOptions): Observable<PlanLine> {
     return this.httpClient
       .post<Attempt<PlanLine>>(
-        `${this.config.apiUrl}/subscriptions/${model.planId}/lines`,
+        `${this.config.apiUrl}/plans/${model.planId}/lines`,
         model,
         options?.getRequestOptions()
       )
@@ -60,7 +60,7 @@ export class PlanLineService {
   update(model: PlanLine, options?: RequestOptions): Observable<PlanLine> {
     return this.httpClient
       .put<Attempt<PlanLine>>(
-        `${this.config.apiUrl}/subscriptions/${model.planId}/lines`,
+        `${this.config.apiUrl}/plans/${model.planId}/lines`,
         model,
         options?.getRequestOptions()
       )
@@ -84,7 +84,7 @@ export class PlanLineService {
   ): Observable<boolean> {
     return this.httpClient
       .delete<Attempt<boolean>>(
-        `${this.config.apiUrl}/subscriptions/${planId}/lines/${id}`,
+        `${this.config.apiUrl}/plans/${planId}/lines/${id}`,
         options?.getRequestOptions()
       )
       .pipe(
@@ -92,6 +92,7 @@ export class PlanLineService {
           if (response.failure) return response.result;
           const items = this.items.value;
           this.remove(items, id);
+          this.items.next(items);
           return response.result;
         })
       );

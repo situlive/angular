@@ -33,7 +33,8 @@ export class BrandSubscriptionService extends SubscriptionService {
       .pipe(
         map((response: Attempt<Subscription[]>) => {
           if (response.failure) return response.result;
-          this.items.next(response.result);
+          var items = response.result;
+          this.items.next(items);
           return response.result;
         }),
         finalize(() => this.loading.next(false))

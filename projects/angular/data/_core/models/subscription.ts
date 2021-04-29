@@ -20,11 +20,8 @@ export class Subscription {
   startDate: string;
   endDate: string;
   rolling: boolean;
-  overridePlan: boolean;
-  allowedUnitCount: number;
-  issuedUnitCount?: number;
-  price: number;
   termsAgreed: boolean;
+  price?: number;
 
   brand?: Brand;
   plan?: Plan;
