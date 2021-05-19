@@ -1,3 +1,5 @@
+import { Brand } from './brand';
+
 export enum DemoUnitState {
   Pending,
   Active,
@@ -7,16 +9,20 @@ export enum DemoUnitState {
 export class DemoUnit {
   public id: number;
   public brandId: number;
-  public venueId: number;
-  public subscriptionId?: number;
-  public returnAddressId?: number;
+  public itemId: number;
+  public subscriptionId: number;
+  public addressId?: number;
+  public images?: string;
   public locationId?: number;
+  public productId: string;
   public productName: string;
-  public gtin: string;
-  public referenceNumber?: string;
-  public serialNumber?: string;
+  public referenceNumber: string;
+  public serialNumber: string;
   public state: DemoUnitState;
-  public started: string;
-  public expired?: string;
+  public startDate?: string;
+  public endDate?: string;
   public notes?: string;
+  public returned: boolean;
+
+  public brand?: Brand;
 }

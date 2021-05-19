@@ -4,33 +4,33 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
-import { BrandAddress, Attempt, RequestOptions } from '../models';
+import { Address, Attempt, RequestOptions } from '../models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BrandAddressService {
-  public items: BehaviorSubject<BrandAddress[]>;
+  public items: BehaviorSubject<Address[]>;
   public loading: BehaviorSubject<boolean>;
 
   constructor(
     @Inject(HTTP_SERVICE_CONFIG) private config: HttpServiceConfig,
     public httpClient: HttpClient
   ) {
-    this.items = new BehaviorSubject<BrandAddress[]>([]);
+    this.items = new BehaviorSubject<Address[]>([]);
     this.loading = new BehaviorSubject<boolean>(false);
   }
 
-  list(brandId: number, options?: RequestOptions): Observable<BrandAddress[]> {
+  list(brandId: number, options?: RequestOptions): Observable<Address[]> {
     this.loading.next(true);
 
     return this.httpClient
-      .get<Attempt<BrandAddress[]>>(
+      .get<Attempt<Address[]>>(
         `${this.config.apiUrl}/brands/${brandId}/addresses`,
         options?.getRequestOptions()
       )
       .pipe(
-        map((response: Attempt<BrandAddress[]>) => {
+        map((response: Attempt<Address[]>) => {
           if (response.failure) return response.result;
           this.items.next(response.result);
           return response.result;
@@ -39,18 +39,32 @@ export class BrandAddressService {
       );
   }
 
-  create(
-    model: BrandAddress,
+  get(
+    brandId: number,
+    id: number,
     options?: RequestOptions
-  ): Observable<BrandAddress> {
+  ): Observable<Address> {
     return this.httpClient
-      .post<Attempt<BrandAddress>>(
+      .get<Attempt<Address>>(
+        `${this.config.apiUrl}/brands/${brandId}/addresses/${id}`,
+        options?.getRequestOptions()
+      )
+      .pipe(
+        map((response: Attempt<Address>) => {
+          return response.result;
+        })
+      );
+  }
+
+  create(model: Address, options?: RequestOptions): Observable<Address> {
+    return this.httpClient
+      .post<Attempt<Address>>(
         `${this.config.apiUrl}/brands/${model.brandId}/addresses`,
         model,
         options?.getRequestOptions()
       )
       .pipe(
-        map((response: Attempt<BrandAddress>) => {
+        map((response: Attempt<Address>) => {
           if (response.failure) return response.result;
           const items = this.items.value;
           items.push(response.result);
@@ -60,18 +74,15 @@ export class BrandAddressService {
       );
   }
 
-  update(
-    model: BrandAddress,
-    options?: RequestOptions
-  ): Observable<BrandAddress> {
+  update(model: Address, options?: RequestOptions): Observable<Address> {
     return this.httpClient
-      .put<Attempt<BrandAddress>>(
+      .put<Attempt<Address>>(
         `${this.config.apiUrl}/brands/${model.brandId}/addresses`,
         model,
         options?.getRequestOptions()
       )
       .pipe(
-        map((response: Attempt<BrandAddress>) => {
+        map((response: Attempt<Address>) => {
           if (response.failure) return response.result;
           const newItem = response.result;
           const items = this.items.value;
@@ -104,7 +115,7 @@ export class BrandAddressService {
       );
   }
 
-  private remove(items: BrandAddress[], id: number) {
+  private remove(items: Address[], id: number) {
     items.forEach((item, i) => {
       if (item.id !== id) {
         return;

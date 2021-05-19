@@ -11,11 +11,18 @@ export enum SubscriptionState {
   Expired,
 }
 
+export enum SubscriptionBillingPeriod {
+  Monthly,
+  Quarterly,
+  Annually,
+}
+
 export class Subscription {
   id: number;
   brandId: number;
   planId: number;
   venueId: number;
+  billingPeriod: SubscriptionBillingPeriod;
   state: SubscriptionState;
   startDate: string;
   endDate: string;

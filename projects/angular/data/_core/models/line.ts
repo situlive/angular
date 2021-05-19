@@ -1,5 +1,4 @@
 import { Base } from './base';
-import { Item } from './item';
 import { IKey } from './key';
 
 export enum DiscountType {
@@ -15,6 +14,4 @@ export class Line extends Base implements IKey {
   discountAmount: number;
   discountPercent: number;
   price: number;
-
-  item: Item;
 }

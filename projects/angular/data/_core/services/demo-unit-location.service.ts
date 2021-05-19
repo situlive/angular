@@ -9,7 +9,7 @@ import { Attempt, DemoUnit, RequestOptions } from '../models';
 @Injectable({
   providedIn: 'root',
 })
-export class LocationDemoUnitService {
+export class DemoUnitLocationService {
   public items: BehaviorSubject<DemoUnit[]>;
   public loading: BehaviorSubject<boolean>;
 
@@ -40,18 +40,11 @@ export class LocationDemoUnitService {
       );
   }
 
-  create(
-    locationId: number,
-    item: DemoUnit,
-    options?: RequestOptions
-  ): Observable<DemoUnit> {
+  create(item: DemoUnit, options?: RequestOptions): Observable<DemoUnit> {
     return this.httpClient
       .post<Attempt<DemoUnit>>(
-        `${this.config.apiUrl}/locations/${locationId}/demoUnits`,
-        {
-          locationId,
-          demoUnitId: item.id,
-        },
+        `${this.config.apiUrl}/demoUnits/${item.id}/locations`,
+        item,
         options?.getRequestOptions()
       )
       .pipe(
@@ -72,7 +65,7 @@ export class LocationDemoUnitService {
   ): Observable<boolean> {
     return this.httpClient
       .delete<Attempt<boolean>>(
-        `${this.config.apiUrl}/locations/${locationId}/demoUnits/${id}`,
+        `${this.config.apiUrl}/demoUnits/${id}/locations/${locationId}`,
         options?.getRequestOptions()
       )
       .pipe(

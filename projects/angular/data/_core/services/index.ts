@@ -1,6 +1,7 @@
 export * from './attribute.service';
 export * from './base-feeds.service';
 export * from './base.service';
+export * from './brand-address.service';
 export * from './brand-category.service';
 export * from './brand-demo-unit.service';
 export * from './brand-subscription.service';
@@ -14,6 +15,7 @@ export * from './claim.service';
 export * from './contact.service';
 export * from './conversion.service';
 export * from './criterion.service';
+export * from './demo-unit-location.service';
 export * from './demo-unit.service';
 export * from './exclusion.service';
 export * from './feed.service';

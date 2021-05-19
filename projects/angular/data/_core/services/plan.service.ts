@@ -4,7 +4,7 @@ import { finalize, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
-import { Plan, Attempt, RequestOptions, Line } from '../models';
+import { Plan, Attempt, RequestOptions, PlanLine } from '../models';
 import { BaseService } from './base.service';
 
 @Injectable({
@@ -56,7 +56,7 @@ export class PlanService extends BaseService<Plan> {
     let unitCount = 0;
     let price = 0;
 
-    plan.lines.forEach((line: Line) => {
+    plan.lines.forEach((line: PlanLine) => {
       unitCount = unitCount + line.quantity;
       price = price + line.quantity * line.item.price;
     });
