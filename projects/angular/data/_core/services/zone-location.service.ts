@@ -21,12 +21,12 @@ export class ZoneLocationService {
     this.loading = new BehaviorSubject<boolean>(false);
   }
 
-  list(locationId: number, options?: RequestOptions): Observable<Location[]> {
+  list(zoneId: number, options?: RequestOptions): Observable<Location[]> {
     this.loading.next(true);
 
     return this.httpClient
       .get<Attempt<Location[]>>(
-        `${this.config.apiUrl}/locations/${locationId}/zones`,
+        `${this.config.apiUrl}/zones/${zoneId}/locations`,
         options?.getRequestOptions()
       )
       .pipe(
@@ -72,7 +72,7 @@ export class ZoneLocationService {
         map((response: Attempt<boolean>) => {
           if (response.failure) return response.result;
           const items = this.items.value;
-          this.remove(items, id);
+          this.remove(items, locationId);
           this.items.next(items);
           return response.result;
         })
