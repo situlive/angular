@@ -5,6 +5,7 @@ import { IKey } from './key';
 export class Location extends Base implements IKey {
   id: number;
   theatreId: number;
+  zoneId?: number;
   name: string;
   targetUrl?: string;
   redirectUrl?: string;

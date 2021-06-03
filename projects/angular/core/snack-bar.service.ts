@@ -21,7 +21,6 @@ export class SnackBarService implements OnDestroy {
   }
 
   public initialize(): void {
-    console.log('subscribing');
     this.subscription = this.notificationService.notifications.subscribe(
       (notifications: Notification[]) =>
         notifications.forEach((notification: Notification) =>

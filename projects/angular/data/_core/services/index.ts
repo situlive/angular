@@ -44,3 +44,5 @@ export * from './venue-demo-unit.service';
 export * from './venue-location.service';
 export * from './venue-subscription.service';
 export * from './venue.service';
+export * from './zone-location.service';
+export * from './zone.service';

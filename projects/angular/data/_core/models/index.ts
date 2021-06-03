@@ -43,3 +43,4 @@ export * from './theatre';
 export * from './transformation';
 export * from './user';
 export * from './venue';
+export * from './zone';
