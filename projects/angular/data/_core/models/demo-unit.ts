@@ -6,11 +6,38 @@ export enum DemoUnitState {
   Returned,
 }
 
+export enum DisplayMethod {
+  WallMounted,
+  Integrated,
+  Shelf,
+  Plinth,
+  Floor,
+}
+
+export enum NetworkRequirement {
+  Ethernet,
+  Wifi,
+  Both,
+  None,
+}
+
+export enum PowerRequirement {
+  AlwaysOn,
+  None,
+}
+
+export enum ProductLongevity {
+  OneMonth,
+  ThreeMonths,
+  TwelveMonths,
+}
+
 export class DemoUnit {
   public id: number;
   public brandId: number;
   public itemId: number;
   public subscriptionId: number;
+  public theatreId: number;
   public addressId?: number;
   public images?: string;
   public locationId?: number;
@@ -23,6 +50,27 @@ export class DemoUnit {
   public endDate?: string;
   public notes?: string;
   public returned: boolean;
+
+  public depth: number;
+  public height: number;
+  public weight: number;
+  public width: number;
+
+  public accessories: string;
+  public battery: string;
+  public demo: string;
+  public displayMethod: DisplayMethod;
+  public estimatedProductLongevity: ProductLongevity;
+  public estimatedDeliveryDate: string;
+  public homeConnected: string;
+  public lighting: boolean;
+  public monitor: boolean;
+  public networkRequirement: NetworkRequirement;
+  public powerRequirement: PowerRequirement;
+  public productUrl: string;
+  public shelf: string;
+  public specializedInstallation: boolean;
+  public water: boolean;
 
   public brand?: Brand;
 }
