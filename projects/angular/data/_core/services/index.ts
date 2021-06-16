@@ -35,6 +35,7 @@ export * from './role.service';
 export * from './rule.service';
 export * from './subscription-line.service';
 export * from './subscription.service';
+export * from './theatre-demo-unit.service';
 export * from './theatre-location.service';
 export * from './theatre.service';
 export * from './transformation.service';

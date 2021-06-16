@@ -1,4 +1,5 @@
 import { Brand } from './brand';
+import { Theatre } from './theatre';
 
 export enum DemoUnitState {
   Pending,
@@ -57,11 +58,11 @@ export class DemoUnit {
   public width: number;
 
   public accessories: string;
-  public battery: string;
+  public batteryLife: string;
   public demo: string;
   public displayMethod: DisplayMethod;
   public estimatedProductLongevity: ProductLongevity;
-  public estimatedDeliveryDate: string;
+  public expectedDeliveryDate: string;
   public homeConnected: string;
   public lighting: boolean;
   public monitor: boolean;
@@ -69,8 +70,10 @@ export class DemoUnit {
   public powerRequirement: PowerRequirement;
   public productUrl: string;
   public shelf: string;
+  public spare: boolean;
   public specializedInstallation: boolean;
   public water: boolean;
 
   public brand?: Brand;
+  public theatre?: Theatre;
 }
