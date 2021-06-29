@@ -24,6 +24,7 @@ export enum NetworkRequirement {
 
 export enum PowerRequirement {
   AlwaysOn,
+  Charge,
   None,
 }
 

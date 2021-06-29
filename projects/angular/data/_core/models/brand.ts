@@ -12,7 +12,7 @@ export class Brand extends Base implements IKey {
   url?: string;
   authroizedDomains?: string;
   notes?: string;
-  qualityCheckPassed?: boolean;
+  innovationGuide?: boolean;
   commercialCheckPassed?: boolean;
   confirmed?: boolean;
 
