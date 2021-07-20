@@ -9,6 +9,7 @@ export * from './brand-category';
 export * from './brand-user';
 export * from './brand';
 export * from './category';
+export * from './changeover';
 export * from './claim';
 export * from './contact';
 export * from './conversion';

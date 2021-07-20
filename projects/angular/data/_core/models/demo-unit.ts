@@ -1,4 +1,6 @@
+import { Base } from './base';
 import { Brand } from './brand';
+import { IKey } from './key';
 import { Theatre } from './theatre';
 
 export enum DemoUnitState {
@@ -34,13 +36,14 @@ export enum ProductLongevity {
   TwelveMonths,
 }
 
-export class DemoUnit {
+export class DemoUnit extends Base implements IKey {
   public id: number;
   public brandId: number;
   public itemId: number;
   public subscriptionId: number;
   public theatreId: number;
   public addressId?: number;
+  public warehouseId?: number;
   public images?: string;
   public locationId?: number;
   public productId: string;
