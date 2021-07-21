@@ -48,6 +48,7 @@ export class DemoUnit extends Base implements IKey {
   public locationId?: number;
   public productId: string;
   public productName: string;
+  public merchandiseName: string;
   public referenceNumber: string;
   public serialNumber: string;
   public state: DemoUnitState;
