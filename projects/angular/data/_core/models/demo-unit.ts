@@ -78,6 +78,7 @@ export class DemoUnit extends Base implements IKey {
   public spare: boolean;
   public specializedInstallation: boolean;
   public water: boolean;
+  public ignoreChangeoverDates?: boolean; // Only used when assigning to a location
 
   public brand?: Brand;
   public theatre?: Theatre;

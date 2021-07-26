@@ -27,7 +27,6 @@ export class Subscription {
   ignoreChangeoverDates: boolean;
   startDate: string;
   endDate: string;
-  rolling: boolean;
   termsAgreed: boolean;
   price?: number;
 
