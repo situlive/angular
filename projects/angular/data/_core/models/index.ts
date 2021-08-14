@@ -16,6 +16,8 @@ export * from './conversion';
 export * from './criteria-match';
 export * from './criterion';
 export * from './demo-unit';
+export * from './favourite-collection';
+export * from './favourite';
 export * from './feed';
 export * from './field';
 export * from './filter-operator';

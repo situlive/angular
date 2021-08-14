@@ -64,7 +64,7 @@ export class FeedService extends BaseService<Feed> {
   structure(id: number, options?: RequestOptions): Observable<any> {
     return this.httpClient
       .get<Attempt<any>>(
-        `${this.config.apiUrl}/feeds/${id}//products/structure`,
+        `${this.config.apiUrl}/feeds/${id}/products/structure`,
         options?.getRequestOptions()
       )
       .pipe(

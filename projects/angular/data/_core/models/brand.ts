@@ -17,4 +17,5 @@ export class Brand extends Base implements IKey {
   confirmed?: boolean;
 
   users?: { userId: string; confirmed: boolean }[];
+  categories: any[];
 }
