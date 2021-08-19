@@ -17,6 +17,7 @@ export class DatePickerService {
     minEndDate: Date,
     e: MatDatepickerInputEvent<Date>
   ): void {
+    if (!e) return;
     const value: Date = e.value;
     minEndDate = this.getMinEndDate(value, changeoverDates);
 
@@ -33,6 +34,7 @@ export class DatePickerService {
     minDate: Date,
     date: Date
   ): boolean {
+    if (!date) return;
     const ignoreChangeoverDates = formGroup.get('ignoreChangeoverDates').value;
     if (ignoreChangeoverDates) return true;
 
