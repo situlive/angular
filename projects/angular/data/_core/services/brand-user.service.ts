@@ -4,32 +4,34 @@ import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
-import { BrandUser, Attempt, User } from '../models';
+import { BrandUser, Attempt, User, RequestOptions } from '../models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BrandUserService {
-  public items: BehaviorSubject<User[]>;
+  public items: BehaviorSubject<BrandUser[]>;
   public loading: BehaviorSubject<boolean>;
 
   constructor(
     @Inject(HTTP_SERVICE_CONFIG) private config: HttpServiceConfig,
     public httpClient: HttpClient
   ) {
-    this.items = new BehaviorSubject<User[]>([]);
+    this.items = new BehaviorSubject<BrandUser[]>([]);
     this.loading = new BehaviorSubject<boolean>(false);
   }
 
-  list(brandId: number): Observable<User[]> {
+  list(brandId: number): Observable<BrandUser[]> {
     this.loading.next(true);
 
     let attempts = [];
     let listUsers = this.httpClient.get<Attempt<User[]>>(
       `${this.config.identityServerUrl}/users`
     );
+    let options = new RequestOptions(true);
     let listBrandUsers = this.httpClient.get<Attempt<BrandUser[]>>(
-      `${this.config.apiUrl}/brands/${brandId}/users`
+      `${this.config.apiUrl}/brands/${brandId}/users`,
+      options.getRequestOptions()
     );
 
     attempts.push(listUsers);
@@ -42,13 +44,22 @@ export class BrandUserService {
 
         if (usersAttempt.failure || brandUsersAttempt.failure) return undefined;
 
-        let users: User[] = [];
+        let users: BrandUser[] = [];
         usersAttempt.result.forEach((user: User) => {
           let brandUser = brandUsersAttempt.result.find(
             (brandUser: BrandUser) => brandUser.userId === user.id
           );
           if (!brandUser) return;
-          users.push({ ...user, ...brandUser });
+          users.push({
+            ...brandUser,
+            ...{
+              userId: user.id,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              jobTitle: user.jobTitle,
+              image: user.image,
+            },
+          });
         });
 
         this.items.next(users);
@@ -58,29 +69,39 @@ export class BrandUserService {
     );
   }
 
-  create(brandId: number, item: User): Observable<BrandUser> {
+  create(
+    brandId: number,
+    item: User,
+    options?: RequestOptions
+  ): Observable<BrandUser> {
     let brandUser: BrandUser = {
       brandId: brandId,
       userId: item.id,
       confirmed: item.confirmed,
+      domain: item.userName.split('@')[1],
     };
     return this.httpClient
       .post<Attempt<BrandUser>>(
         `${this.config.apiUrl}/brands/${brandId}/users`,
-        brandUser
+        brandUser,
+        options?.getRequestOptions()
       )
       .pipe(
         map((response: Attempt<BrandUser>) => {
           if (response.failure) return response.result;
           const items = this.items.value;
-          items.push(item);
+          items.push(response.result);
           this.items.next(items);
           return response.result;
         })
       );
   }
 
-  update(brandId: number, item: User): Observable<BrandUser> {
+  update(
+    brandId: number,
+    item: User,
+    options?: RequestOptions
+  ): Observable<BrandUser> {
     let brandUser: BrandUser = {
       brandId: brandId,
       userId: item.id,
@@ -89,13 +110,14 @@ export class BrandUserService {
     return this.httpClient
       .put<Attempt<BrandUser>>(
         `${this.config.apiUrl}/brands/${brandId}/users`,
-        brandUser
+        brandUser,
+        options?.getRequestOptions()
       )
       .pipe(
         map((response: Attempt<BrandUser>) => {
           if (response.failure) return response.result;
           const items = this.items.value;
-          let match = items.find((user: User) => user.id === item.id);
+          let match = items.find((user: BrandUser) => user.userId === item.id);
           if (!match) return response.result;
           match.confirmed = item.confirmed;
           this.items.next(items);
@@ -104,22 +126,28 @@ export class BrandUserService {
       );
   }
 
-  delete(brandId: number, id: string): Observable<boolean> {
+  delete(
+    brandId: number,
+    id: number,
+    options?: RequestOptions
+  ): Observable<boolean> {
     return this.httpClient
       .delete<Attempt<boolean>>(
-        `${this.config.apiUrl}/brands/${brandId}/users/${id}`
+        `${this.config.apiUrl}/brands/${brandId}/users/${id}`,
+        options?.getRequestOptions()
       )
       .pipe(
         map((response: Attempt<boolean>) => {
           if (response.failure) return response.result;
           const items = this.items.value;
           this.remove(items, id);
+          this.items.next(items);
           return response.result;
         })
       );
   }
 
-  private remove(items: User[], id: string) {
+  private remove(items: BrandUser[], id: number) {
     items.forEach((item, i) => {
       if (item.id !== id) {
         return;

@@ -4,7 +4,7 @@ import { finalize, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
-import { Contact, Attempt } from '../models';
+import { Contact, Attempt, RequestOptions } from '../models';
 import { BaseService } from './base.service';
 
 @Injectable({
@@ -18,11 +18,14 @@ export class ContactService extends BaseService<Contact> {
     super(config, 'contacts', httpClient);
   }
 
-  list(id: number): Observable<Contact[]> {
+  list(id: number, options?: RequestOptions): Observable<Contact[]> {
     this.loading.next(true);
 
     return this.httpClient
-      .get<Attempt<Contact[]>>(`${this.config.apiUrl}/brands/${id}/contacts`)
+      .get<Attempt<Contact[]>>(
+        `${this.config.apiUrl}/brands/${id}/contacts`,
+        options?.getRequestOptions()
+      )
       .pipe(
         map((response: Attempt<Contact[]>) => {
           if (response.failure) return response.result;

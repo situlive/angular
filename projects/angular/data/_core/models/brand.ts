@@ -1,10 +1,21 @@
-import { BaseModel } from './base-model';
+import { Base } from './base';
+import { IKey } from './key';
 
-export class Brand implements BaseModel {
-    id: number;
-    name: string;
-    domains: string;
-    qualityCheckPassed: boolean;
-    commercialCheckPassed: boolean;
-    notes: string;
+export class Brand extends Base implements IKey {
+  id: number;
+  parentId?: number;
+  crmId?: number;
+  slug?: string;
+  name: string;
+  description?: string;
+  images?: string;
+  url?: string;
+  authroizedDomains?: string;
+  notes?: string;
+  innovationGuide?: boolean;
+  commercialCheckPassed?: boolean;
+  confirmed?: boolean;
+
+  users?: { userId: string; confirmed: boolean }[];
+  categories: any[];
 }

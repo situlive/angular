@@ -4,7 +4,7 @@ import { finalize, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
-import { Attempt, Criterion } from '../models';
+import { Attempt, Criterion, RequestOptions } from '../models';
 import { BaseService } from './base.service';
 
 @Injectable({
@@ -18,13 +18,18 @@ export class CriterionService extends BaseService<Criterion> {
     super(config, 'criteria', httpClient);
   }
 
-  list(categoryId: string, includes: string = ''): Observable<Criterion[]> {
+  list(
+    categoryId: number,
+    includes: string = '',
+    options?: RequestOptions
+  ): Observable<Criterion[]> {
     this.loading.next(true);
     return this.httpClient
       .get<Attempt<Criterion[]>>(
         `${this.config.apiUrl}/categories/${categoryId}/criteria`,
         {
-          params: { includes },
+          ...{ params: { includes } },
+          ...options?.getRequestOptions(),
         }
       )
       .pipe(

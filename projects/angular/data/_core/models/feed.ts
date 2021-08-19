@@ -3,14 +3,28 @@ import { Conversion } from './conversion';
 import { Inclusion } from './inclusion';
 import { Rule } from './rule';
 import { Transformation } from './transformation';
-import { BaseModel } from './base-model';
+import { Base } from './base';
+import { IKey } from './key';
 
-export class Feed implements BaseModel {
+export enum FeedType {
+  Catalogue,
+  Range,
+  Specification,
+}
+
+export enum DataType {
+  Json,
+  Xml,
+  Csv,
+}
+
+export class Feed extends Base implements IKey {
   id: number;
-  categoryId: string;
+  categoryId: number;
   name: string;
   url: string;
-  type: number;
+  type: FeedType;
+  dataType: DataType;
   active: boolean;
 
   brands: Brand[];

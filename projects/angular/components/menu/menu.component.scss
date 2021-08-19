@@ -47,7 +47,8 @@ $top-z-index: 1001;
 }
 
 .app-menu {
-  .section-white {
+  .section-white,
+  .transparent {
     .logo path {
       stroke: $primary;
       fill: $primary;

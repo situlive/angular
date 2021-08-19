@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
 import { BaseService } from './base.service';
-import { Attempt, Mapping } from '../models';
+import { Attempt, Mapping, RequestOptions } from '../models';
 
 @Injectable({
   providedIn: 'root',
@@ -18,10 +18,13 @@ export class MappingService extends BaseService<Mapping> {
     super(config, 'fieldmaps', httpClient);
   }
 
-  list(feedId: number): Observable<Mapping[]> {
+  list(feedId: number, options?: RequestOptions): Observable<Mapping[]> {
     this.loading.next(true);
     return this.httpClient
-      .get<Attempt<Mapping[]>>(`${this.config.apiUrl}/feeds/${feedId}/fields`)
+      .get<Attempt<Mapping[]>>(
+        `${this.config.apiUrl}/feeds/${feedId}/fields`,
+        options?.getRequestOptions()
+      )
       .pipe(
         map((response: Attempt<Mapping[]>) => {
           if (response.failure) return response.result;

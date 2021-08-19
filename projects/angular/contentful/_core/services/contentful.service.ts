@@ -185,6 +185,7 @@ export class ContentfulService {
       image: this.createImage(page.fields.image),
       slug: page.fields.path,
       linkText: page.fields.linkText,
+      menu: page.fields.menu ? this.createElement(page.fields.menu) : undefined,
       elements: this.toArray(page.fields.content).map((content: any) =>
         this.createElement(content)
       ),

@@ -1,14 +1,14 @@
-import { BaseModel } from './base-model';
+import { Base } from './base';
+import { IKey } from './key';
+import { PlanLine } from './plan-line';
 
-export class Plan implements BaseModel {
+export class Plan extends Base implements IKey {
   id: number;
-  price: number;
-  productCount: number;
   name: string;
   description?: string;
-  quantity?: number;
-  booked?: number;
-  available?: number;
+  price: number;
+  units: number;
 
   theatres?: any[];
+  lines?: PlanLine[];
 }

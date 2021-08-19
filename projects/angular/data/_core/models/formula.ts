@@ -1,10 +1,9 @@
-import { BaseModel } from './base-model';
+import { Orderable } from './orderable';
 
-export class Formula implements BaseModel {
-    attributeId: number;
-    expression: string;
-    fieldName: string;
-    id: number;
-    filterOperator: number;
-    order?: number;
+export class Formula extends Orderable {
+  attributeId: number;
+  expression: string;
+  fieldName: string;
+  id: number;
+  filterOperator: number;
 }

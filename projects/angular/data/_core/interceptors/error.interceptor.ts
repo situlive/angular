@@ -1,4 +1,6 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { isPlatformServer } from '@angular/common';
+import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import {
@@ -10,12 +12,14 @@ import {
 } from '@angular/common/http';
 
 import { NotificationService } from '../services';
-import { isPlatformServer } from '@angular/common';
+import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
   constructor(
     @Inject(PLATFORM_ID) private platformId,
+    @Inject(HTTP_SERVICE_CONFIG) private config: HttpServiceConfig,
+    private router: Router,
     private notificationService: NotificationService
   ) {}
 
@@ -24,6 +28,35 @@ export class ErrorInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     if (isPlatformServer(this.platformId)) return next.handle(request);
+
+    if (this.config.debug)
+      console.log(
+        '--------------------- ERROR INTERCEPTOR START ---------------------'
+      );
+
+    if (this.config.debug) console.log(request);
+
+    if (request.headers.has('Silent-Request')) {
+      if (this.config.debug)
+        console.log(
+          'handling a silent request, return errors has undefined',
+          request.url
+        );
+      const headers = request.headers.delete('Silent-Request');
+      const directRequest = request.clone({ headers });
+      return next.handle(directRequest).pipe(
+        map((response: any) => response),
+        catchError(() => undefined)
+      );
+    }
+
+    if (this.config.debug)
+      console.log('this is not a silent request', request.url);
+
+    if (this.config.debug)
+      console.log(
+        '--------------------- ERROR INTERCEPTOR END ---------------------'
+      );
 
     return next.handle(request).pipe(
       map((event: HttpEvent<any>) => {
@@ -49,6 +82,12 @@ export class ErrorInterceptor implements HttpInterceptor {
                 'You do not have sufficient permssions to perform this action. If you feel this is erroneous, please contact your system administrator.',
               type: 'mat-warning',
             });
+            break;
+          case 401:
+            this.router.navigate([
+              '/login',
+              { queryParams: { returnUrl: this.router.url } },
+            ]); // Redirect and remember the return url
             break;
           default:
             let message = '';

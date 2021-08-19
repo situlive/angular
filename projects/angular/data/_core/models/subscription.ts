@@ -1,22 +1,37 @@
 import { Brand } from './brand';
 import { Plan } from './plan';
+import { SubscriptionLine } from './subscription-line';
 import { Venue } from './venue';
+
+export enum SubscriptionState {
+  Reserved,
+  Pending,
+  Active,
+  Cancelled,
+  Expired,
+}
+
+export enum SubscriptionBillingPeriod {
+  Monthly,
+  Quarterly,
+  Annually,
+}
 
 export class Subscription {
   id: number;
   brandId: number;
   planId: number;
   venueId: number;
-  state: number;
+  billingPeriod: SubscriptionBillingPeriod;
+  state: SubscriptionState;
+  ignoreChangeoverDates: boolean;
   startDate: string;
   endDate: string;
-  rolling: boolean;
-  overridePlan: boolean;
-  productCount: number;
-  price: number;
   termsAgreed: boolean;
+  price?: number;
 
   brand?: Brand;
   plan?: Plan;
   venue?: Venue;
+  lines?: SubscriptionLine[];
 }

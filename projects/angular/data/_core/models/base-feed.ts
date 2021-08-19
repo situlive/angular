@@ -1,4 +1,5 @@
-import { Base } from './base';
-export class BaseFeed extends Base {
-    feedId: number;
+import { Orderable } from './orderable';
+
+export class BaseFeed extends Orderable {
+  feedId: number;
 }

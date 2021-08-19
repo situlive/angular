@@ -4,7 +4,7 @@ import { finalize, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
-import { Plan, Attempt, TheatrePlan } from '../models';
+import { Plan, Attempt, RequestOptions, PlanLine } from '../models';
 import { BaseService } from './base.service';
 
 @Injectable({
@@ -18,26 +18,18 @@ export class PlanService extends BaseService<Plan> {
     super(config, 'plans', httpClient);
   }
 
-  list(): Observable<Plan[]> {
+  list(options?: RequestOptions): Observable<Plan[]> {
     this.loading.next(true);
     return this.httpClient
-      .get<Attempt<Plan[]>>(`${this.config.apiUrl}/plans`)
+      .get<Attempt<Plan[]>>(
+        `${this.config.apiUrl}/plans`,
+        options?.getRequestOptions()
+      )
       .pipe(
         map((response: Attempt<Plan[]>) => {
           if (response.failure) return response.result;
-          let items = response.result.map((item: Plan) => {
-            let quantity = 0;
-            let booked = 0;
-            item.theatres?.forEach((m: TheatrePlan) => {
-              quantity += m.quantity;
-              booked += m.booked;
-            });
-            item.quantity = quantity;
-            item.booked = booked;
-            item.available = quantity - booked;
-            return item;
-          });
-
+          let items = response.result;
+          items.forEach((plan: Plan) => this.setUnitAndPrice(plan));
           this.items.next(items);
           return items;
         }),
@@ -45,17 +37,31 @@ export class PlanService extends BaseService<Plan> {
       );
   }
 
-  registerInterest(id: number): Observable<void> {
+  registerInterest(id: number, options?: RequestOptions): Observable<void> {
     return this.httpClient
       .post<Attempt<void>>(
         `${this.config.apiUrl}/${this.endpoint}/${id}/interested`,
-        {}
+        options?.getRequestOptions()
       )
       .pipe(
         map((response: Attempt<void>) => {
-          // TODO: Handle the response (i.e. handle any errors)
           return response.result;
         })
       );
+  }
+
+  private setUnitAndPrice(plan: Plan): void {
+    if (!plan.lines?.length) return;
+
+    let unitCount = 0;
+    let price = 0;
+
+    plan.lines.forEach((line: PlanLine) => {
+      unitCount = unitCount + line.quantity;
+      price = price + line.quantity * line.item.price;
+    });
+
+    plan.price = price;
+    plan.units = unitCount;
   }
 }

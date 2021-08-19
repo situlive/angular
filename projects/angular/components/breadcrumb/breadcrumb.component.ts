@@ -21,15 +21,18 @@ class BreadcrumbItem {
   styleUrls: ['./breadcrumb.component.scss'],
 })
 export class BreadcrumbComponent implements OnInit {
-  @Input() dataName: string = 'breadcrumb';
-  @Input() root: ActivatedRoute;
+  @Input() labelName: string = 'breadcrumb';
   public breadcrumbs: BreadcrumbItem[];
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe(() => {
-        this.breadcrumbs = this.createBreadcrumbs(this.activatedRoute.root);
+      .subscribe((event: NavigationEnd) => {
+        this.breadcrumbs = this.createBreadcrumbs(
+          this.activatedRoute.root,
+          event.url
+        );
+        //console.log(this.breadcrumbs);
       });
   }
 
@@ -37,7 +40,7 @@ export class BreadcrumbComponent implements OnInit {
 
   private createBreadcrumbs(
     route: ActivatedRoute,
-    url: string = '',
+    currentUrl: string = '',
     breadcrumbs: any[] = []
   ): any[] {
     if (!route) breadcrumbs;
@@ -54,18 +57,31 @@ export class BreadcrumbComponent implements OnInit {
         const routeURL: string = child.snapshot.url
           .map((segment) => segment.path)
           .join('/');
-        if (routeURL !== '') {
-          url += `/${routeURL}`;
-        }
 
-        const label = child.snapshot.data[this.dataName];
-        const params = child.snapshot.params;
-        if (!isNullOrUndefined(label)) {
-          breadcrumbs.push({ label, params, url });
+        let url = currentUrl.substring(
+          0,
+          currentUrl.indexOf(routeURL) + routeURL.length
+        );
+
+        // console.log('routeURL', routeURL);
+        // console.log('url', url);
+        // console.log('currentUrl', currentUrl);
+
+        const label = child.snapshot.data[this.labelName];
+
+        // console.log(label);
+        // console.log('--------------------------');
+
+        if (label) {
+          var match = breadcrumbs.find(
+            (breadcrumb: BreadcrumbItem) => breadcrumb.label === label // TODO: The chances are we won't be reusing the label, but we might. I tried to use url, but "Home" can be "/" or "/somethingelse"
+          );
+
+          if (!match) breadcrumbs.push({ label, url });
         }
       }
 
-      return this.createBreadcrumbs(child, url, breadcrumbs);
+      return this.createBreadcrumbs(child, currentUrl, breadcrumbs);
     }
   }
 }

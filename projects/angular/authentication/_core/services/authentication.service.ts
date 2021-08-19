@@ -11,24 +11,46 @@ import { AuthConfig, AUTH_CONFIG } from '../configs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
-  private currentUserSubject: BehaviorSubject<Token>;
+  public currentUserSubject: BehaviorSubject<Token>; // Public, so we can trigger the currentUser subscriptions manually by invoking .next(getCurrent())
+  public currentUser: Observable<Token>;
+
+  public get getCurrent(): Token {
+    let token = this.currentUserSubject.value;
+    if (!token) return null;
+
+    return this.hasExpired(token) ? null : token;
+  }
 
   constructor(
     @Inject(PLATFORM_ID) private platformId,
     @Inject(AUTH_CONFIG) private config: AuthConfig,
     private httpClient: HttpClient
   ) {
-    this.currentUserSubject = new BehaviorSubject<Token>(
-      JSON.parse(
-        isPlatformServer(this.platformId)
-          ? '{}'
-          : localStorage.getItem('currentUser')
-      )
+    let token = JSON.parse(
+      isPlatformServer(this.platformId)
+        ? '{}'
+        : localStorage.getItem('currentUser')
     );
+
+    this.currentUserSubject = new BehaviorSubject<Token>(
+      this.hasExpired(token) ? '{}' : token
+    );
+    this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  public get getCurrent(): Token {
-    return this.currentUserSubject.value;
+  addPassword(
+    userId: string,
+    token: string,
+    password: string,
+    confirmPassword: string
+  ) {
+    return this.setOrResetPassword(
+      userId,
+      token,
+      password,
+      confirmPassword,
+      'confirm'
+    );
   }
 
   public resetPassword(
@@ -107,6 +129,22 @@ export class AuthenticationService {
     this.currentUserSubject.next(null);
   }
 
+  private hasExpired(token: Token): boolean {
+    if (!token) return true;
+
+    let now = new Date();
+    let expires = new Date(token.expires);
+
+    if (this.config.debug) {
+      console.log(now);
+      console.log(expires);
+      console.log(now > expires);
+      console.log(now > expires ? null : token);
+    }
+
+    return now > expires;
+  }
+
   private baseLogin(params: HttpParams, httpOptions: any): Observable<any> {
     return this.httpClient
       .post(
@@ -128,5 +166,24 @@ export class AuthenticationService {
           return response;
         })
       );
+  }
+
+  private setOrResetPassword(
+    userId: string,
+    token: string,
+    password: string,
+    confirmPassword: string,
+    path: string
+  ) {
+    return this.httpClient.post<any>(
+      `${this.config.identityServerUrl}/users/${path}`,
+      {
+        userId,
+        token,
+        password,
+        confirmPassword,
+        callbackUrl: `${location?.origin}/add-password`,
+      }
+    );
   }
 }

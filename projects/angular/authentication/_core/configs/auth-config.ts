@@ -3,4 +3,5 @@ export interface AuthConfig {
   identityServerUrl: string;
   grantType: string;
   scopes: string;
+  debug?: boolean;
 }

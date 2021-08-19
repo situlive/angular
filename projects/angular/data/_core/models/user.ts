@@ -4,14 +4,16 @@ import { Plan } from './plan';
 import { Theatre } from './theatre';
 
 export class User {
-    id: string;
-    userName: string;
-    firstName: string;
-    lastName: string;
-    confirmed: boolean;
+  id: string;
+  image: string;
+  jobTitle: string;
+  firstName: string;
+  lastName: string;
+  userName?: string;
+  confirmed?: boolean; // A brand user variable
 
-    brands?: Brand[];
-    categories?: Category[];
-    plans?: Plan[];
-    theatres?: Theatre[];
+  brands?: Brand[];
+  categories?: Category[];
+  plans?: Plan[];
+  theatres?: Theatre[];
 }

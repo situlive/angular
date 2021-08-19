@@ -1,7 +1,10 @@
-import { BaseModel } from './base-model';
+import { Base } from './base';
+import { IKey } from './key';
 
-export class Venue implements BaseModel {
-    id: number;
-    name: string;
-    description?: string;
+export class Venue extends Base implements IKey {
+  id: number;
+  name: string;
+  openingDate: string;
+  description?: string;
+  images?: string;
 }

@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
-import { Attempt, Role } from '../models';
+import { Attempt, Role, RequestOptions } from '../models';
 
 @Injectable({
   providedIn: 'root',
@@ -21,12 +21,13 @@ export class UserRoleService {
     this.loading = new BehaviorSubject<boolean>(false);
   }
 
-  list(userId: string): Observable<Role[]> {
+  list(userId: string, options?: RequestOptions): Observable<Role[]> {
     this.loading.next(true);
 
     return this.httpClient
       .get<Attempt<Role[]>>(
-        `${this.config.identityServerUrl}/users/${userId}/roles`
+        `${this.config.identityServerUrl}/users/${userId}/roles`,
+        options?.getRequestOptions()
       )
       .pipe(
         map((response: Attempt<Role[]>) => {
@@ -39,14 +40,19 @@ export class UserRoleService {
       );
   }
 
-  create(userId: string, item: Role): Observable<Role> {
+  create(
+    userId: string,
+    item: Role,
+    options?: RequestOptions
+  ): Observable<Role> {
     return this.httpClient
       .post<Attempt<Role>>(
         `${this.config.identityServerUrl}/users/${userId}/roles`,
         {
           userId,
           roleId: item.id,
-        }
+        },
+        options?.getRequestOptions()
       )
       .pipe(
         map((response: Attempt<Role>) => {
@@ -59,16 +65,22 @@ export class UserRoleService {
       );
   }
 
-  delete(userId: string, id: string): Observable<boolean> {
+  delete(
+    userId: string,
+    id: string,
+    options?: RequestOptions
+  ): Observable<boolean> {
     return this.httpClient
       .delete<Attempt<boolean>>(
-        `${this.config.identityServerUrl}/users/${userId}/roles/${id}`
+        `${this.config.identityServerUrl}/users/${userId}/roles/${id}`,
+        options?.getRequestOptions()
       )
       .pipe(
         map((response: Attempt<boolean>) => {
           if (response.failure) return response.result;
           const items = this.items.value;
           this.remove(items, id);
+          this.items.next(items);
           return response.result;
         })
       );

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
 import { BaseService } from './base.service';
-import { Attempt, Attribute } from '../models';
+import { Attempt, Attribute, RequestOptions } from '../models';
 
 @Injectable({
   providedIn: 'root',
@@ -18,12 +18,17 @@ export class AttributeService extends BaseService<Attribute> {
     super(config, 'attributes', httpClient);
   }
 
-  list(criterionId: number, includes: string = ''): Observable<Attribute[]> {
+  list(
+    criterionId: number,
+    includes: string = '',
+    options?: RequestOptions
+  ): Observable<Attribute[]> {
     return this.httpClient
       .get<Attempt<Attribute[]>>(
         `${this.config.apiUrl}/criteria/${criterionId}/attributes`,
         {
-          params: { includes },
+          ...{ params: { includes } },
+          ...options?.getRequestOptions(),
         }
       )
       .pipe(

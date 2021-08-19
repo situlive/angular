@@ -1,6 +1,6 @@
-import { BaseModel } from './base-model';
-
-export class Base implements BaseModel {
-    id: number | string;
-    order?: number;
+export class Base {
+  createdBy?: string;
+  updatedBy?: string;
+  dateCreated?: string;
+  dateUpdated?: string;
 }

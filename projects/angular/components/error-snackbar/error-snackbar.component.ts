@@ -1,4 +1,10 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Inject,
+  Input,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
 
 import {
   MatSnackBarRef,
@@ -9,6 +15,7 @@ import {
   selector: 'situ-error-snackbar',
   templateUrl: './error-snackbar.component.html',
   styleUrls: ['./error-snackbar.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class ErrorSnackbarComponent implements OnInit {
   @Input() duration: number = 5000;

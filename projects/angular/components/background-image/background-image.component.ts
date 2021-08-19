@@ -21,7 +21,6 @@ export class BackgroundImageComponent implements OnInit {
   @ViewChild('background', { static: false })
   image: ImageComponent;
   @Input() publicId: string;
-  @Input() debug: boolean;
   @Input() options: ImageOptions;
   @Output() onLoaded: EventEmitter<void> = new EventEmitter();
 
@@ -31,8 +30,8 @@ export class BackgroundImageComponent implements OnInit {
       height: this.options?.height,
       crop: this.options?.crop || 'fill',
       placeholder: this.options?.placeholder || 'predominant',
-      gravity: this.options?.gravity || 'faces',
-      quality: this.options?.quality || 'low',
+      gravity: this.options?.gravity,
+      quality: this.options?.quality || 70,
     };
   }
 

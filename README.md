@@ -309,3 +309,11 @@ export class AppServerModule {}
 ```
 
 This will intercept all request and handle the caching of their responses using the url as a key.
+
+## Building
+
+To build this project, you must set the mem size like this:
+
+```
+node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build angular --prod
+```

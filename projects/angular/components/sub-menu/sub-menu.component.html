@@ -2,7 +2,8 @@
     <ng-template #nestedList let-items>
         <ng-container *ngFor="let item of items; let i = index;">
             <li routerLinkActive="active"><a class="btn-link" [routerLink]="item.path" routerLinkActive="active"
-                    [routerLinkActiveOptions]="{exact: item.path === '/'}">{{ item.label }}</a>
+                    [routerLinkActiveOptions]="{exact: item.path === '/'}" data-category="navigate"
+                    data-action="internal link">{{ item.label }}</a>
 
                 <span class="app-sub-menu-toggle" *ngIf="item.children" (click)="item.open = !item.open;">
                     <mat-icon *ngIf="!item.open">keyboard_arrow_down</mat-icon>

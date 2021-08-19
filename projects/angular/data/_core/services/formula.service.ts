@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
 import { BaseService } from './base.service';
-import { Attempt, Formula } from '../models';
+import { Attempt, Formula, RequestOptions } from '../models';
 
 @Injectable({
   providedIn: 'root',
@@ -18,11 +18,12 @@ export class FormulaService extends BaseService<Formula> {
     super(config, 'formulas', httpClient);
   }
 
-  list(attributeId: number): Observable<Formula[]> {
+  list(attributeId: number, options?: RequestOptions): Observable<Formula[]> {
     this.loading.next(true);
     return this.httpClient
       .get<Attempt<Formula[]>>(
-        `${this.config.apiUrl}/attributes/${attributeId}/formulas`
+        `${this.config.apiUrl}/attributes/${attributeId}/formulas`,
+        options?.getRequestOptions()
       )
       .pipe(
         map((response: Attempt<Formula[]>) => {

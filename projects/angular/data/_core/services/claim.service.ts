@@ -4,7 +4,7 @@ import { finalize, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
-import { Claim, Attempt } from '../models';
+import { Claim, Attempt, RequestOptions } from '../models';
 import { BaseService } from './base.service';
 
 @Injectable({
@@ -18,10 +18,13 @@ export class ClaimService extends BaseService<Claim> {
     super(config, 'claims', httpClient, false);
   }
 
-  list(): Observable<Claim[]> {
+  list(options?: RequestOptions): Observable<Claim[]> {
     this.loading.next(true);
     return this.httpClient
-      .get<Attempt<Claim[]>>(`${this.config.identityServerUrl}/claims`)
+      .get<Attempt<Claim[]>>(
+        `${this.config.identityServerUrl}/claims`,
+        options?.getRequestOptions()
+      )
       .pipe(
         map((response: Attempt<Claim[]>) => {
           if (response.failure) return response.result;

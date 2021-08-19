@@ -1,7 +1,8 @@
-import { BaseModel } from './base-model';
+import { Base } from './base';
+import { IKey } from './key';
 
-export class Claim implements BaseModel {
-    id: number;
-    value: string;
-    description?: string;
+export class Claim extends Base implements IKey {
+  id: number;
+  value: string;
+  description?: string;
 }

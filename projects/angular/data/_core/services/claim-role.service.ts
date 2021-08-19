@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
-import { Attempt, Role } from '../models';
+import { Attempt, Role, RequestOptions } from '../models';
 
 @Injectable({
   providedIn: 'root',
@@ -21,12 +21,13 @@ export class ClaimRoleService {
     this.loading = new BehaviorSubject<boolean>(false);
   }
 
-  list(claimId: number): Observable<Role[]> {
+  list(claimId: number, options?: RequestOptions): Observable<Role[]> {
     this.loading.next(true);
 
     return this.httpClient
       .get<Attempt<Role[]>>(
-        `${this.config.identityServerUrl}/claims/${claimId}/roles`
+        `${this.config.identityServerUrl}/claims/${claimId}/roles`,
+        options?.getRequestOptions()
       )
       .pipe(
         map((response: Attempt<Role[]>) => {
@@ -39,11 +40,15 @@ export class ClaimRoleService {
       );
   }
 
-  create(claimId: number, item: Role): Observable<Role> {
+  create(
+    claimId: number,
+    item: Role,
+    options?: RequestOptions
+  ): Observable<Role> {
     return this.httpClient
       .get<Attempt<Role>>(
         `${this.config.identityServerUrl}/claims/${claimId}/roles/${item.id}`,
-        {}
+        options?.getRequestOptions()
       )
       .pipe(
         map((response: Attempt<Role>) => {
@@ -56,10 +61,15 @@ export class ClaimRoleService {
       );
   }
 
-  delete(claimId: number, roleId: string): Observable<boolean> {
+  delete(
+    claimId: number,
+    roleId: string,
+    options?: RequestOptions
+  ): Observable<boolean> {
     return this.httpClient
       .delete<Attempt<boolean>>(
-        `${this.config.identityServerUrl}/claims/${claimId}/roles/${roleId}`
+        `${this.config.identityServerUrl}/claims/${claimId}/roles/${roleId}`,
+        options?.getRequestOptions()
       )
       .pipe(
         map((response: Attempt<boolean>) => {

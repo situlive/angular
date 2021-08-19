@@ -4,7 +4,7 @@ import { finalize, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
-import { Group, Attempt } from '../models';
+import { Group, Attempt, RequestOptions } from '../models';
 import { BaseService } from './base.service';
 
 @Injectable({
@@ -18,10 +18,13 @@ export class GroupService extends BaseService<Group> {
     super(config, 'groups', httpClient);
   }
 
-  list(): Observable<Group[]> {
+  list(options?: RequestOptions): Observable<Group[]> {
     this.loading.next(true);
     return this.httpClient
-      .get<Attempt<Group[]>>(`${this.config.apiUrl}/groups`)
+      .get<Attempt<Group[]>>(
+        `${this.config.apiUrl}/groups`,
+        options?.getRequestOptions()
+      )
       .pipe(
         map((response: Attempt<Group[]>) => {
           if (response.failure) return response.result;

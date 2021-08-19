@@ -97,10 +97,9 @@ $logo-height: 36px;
   }
 
   .footer-description {
-    .linkedin svg,
-    .twitter svg {
+    .social-links svg {
       height: 25px;
-      fill: $dark-grey;
+      fill: white;
     }
 
     p:last-child {

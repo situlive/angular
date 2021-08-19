@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
-import { Attempt, Category } from '../models';
+import { Attempt, Category, RequestOptions } from '../models';
 
 @Injectable({
   providedIn: 'root',
@@ -21,12 +21,13 @@ export class BrandCategoryService {
     this.loading = new BehaviorSubject<boolean>(false);
   }
 
-  list(brandId: number): Observable<Category[]> {
+  list(brandId: number, options?: RequestOptions): Observable<Category[]> {
     this.loading.next(true);
 
     return this.httpClient
       .get<Attempt<Category[]>>(
-        `${this.config.apiUrl}/brands/${brandId}/categories`
+        `${this.config.apiUrl}/brands/${brandId}/categories`,
+        options?.getRequestOptions()
       )
       .pipe(
         map((response: Attempt<Category[]>) => {
@@ -39,14 +40,19 @@ export class BrandCategoryService {
       );
   }
 
-  create(brandId: number, item: Category): Observable<Category> {
+  create(
+    brandId: number,
+    item: Category,
+    options?: RequestOptions
+  ): Observable<Category> {
     return this.httpClient
       .post<Attempt<Category>>(
         `${this.config.apiUrl}/brands/${brandId}/categories`,
         {
           brandId,
           categoryId: item.id,
-        }
+        },
+        options?.getRequestOptions()
       )
       .pipe(
         map((response: Attempt<Category>) => {
@@ -59,22 +65,28 @@ export class BrandCategoryService {
       );
   }
 
-  delete(brandId: number, id: string): Observable<boolean> {
+  delete(
+    brandId: number,
+    id: number,
+    options?: RequestOptions
+  ): Observable<boolean> {
     return this.httpClient
       .delete<Attempt<boolean>>(
-        `${this.config.apiUrl}/brands/${brandId}/categories/${id}`
+        `${this.config.apiUrl}/brands/${brandId}/categories/${id}`,
+        options?.getRequestOptions()
       )
       .pipe(
         map((response: Attempt<boolean>) => {
           if (response.failure) return response.result;
           const items = this.items.value;
           this.remove(items, id);
+          this.items.next(items);
           return response.result;
         })
       );
   }
 
-  private remove(items: Category[], id: string) {
+  private remove(items: Category[], id: number) {
     items.forEach((item, i) => {
       if (item.id !== id) {
         return;

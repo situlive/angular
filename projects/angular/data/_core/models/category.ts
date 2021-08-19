@@ -1,10 +1,13 @@
-import { BaseModel } from './base-model';
+import { Base } from './base';
+import { IKey } from './key';
 import { Brand } from './brand';
 
-export class Category implements BaseModel {
-  id: string;
+export class Category extends Base implements IKey {
+  id: number;
   name: string;
-  image: string;
+  description?: string;
+  slug?: string;
+  images?: string;
   active: boolean;
 
   brands?: Brand[];

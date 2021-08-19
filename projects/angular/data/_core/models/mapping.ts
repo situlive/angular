@@ -1,9 +1,10 @@
 import { Field } from './field';
-import { BaseFeed } from './base-feed';
+import { Orderable } from './orderable';
 
-export class Mapping extends BaseFeed {
-    id: number;
-    fieldId: number;
-    path: string;
-    field?: Field;
+export class Mapping extends Orderable {
+  id: number;
+  feedId: number;
+  fieldId: number;
+  path: string;
+  field?: Field;
 }

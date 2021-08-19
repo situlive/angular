@@ -11,7 +11,11 @@ import {
   ViewChild,
 } from '@angular/core';
 
-import { ImageOptions, ImageService } from '@situlive/angular/components';
+import {
+  ImageOptions,
+  ImageService,
+  ImageContext,
+} from '@situlive/angular/components';
 
 @Component({
   selector: 'situ-image',
@@ -19,38 +23,24 @@ import { ImageOptions, ImageService } from '@situlive/angular/components';
   styleUrls: ['./image.component.scss'],
 })
 export class ImageComponent implements OnInit {
+  public alt: string;
+
   @ViewChild('image', { static: true })
   image: any;
   @Input() publicId: string;
   @Input() class: string;
   @Input() options: ImageOptions;
-  @Input() debug: boolean;
   @Output() onLoaded: EventEmitter<void> = new EventEmitter();
 
   constructor(
     @Inject(PLATFORM_ID) private platformId,
     public elementRef: ElementRef,
     private imageService: ImageService
-  ) {
-    this.options = {
-      width: this.options?.width,
-      height: this.options?.height,
-      crop: this.options?.crop || 'crop',
-      placeholder: this.options?.placeholder || 'pixelate',
-      loading: isPlatformServer(this.platformId)
-        ? ''
-        : this.options?.loading || 'lazy',
-      gravity: this.options?.gravity || 'faces',
-      quality: this.options?.quality || 'auto',
-    };
-
-    if (this.options.crop !== 'crop' && this.options.crop !== 'fill')
-      this.options.gravity = 'auto';
-  }
+  ) {}
 
   public ngOnInit(): void {
     if (isPlatformServer(this.platformId)) return;
-    this.setWidth();
+    this.getOptions();
     this.setAlt();
   }
 
@@ -59,11 +49,26 @@ export class ImageComponent implements OnInit {
   }
 
   private setAlt(): void {
-    let image = this.imageService.get(this.image);
-    if (!image) return;
+    this.imageService
+      .getAltTag(this.publicId)
+      .subscribe(
+        (response: ImageContext) => (this.alt = response?.custom?.alt)
+      );
   }
 
-  private setWidth(): void {
+  private getOptions(): void {
+    this.options = {
+      width: this.options?.width,
+      height: this.options?.height,
+      crop: this.options?.crop || 'scale',
+      placeholder: this.options?.placeholder || 'pixelate',
+      gravity: this.options?.gravity,
+      quality: this.options?.quality || 80,
+    };
+
+    if (['fill', 'crop'].indexOf(this.options.crop) === -1)
+      this.options.gravity = '';
+
     if (this.options.width || this.options.height) return;
 
     let rect = this.elementRef.nativeElement.getBoundingClientRect();

@@ -3,9 +3,9 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { HttpServiceConfig } from '../configs';
-import { Base, Attempt } from '../models';
+import { Orderable, Attempt, RequestOptions } from '../models';
 
-export class BaseService<T extends Base> {
+export class BaseService<T extends Orderable> {
   private url: string;
 
   public items: BehaviorSubject<T[]>;
@@ -22,9 +22,12 @@ export class BaseService<T extends Base> {
     this.url = useApi ? this.config.apiUrl : this.config.identityServerUrl;
   }
 
-  get(id: number | string): Observable<T> {
+  public get(id: number | string, options?: RequestOptions): Observable<T> {
     return this.httpClient
-      .get<Attempt<T>>(`${this.url}/${this.endpoint}/${id}`)
+      .get<Attempt<T>>(
+        `${this.url}/${this.endpoint}/${id}`,
+        options?.getRequestOptions()
+      )
       .pipe(
         map((response: Attempt<T>) => {
           return response.result;
@@ -32,9 +35,13 @@ export class BaseService<T extends Base> {
       );
   }
 
-  create(item: T): Observable<T> {
+  public create(item: T, options?: RequestOptions): Observable<T> {
     return this.httpClient
-      .post<Attempt<T>>(`${this.url}/${this.endpoint}`, item)
+      .post<Attempt<T>>(
+        `${this.url}/${this.endpoint}`,
+        item,
+        options?.getRequestOptions()
+      )
       .pipe(
         map((response: Attempt<T>) => {
           if (response.failure) return response.result;
@@ -47,30 +54,43 @@ export class BaseService<T extends Base> {
       );
   }
 
-  update(item: T): Observable<T> {
+  public update(item: T, options?: RequestOptions): Observable<T> {
     return this.httpClient
-      .put<Attempt<T>>(`${this.url}/${this.endpoint}`, item)
+      .put<Attempt<T>>(
+        `${this.url}/${this.endpoint}`,
+        item,
+        options?.getRequestOptions()
+      )
       .pipe(
         map((response: Attempt<T>) => {
           if (response.failure) return response.result;
           const newItem = response.result;
           const items = this.items.value;
-          this.remove(items, newItem.id);
-          items.push(newItem);
+          items.forEach((item: Orderable) => {
+            if (item.id !== newItem.id) return;
+            item = { ...item, ...newItem };
+          });
           this.items.next(items);
           return response.result;
         })
       );
   }
 
-  delete(id: number | string): Observable<boolean> {
+  public delete(
+    id: number | string,
+    options?: RequestOptions
+  ): Observable<boolean> {
     return this.httpClient
-      .delete<Attempt<boolean>>(`${this.url}/${this.endpoint}/${id}`)
+      .delete<Attempt<boolean>>(
+        `${this.url}/${this.endpoint}/${id}`,
+        options?.getRequestOptions()
+      )
       .pipe(
         map((response: Attempt<boolean>) => {
           if (response.failure) return response.result;
           const items = this.items.value;
           this.remove(items, id);
+          this.items.next(items);
           return response.result;
         })
       );

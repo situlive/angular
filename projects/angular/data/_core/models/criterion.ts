@@ -1,15 +1,14 @@
 import { Attribute } from './attribute';
 import { CriteriaMatch } from './criteria-match';
-import { BaseModel } from './base-model';
+import { Orderable } from './orderable';
 
-export class Criterion implements BaseModel {
-    categoryId: string;
-    description: string;
-    highlight: boolean;
-    id: number;
-    name: string;
-    order?: number;
-    attributes?: Attribute[];
-    match?: CriteriaMatch;
-    selected?: boolean;
+export class Criterion extends Orderable {
+  categoryId: number;
+  description: string;
+  highlight: boolean;
+  id: number;
+  name: string;
+  attributes?: Attribute[];
+  match?: CriteriaMatch;
+  selected?: boolean;
 }
