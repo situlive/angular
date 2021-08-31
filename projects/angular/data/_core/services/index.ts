@@ -1,4 +1,5 @@
 export * from './attribute.service';
+export * from './attribute-formula.service';
 export * from './base-feeds.service';
 export * from './base.service';
 export * from './brand-address.service';
@@ -33,8 +34,11 @@ export * from './notification.service';
 export * from './plan-line.service';
 export * from './plan.service';
 export * from './product.service';
+export * from './promotion.service';
 export * from './role.service';
 export * from './rule.service';
+export * from './scenario-formula.service';
+export * from './scenario.service';
 export * from './subscription-line.service';
 export * from './subscription.service';
 export * from './theatre-demo-unit.service';
