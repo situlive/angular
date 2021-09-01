@@ -1,5 +1,5 @@
 import { Attribute } from './attribute';
-import { CriteriaMatch } from './criteria-match';
+import { ProductMatch } from './product-match';
 import { Orderable } from './orderable';
 
 export class Criterion extends Orderable {
@@ -9,6 +9,6 @@ export class Criterion extends Orderable {
   id: number;
   name: string;
   attributes?: Attribute[];
-  match?: CriteriaMatch;
+  match?: ProductMatch;
   selected?: boolean;
 }
