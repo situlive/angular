@@ -5,6 +5,7 @@ import { Orderable } from './orderable';
 export class Criterion extends Orderable {
   categoryId: number;
   description: string;
+  comparable: boolean;
   highlight: boolean;
   id: number;
   name: string;

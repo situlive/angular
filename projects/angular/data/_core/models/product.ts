@@ -9,6 +9,7 @@ export class Product extends Base implements IKey {
 
   title: string;
   brand: string;
+  brandId: number;
   colour: string;
   summary?: string;
   description?: string;

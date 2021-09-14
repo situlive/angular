@@ -16,6 +16,7 @@ export class Field extends Base implements IKey {
   isSpecification: boolean;
   display: boolean;
   required: boolean;
+  mapped: boolean;
   canCopy: boolean;
   order?: number;
 }
