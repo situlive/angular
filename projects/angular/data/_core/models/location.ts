@@ -1,8 +1,9 @@
 import { DemoUnit } from './demo-unit';
 import { Base } from './base';
 import { IKey } from './key';
+import { IImages } from './images';
 
-export class Location extends Base implements IKey {
+export class Location extends Base implements IKey, IImages {
   id: number;
   theatreId: number;
   zoneId?: number;
@@ -10,6 +11,7 @@ export class Location extends Base implements IKey {
   targetUrl?: string;
   redirectUrl?: string;
   images?: string;
+  folderName?: string;
 
   x?: number;
   y?: number;
