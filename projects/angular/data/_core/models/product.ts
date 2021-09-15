@@ -1,8 +1,9 @@
 import { SpecificationData } from './specification-data';
 import { Base } from './base';
 import { IKey } from './key';
+import { IImages } from './images';
 
-export class Product extends Base implements IKey {
+export class Product extends Base implements IKey, IImages {
   id: string;
   variant: string;
   categorySlug: string;
@@ -36,6 +37,7 @@ export class Product extends Base implements IKey {
   contextData?: any;
 
   images?: string[];
+  folderName?: string;
   retailers?: any[];
 
   selected?: boolean;
