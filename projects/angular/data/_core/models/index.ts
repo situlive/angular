@@ -22,6 +22,7 @@ export * from './field';
 export * from './filter-operator';
 export * from './formula';
 export * from './group';
+export * from './images';
 export * from './inclusion';
 export * from './invite-user';
 export * from './item';
