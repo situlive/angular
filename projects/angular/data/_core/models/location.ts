@@ -12,6 +12,7 @@ export class Location extends Base implements IKey, IImages {
   redirectUrl?: string;
   images?: string;
   folderName?: string;
+  qrCode: string;
 
   x?: number;
   y?: number;
