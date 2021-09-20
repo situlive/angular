@@ -17,6 +17,13 @@ export class Brand extends Base implements IKey, IImages {
   innovationGuide?: boolean;
   commercialCheckPassed?: boolean;
   confirmed?: boolean;
+  innovationName?: string;
+  logoImage?: string;
+  facebookUrl?: string;
+  twitterUrl?: string;
+  youTubeUrl?: string;
+  instagramUrl?: string;
+  linkedInUrl?: string;
 
   users?: { userId: string; confirmed: boolean }[];
   categories: any[];
