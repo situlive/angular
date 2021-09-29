@@ -40,7 +40,7 @@ export class ProductService {
       );
   }
 
-  get(id: number, slug: string, options?: RequestOptions): Observable<Product> {
+  get(id: number | string, slug: string, options?: RequestOptions): Observable<Product> {
     return this.httpClient
       .get<Attempt<Product>>(
         `${this.config.apiUrl}/${this.endpoint}/${id}?slug=${slug}`,
