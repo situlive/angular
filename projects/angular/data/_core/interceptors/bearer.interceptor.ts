@@ -73,6 +73,8 @@ export class BearerInterceptor implements HttpInterceptor {
         '--------------------- BEARER INTERCEPTOR END ---------------------'
       );
 
+    this.authenticationService.slideExpiration();
+
     return next.handle(request); // If we have no matches
   }
 }

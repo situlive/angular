@@ -123,6 +123,27 @@ export class AuthenticationService {
     return this.baseLogin(params, httpOptions);
   }
 
+  public slideExpiration(): void {
+    var token = this.getCurrent;
+    if (!token)
+      return
+
+    var now = Date.now();
+    var tokenLifetime = token.expires_in * 1000;
+    var newExpires = now + tokenLifetime;
+
+    if (this.config.debug) {
+      console.log('currentExpires', token.expires);
+      console.log('now', now);
+      console.log('tokenLifetime', tokenLifetime);
+      console.log('newExpires', newExpires);
+    }
+
+    token.expires = newExpires;
+
+    localStorage.setItem('currentUser', JSON.stringify(token));
+  }
+
   public logout(): void {
     // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
