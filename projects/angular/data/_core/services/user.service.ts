@@ -161,33 +161,20 @@ export class UserService {
   }
 
   delete(id: string, options?: RequestOptions): Observable<boolean> {
-    var attempts = [];
-    var deleteIdentity = this.httpClient.delete<Attempt<boolean>>(
-      `${this.config.identityServerUrl}/users/${id}`,
-      options?.getRequestOptions()
-    );
-    let requestOptions = new RequestOptions(true);
-    var deleteUser = this.httpClient.delete<Attempt<boolean>>(
-      `${this.config.apiUrl}/users/${id}`,
-      requestOptions.getRequestOptions() // Always try to silently delete the api user
-    );
-
-    attempts.push(deleteIdentity);
-    attempts.push(deleteUser);
-
-    return forkJoin(attempts).pipe(
-      map((response: Attempt<boolean>[]) => {
-        const items = this.items.value;
-        this.remove(items, id);
-        this.items.next(items);
-        let success = true;
-        response.forEach((attempt: Attempt<boolean>) => {
-          if (attempt.success) return;
-          success = attempt.success;
-        });
-        return success;
-      })
-    );
+    return this.httpClient
+      .delete<Attempt<boolean>>(
+        `${this.config.identityServerUrl}/users/${id}`,
+        options?.getRequestOptions()
+      )
+      .pipe(
+        map((response: Attempt<boolean>) => {
+          if (response.failure) return response.result;
+          const items = this.items.value;
+          this.remove(items, id);
+          this.items.next(items);
+          return response.result;
+        })
+      );
   }
 
   private remove(items: User[], id: string) {
