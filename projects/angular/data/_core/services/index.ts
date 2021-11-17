@@ -47,7 +47,6 @@ export * from './theatre.service';
 export * from './transformation.service';
 export * from './user-role.service';
 export * from './user.service';
-export * from './venue-changeover.service';
 export * from './venue-demo-unit.service';
 export * from './venue-location.service';
 export * from './venue-subscription.service';

@@ -13,13 +13,12 @@ export class DatePickerService {
 
   public onDateChange(
     formGroup: FormGroup,
-    changeoverDates: Date[],
     minEndDate: Date,
     e: MatDatepickerInputEvent<Date>
   ): void {
     if (!e) return;
     const value: Date = e.value;
-    minEndDate = this.getMinEndDate(value, changeoverDates);
+    minEndDate = this.getMinEndDate(value);
 
     const endDateCtrl = formGroup.get('endDate');
     const endDate: Date = endDateCtrl.value;
@@ -30,13 +29,10 @@ export class DatePickerService {
   public dateFilterFn(
     formGroup: FormGroup,
     venue: Venue,
-    changeoverDates: Date[],
     minDate: Date,
     date: Date
   ): boolean {
     if (!date) return;
-    const ignoreChangeoverDates = formGroup.get('ignoreChangeoverDates').value;
-    if (ignoreChangeoverDates) return true;
 
     if (!venue || date === null || date === undefined || minDate === undefined)
       return false;
@@ -46,13 +42,10 @@ export class DatePickerService {
     date.setSeconds(0);
     date.setMilliseconds(0);
 
-    return (
-      date.getTime() === minDate.getTime() ||
-      this.validChangeoverDate(date, changeoverDates)
-    );
+    return date.getTime() === minDate.getTime();
   }
 
-  public getMinDate(venue: Venue, changeoverDates: Date[]): Date {
+  public getMinDate(venue: Venue): Date {
     const now = new Date();
 
     now.setHours(0);
@@ -71,38 +64,30 @@ export class DatePickerService {
 
     if (openingDate > now) return openingDate;
 
-    return !changeoverDates.length ? now : changeoverDates[0];
+    return now;
   }
 
-  public getMinEndDate(minDate: Date, changeoverDates: Date[]): Date {
+  public getMinEndDate(minDate: Date): Date {
     const endDate = new Date(
       minDate.getFullYear(),
       minDate.getMonth() + 1,
       minDate.getDate()
     );
-    if (!changeoverDates?.length) return endDate;
-
-    const dates = changeoverDates.filter(
-      (changeover) => changeover.getTime() > endDate.getTime()
-    );
-
-    if (dates.length) return dates[0];
 
     return endDate;
   }
 
   public setDates(
     formGroup: FormGroup,
-    venue: Venue,
-    changeoverDates: Date[]
+    venue: Venue
   ): {
     minDate: Date;
     minEndDate: Date;
     startDateControl: AbstractControl;
     endDateControl: AbstractControl;
   } {
-    const minDate = this.getMinDate(venue, changeoverDates);
-    const minEndDate = this.getMinEndDate(minDate, changeoverDates);
+    const minDate = this.getMinDate(venue);
+    const minEndDate = this.getMinEndDate(minDate);
 
     const startDateControl = formGroup.get('startDate');
     const endDateControl = formGroup.get('endDate');
@@ -113,15 +98,5 @@ export class DatePickerService {
     if (!endDate || minEndDate > endDate) endDateControl.setValue(minEndDate);
 
     return { minDate, minEndDate, startDateControl, endDateControl };
-  }
-
-  private validChangeoverDate(date: Date, changeoverDates: Date[]): boolean {
-    if (changeoverDates?.length === 0) return false;
-
-    return (
-      changeoverDates.find(
-        (changeover) => changeover.getTime() === date.getTime()
-      ) !== undefined
-    );
   }
 }

@@ -1,5 +1,5 @@
 import { SearchResult } from './search-result';
 
-export class SearchResultBrand extends SearchResult {
+export class SearchResultItems extends SearchResult {
   items: any[];
 }

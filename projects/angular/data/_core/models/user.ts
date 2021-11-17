@@ -1,4 +1,4 @@
-import { Brand } from './brand';
+import { BrandUser } from '.';
 import { Category } from './category';
 import { Plan } from './plan';
 import { Theatre } from './theatre';
@@ -12,7 +12,7 @@ export class User {
   userName?: string;
   confirmed?: boolean; // A brand user variable
 
-  brands?: Brand[];
+  brandUsers?: BrandUser[];
   categories?: Category[];
   plans?: Plan[];
   theatres?: Theatre[];

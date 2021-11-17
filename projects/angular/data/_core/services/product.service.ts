@@ -3,7 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { finalize, map } from 'rxjs/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-import { Product, Attempt, RequestOptions } from '../models';
+import {
+  Product,
+  Attempt,
+  RequestOptions,
+  Search,
+  SearchResultItems,
+} from '../models';
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
 
 @Injectable({
@@ -40,7 +46,28 @@ export class ProductService {
       );
   }
 
-  get(id: number | string, slug: string, options?: RequestOptions): Observable<Product> {
+  search(
+    search: Search,
+    options?: RequestOptions
+  ): Observable<SearchResultItems> {
+    return this.httpClient
+      .post<Attempt<SearchResultItems>>(
+        `${this.config.apiUrl}/${this.endpoint}/search`,
+        search,
+        options?.getRequestOptions()
+      )
+      .pipe(
+        map((response: Attempt<SearchResultItems>) => {
+          return response.result;
+        })
+      );
+  }
+
+  get(
+    id: number | string,
+    slug: string,
+    options?: RequestOptions
+  ): Observable<Product> {
     return this.httpClient
       .get<Attempt<Product>>(
         `${this.config.apiUrl}/${this.endpoint}/${id}?slug=${slug}`,

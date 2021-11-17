@@ -26,5 +26,6 @@ export class Brand extends Base implements IKey, IImages {
   linkedInUrl?: string;
 
   users?: { userId: string; confirmed: boolean }[];
-  categories: any[];
+  categories?: any[];
+  children?: Brand[];
 }

@@ -10,4 +10,5 @@ export enum FilterOperator {
   Between,
   NotBetween,
   RegularExpression,
+  Boolean,
 }

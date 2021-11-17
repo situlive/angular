@@ -1,85 +1,48 @@
+import {
+  Address,
+  Brand,
+  DemoUnitState,
+  Item,
+  Location,
+  Subscription,
+  Theatre,
+  Warehouse,
+} from '.';
+
 import { Base } from './base';
-import { Brand } from './brand';
 import { IKey } from './key';
-import { Theatre } from './theatre';
-
-export enum DemoUnitState {
-  Pending,
-  Active,
-  Returned,
-}
-
-export enum DisplayMethod {
-  WallMounted,
-  Integrated,
-  Shelf,
-  Plinth,
-  Floor,
-}
-
-export enum NetworkRequirement {
-  Ethernet,
-  Wifi,
-  Both,
-  None,
-}
-
-export enum PowerRequirement {
-  AlwaysOn,
-  Charge,
-  None,
-}
-
-export enum ProductLongevity {
-  OneMonth,
-  ThreeMonths,
-  TwelveMonths,
-}
 
 export class DemoUnit extends Base implements IKey {
   public id: number;
   public brandId: number;
-  public itemId: number;
   public subscriptionId: number;
-  public theatreId: number;
-  public addressId?: number;
-  public warehouseId?: number;
-  public images?: string;
-  public locationId?: number;
-  public productId: string;
-  public productName: string;
-  public merchandiseName: string;
-  public referenceNumber: string;
-  public serialNumber: string;
-  public state: DemoUnitState;
-  public startDate?: string;
-  public endDate?: string;
-  public notes?: string;
-  public returned: boolean;
+  public itemId: number;
 
-  public depth: number;
-  public height: number;
-  public weight: number;
-  public width: number;
+  public addressId?: number;
+  public locationId?: number;
+  public warehouseId?: number;
 
   public accessories: string;
-  public batteryLife: string;
   public demo: string;
-  public displayMethod: DisplayMethod;
-  public estimatedProductLongevity: ProductLongevity;
-  public expectedDeliveryDate: string;
-  public homeConnected: string;
-  public lighting: boolean;
-  public monitor: boolean;
-  public networkRequirement: NetworkRequirement;
-  public powerRequirement: PowerRequirement;
+  public descriptor: string;
+  public merchandiseName: string;
+  public productId: string;
+  public productName: string;
   public productUrl: string;
-  public shelf: string;
+  public referenceNumber: string;
+  public serialNumber: string;
   public spare: boolean;
-  public specializedInstallation: boolean;
-  public water: boolean;
-  public ignoreChangeoverDates?: boolean; // Only used when assigning to a location
+
+  public returned: boolean;
+  public startDate?: string;
+  public endDate?: string;
+  public state?: DemoUnitState;
 
   public brand?: Brand;
+  public item?: Item;
+  public location?: Location;
+  public returnAddress?: Address;
+  public subscription?: Subscription;
   public theatre?: Theatre;
+  public warehouse?: Warehouse;
 }

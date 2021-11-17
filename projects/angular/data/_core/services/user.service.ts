@@ -4,7 +4,7 @@ import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
-import { User, Attempt, RequestOptions } from '../models';
+import { User, Attempt, RequestOptions, ApiUser } from '../models';
 
 @Injectable({
   providedIn: 'root',
@@ -24,12 +24,12 @@ export class UserService {
   list(options?: RequestOptions): Observable<User[]> {
     this.loading.next(true);
 
-    let attempts = [];
-    let listUsers = this.httpClient.get<Attempt<User[]>>(
+    const attempts = [];
+    const listUsers = this.httpClient.get<Attempt<User[]>>(
       `${this.config.identityServerUrl}/users`,
       options?.getRequestOptions()
     );
-    let apiUsers = this.httpClient.get<Attempt<User[]>>(
+    const apiUsers = this.httpClient.get<Attempt<User[]>>(
       `${this.config.apiUrl}/users`,
       options?.getRequestOptions()
     );
@@ -38,18 +38,20 @@ export class UserService {
     attempts.push(apiUsers);
 
     return forkJoin(attempts).pipe(
-      map((response: Attempt<any[]>[]) => {
-        let usersAttempt = response[0];
-        let brandUsersAttempt = response[1];
+      map((response: Attempt<User[] | ApiUser[]>[]) => {
+        const usersAttempt = <Attempt<User[]>>response[0];
+        const brandUsersAttempt = <Attempt<ApiUser[]>>response[1];
 
         if (usersAttempt.failure) return undefined;
 
-        let users: User[] = [];
+        const users: User[] = [];
         usersAttempt.result.forEach((user: User) => {
-          let brandUser = brandUsersAttempt.result.find(
-            (brandUser: User) => brandUser.id === user.id
+          const apiUser = brandUsersAttempt.result.find(
+            (item: ApiUser) => item.id === user.id
           );
-          users.push({ ...brandUser, ...user });
+          if (apiUser) user.brandUsers = apiUser.brandUsers;
+
+          users.push(user);
         });
 
         this.items.next(users);
