@@ -28,6 +28,7 @@ export * from './group.service';
 export * from './inclusion.service';
 export * from './interest.service';
 export * from './item.service';
+export * from './location-demo-unit.service';
 export * from './location.service';
 export * from './mapping.service';
 export * from './notification.service';

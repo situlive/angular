@@ -1,7 +1,6 @@
 import {
   Address,
   Brand,
-  DemoUnitState,
   Item,
   Location,
   Subscription,
@@ -19,7 +18,6 @@ export class DemoUnit extends Base implements IKey {
   public itemId: number;
 
   public addressId?: number;
-  public locationId?: number;
   public warehouseId?: number;
 
   public accessories: string;
@@ -33,14 +31,8 @@ export class DemoUnit extends Base implements IKey {
   public serialNumber: string;
   public spare: boolean;
 
-  public returned: boolean;
-  public startDate?: string;
-  public endDate?: string;
-  public state?: DemoUnitState;
-
   public brand?: Brand;
   public item?: Item;
-  public location?: Location;
   public returnAddress?: Address;
   public subscription?: Subscription;
   public theatre?: Theatre;
