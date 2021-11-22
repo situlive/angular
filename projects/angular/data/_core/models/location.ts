@@ -1,7 +1,7 @@
-import { DemoUnit } from './demo-unit';
 import { Base } from './base';
 import { IKey } from './key';
 import { IImages } from './images';
+import { DemoUnitLocation, Theatre } from '.';
 
 export class Location extends Base implements IKey, IImages {
   id: number;
@@ -20,6 +20,7 @@ export class Location extends Base implements IKey, IImages {
   height?: number;
   planogram?: string;
 
-  demoUnits: DemoUnit[];
+  demoUnitLocations: DemoUnitLocation[];
+  theatre: Theatre;
   distance?: { x: number; y: number };
 }

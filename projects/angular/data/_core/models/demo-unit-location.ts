@@ -1,4 +1,4 @@
-import { DemoUnitLocationState } from '.';
+import { DemoUnitLocationState, Location } from '.';
 
 export class DemoUnitLocation {
   public id: number;

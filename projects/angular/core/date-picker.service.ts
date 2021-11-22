@@ -26,15 +26,10 @@ export class DatePickerService {
       endDateCtrl.setValue(minEndDate);
   }
 
-  public dateFilterFn(
-    formGroup: FormGroup,
-    venue: Venue,
-    minDate: Date,
-    date: Date
-  ): boolean {
+  public dateFilterFn(minDate: Date, date: Date): boolean {
     if (!date) return;
 
-    if (!venue || date === null || date === undefined || minDate === undefined)
+    if (date === null || date === undefined || minDate === undefined)
       return false;
 
     date.setHours(0);
@@ -46,15 +41,6 @@ export class DatePickerService {
   }
 
   public getMinDate(venue: Venue): Date {
-    const now = new Date();
-
-    now.setHours(0);
-    now.setMinutes(0);
-    now.setSeconds(0);
-    now.setMilliseconds(0);
-
-    if (!venue) return now;
-
     let openingDate = new Date(venue.openingDate);
 
     openingDate.setHours(0);
@@ -62,9 +48,7 @@ export class DatePickerService {
     openingDate.setSeconds(0);
     openingDate.setMilliseconds(0);
 
-    if (openingDate > now) return openingDate;
-
-    return now;
+    return openingDate;
   }
 
   public getMinEndDate(minDate: Date): Date {

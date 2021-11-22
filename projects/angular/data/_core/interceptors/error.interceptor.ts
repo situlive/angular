@@ -86,10 +86,9 @@ export class ErrorInterceptor implements HttpInterceptor {
           case 401:
             if (snapshot.url === '/login') break;
 
-            this.router.navigate([
-              '/login',
-              { queryParams: { returnUrl: this.router.url } },
-            ]); // Redirect and remember the return url
+            this.router.navigate(['/login'], {
+              queryParams: { returnUrl: this.router.url },
+            }); // Redirect and remember the return url
             break;
           default:
             let message = '';
