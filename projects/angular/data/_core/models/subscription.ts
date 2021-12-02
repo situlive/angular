@@ -28,6 +28,8 @@ export class Subscription {
   endDate: string;
   termsAgreed: boolean;
   price?: number;
+  expectedDailyDemos?: number;
+  expectedDailyStories?: number;
 
   brand?: Brand;
   plan?: Plan;
