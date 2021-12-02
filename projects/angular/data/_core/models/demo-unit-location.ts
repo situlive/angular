@@ -1,4 +1,4 @@
-import { DemoUnitLocationState, Location } from '.';
+import { DemoUnit, DemoUnitLocationState, Location } from '.';
 
 export class DemoUnitLocation {
   public id: number;
@@ -10,5 +10,6 @@ export class DemoUnitLocation {
   public endDate?: string;
   public state?: DemoUnitLocationState;
 
+  public demoUnit?: DemoUnit;
   public location?: Location;
 }

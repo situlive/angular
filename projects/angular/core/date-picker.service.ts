@@ -19,11 +19,18 @@ export class DatePickerService {
     if (!e) return;
     const value: Date = e.value;
     minEndDate = this.getMinEndDate(value);
+    const initialEndDate = new Date(
+      value.getFullYear(),
+      value.getMonth() + 1,
+      value.getDate() - 1
+    );
 
     const endDateCtrl = formGroup.get('endDate');
     const endDate: Date = endDateCtrl.value;
-    if (endDate.getTime() < minEndDate.getTime())
-      endDateCtrl.setValue(minEndDate);
+    if (!endDate) endDateCtrl.setValue(initialEndDate);
+
+    if (endDate.getTime() < initialEndDate.getTime())
+      endDateCtrl.setValue(initialEndDate);
   }
 
   public dateFilterFn(minDate: Date, date: Date): boolean {
@@ -54,8 +61,8 @@ export class DatePickerService {
   public getMinEndDate(minDate: Date): Date {
     const endDate = new Date(
       minDate.getFullYear(),
-      minDate.getMonth() + 1,
-      minDate.getDate()
+      minDate.getMonth(),
+      minDate.getDate() + 1
     );
 
     return endDate;
@@ -72,6 +79,11 @@ export class DatePickerService {
   } {
     const minDate = this.getMinDate(venue);
     const minEndDate = this.getMinEndDate(minDate);
+    const initialEndDate = new Date(
+      minDate.getFullYear(),
+      minDate.getMonth() + 1,
+      minDate.getDate() - 1
+    );
 
     const startDateControl = formGroup.get('startDate');
     const endDateControl = formGroup.get('endDate');
@@ -79,7 +91,8 @@ export class DatePickerService {
     const endDate = endDateControl.value;
 
     if (!startDate || minDate > startDate) startDateControl.setValue(minDate);
-    if (!endDate || minEndDate > endDate) endDateControl.setValue(minEndDate);
+    if (!endDate || initialEndDate > endDate)
+      endDateControl.setValue(initialEndDate);
 
     return { minDate, minEndDate, startDateControl, endDateControl };
   }
