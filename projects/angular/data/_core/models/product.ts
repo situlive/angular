@@ -37,6 +37,7 @@ export class Product extends Base implements IKey, IImages {
   contextData?: any;
 
   images?: string[];
+  primaryImage?: string;
   exploreImage?: string;
   videos?: string[];
   exploreVideo?: string;
