@@ -30,6 +30,8 @@ export class Subscription {
   price?: number;
   expectedDailyDemos?: number;
   expectedDailyStories?: number;
+  expectedDailyScans?: number;
+  expectedDailyClicks?: number;
 
   brand?: Brand;
   plan?: Plan;
