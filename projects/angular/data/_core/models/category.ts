@@ -11,6 +11,7 @@ export class Category extends Base implements IKey, IImages {
   images?: string;
   folderName?: string;
   active: boolean;
+  contextDataActive: boolean;
 
   brands?: Brand[];
 }
