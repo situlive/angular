@@ -1,5 +1,6 @@
 import { Base } from './base';
 import { IKey } from './key';
+import { Theatre } from '.';
 
 export class Zone extends Base implements IKey {
   id: number;
@@ -8,4 +9,6 @@ export class Zone extends Base implements IKey {
   images?: string;
   theatreId?: number;
   wholeTheatre?: boolean;
+  
+  theatre: Theatre;
 }

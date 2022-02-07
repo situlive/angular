@@ -11,4 +11,6 @@ export class Theatre extends Base implements IKey, IImages {
   folderName?: string;
   visionAreaId?: string;
   parentTheatreId?: number;
+  
+  parentTheatre: Theatre;
 }
