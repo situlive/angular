@@ -10,4 +10,5 @@ export class Venue extends Base implements IKey, IImages {
   description?: string;
   images?: string;
   folderName?: string;
+  visionLocationId?: string;
 }

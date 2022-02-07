@@ -6,4 +6,5 @@ export class Zone extends Base implements IKey {
   venueId: number;
   name: string;
   images?: string;
+  wholeTheatre?: boolean;
 }
