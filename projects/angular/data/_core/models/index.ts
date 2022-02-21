@@ -34,6 +34,7 @@ export * from './mapping';
 export * from './notification';
 export * from './plan-line';
 export * from './plan';
+export * from './product-identifiers';
 export * from './product-match';
 export * from './product';
 export * from './profile';

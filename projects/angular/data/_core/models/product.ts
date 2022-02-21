@@ -2,6 +2,7 @@ import { SpecificationData } from './specification-data';
 import { Base } from './base';
 import { IKey } from './key';
 import { IImages } from './images';
+import { ProductIdentifiers } from '.';
 
 export class Product extends Base implements IKey, IImages {
   id: string;
@@ -44,5 +45,7 @@ export class Product extends Base implements IKey, IImages {
   folderName?: string;
   retailers?: any[];
 
-  selected?: boolean;
+  selected?: boolean;  
+  
+  identifiers: ProductIdentifiers;
 }
