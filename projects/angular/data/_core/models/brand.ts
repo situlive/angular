@@ -24,6 +24,8 @@ export class Brand extends Base implements IKey, IImages {
   youTubeUrl?: string;
   instagramUrl?: string;
   linkedInUrl?: string;
+  averageSalePrice?: number;
+  purchasePredictionPercent?: number;
 
   users?: { userId: string; confirmed: boolean }[];
   categories?: any[];
