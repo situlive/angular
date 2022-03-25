@@ -19,6 +19,7 @@ export class Product extends Base implements IKey, IImages {
   modelGroup?: string;
   modelAlias?: string;
   modelSubGroup?: string;
+  rrp?: number;
 
   scenarios?: string[];
 
