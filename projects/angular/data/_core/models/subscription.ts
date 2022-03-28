@@ -32,6 +32,7 @@ export class Subscription {
   expectedDailyStories?: number;
   expectedDailyScans?: number;
   expectedDailyClicks?: number;
+  isBillable: boolean;
 
   brand?: Brand;
   plan?: Plan;
