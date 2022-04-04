@@ -84,7 +84,8 @@ export class ErrorInterceptor implements HttpInterceptor {
             });
             break;
           case 401:
-            if (snapshot.url === '/login') break;
+            if (snapshot.url === '/login' || this.router.url === '/login')
+              break;
 
             this.router.navigate(['/login'], {
               queryParams: { returnUrl: this.router.url },
