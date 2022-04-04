@@ -84,12 +84,11 @@ export class ErrorInterceptor implements HttpInterceptor {
             });
             break;
           case 401:
-            if (snapshot.url === '/login' || this.router.url === '/login')
-              break;
-
-            this.router.navigate(['/login'], {
-              queryParams: { returnUrl: this.router.url },
-            }); // Redirect and remember the return url
+            this.notificationService.add({
+              message:
+                'You are not authorized to perform this action. If you feel this is erroneous, please contact your system administrator.',
+              type: 'mat-warning',
+            });
             break;
           default:
             let message = '';
