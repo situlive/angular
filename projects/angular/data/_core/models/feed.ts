@@ -18,6 +18,13 @@ export enum DataType {
   Csv,
 }
 
+export enum FeedFrequency {
+  Unknown,
+  Manual,
+  Minutes,
+  Days
+}
+
 export class Feed extends Base implements IKey {
   id: number;
   categoryId: number;
@@ -26,6 +33,10 @@ export class Feed extends Base implements IKey {
   type: FeedType;
   dataType: DataType;
   active: boolean;
+  frequency: FeedFrequency;
+  interval?: number;
+  startTime?: string;
+  lastRunTime?: string;
 
   brands: Brand[];
   conversions?: Conversion[];
