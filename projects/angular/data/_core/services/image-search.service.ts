@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
+import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { HttpServiceConfig } from '../configs';
+import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
 import {
   Attempt,
   RequestOptions,
@@ -17,13 +18,19 @@ export class ImageSearchResponse extends SearchResult {
 
 export class SimpleImage extends SimpleResourceBase {}
 
+@Injectable({
+  providedIn: 'root',
+})
 export class ImageSearchService {
   private url: string;
 
   public items: BehaviorSubject<SimpleImage[]>;
   public loading: BehaviorSubject<boolean>;
 
-  constructor(public config: HttpServiceConfig, public httpClient: HttpClient) {
+  constructor(
+    @Inject(HTTP_SERVICE_CONFIG) private config: HttpServiceConfig,
+    public httpClient: HttpClient
+  ) {
     this.items = new BehaviorSubject<SimpleImage[]>([]);
     this.loading = new BehaviorSubject<boolean>(false);
     this.url = this.config.apiUrl + '/images';
