@@ -6,6 +6,7 @@ export * from './brand-address.service';
 export * from './brand-category.service';
 export * from './brand-demo-unit-location.service';
 export * from './brand-demo-unit.service';
+export * from './brand-social-link.service';
 export * from './brand-subscription.service';
 export * from './brand-user.service';
 export * from './brand.service';

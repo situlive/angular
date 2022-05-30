@@ -45,6 +45,7 @@ export * from './rule';
 export * from './scenario';
 export * from './search';
 export * from './simple-resource-base';
+export * from './social-link';
 export * from './search-result-items';
 export * from './search-result';
 export * from './specification-data';
