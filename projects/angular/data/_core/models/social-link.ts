@@ -1,3 +1,6 @@
+import { Base } from './base';
+import { IKey } from './key';
+
 export enum LinkType {
   Facebook,
   Instagram,
@@ -9,7 +12,7 @@ export enum LinkType {
   Youtube,
 }
 
-export class SocialLink {
+export class SocialLink extends Base implements IKey {
   id: number;
   brandId: number;
   order: number;

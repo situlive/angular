@@ -43,7 +43,7 @@ export class BrandSocialLinkService {
   create(item: SocialLink, options?: RequestOptions): Observable<SocialLink> {
     return this.httpClient
       .post<Attempt<SocialLink>>(
-        `${this.config.apiUrl}/socialLinks`,
+        `${this.config.apiUrl}/social-links`,
         item,
         options?.getRequestOptions()
       )
@@ -58,10 +58,30 @@ export class BrandSocialLinkService {
       );
   }
 
+  update(model: SocialLink, options?: RequestOptions): Observable<SocialLink> {
+    return this.httpClient
+      .put<Attempt<SocialLink>>(
+        `${this.config.apiUrl}/social-links`,
+        model,
+        options?.getRequestOptions()
+      )
+      .pipe(
+        map((response: Attempt<SocialLink>) => {
+          if (response.failure) return response.result;
+          const newItem = response.result;
+          const items = this.items.value;
+          this.remove(items, newItem.id);
+          items.push(newItem);
+          this.items.next(items);
+          return response.result;
+        })
+      );
+  }
+
   delete(id: number, options?: RequestOptions): Observable<boolean> {
     return this.httpClient
       .delete<Attempt<boolean>>(
-        `${this.config.apiUrl}/socialLinks/${id}`,
+        `${this.config.apiUrl}/social-links/${id}`,
         options?.getRequestOptions()
       )
       .pipe(
