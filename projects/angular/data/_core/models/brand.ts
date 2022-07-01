@@ -27,6 +27,7 @@ export class Brand extends Base implements IKey, IImages {
   averageSalePrice?: number;
   purchasePredictionPercent?: number;
   displayReturnOnInvestment: boolean;
+  redirectProductsScans?: boolean;
 
   users?: { userId: string; confirmed: boolean }[];
   categories?: any[];
