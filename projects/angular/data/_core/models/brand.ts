@@ -28,6 +28,7 @@ export class Brand extends Base implements IKey, IImages, IMetadata {
   averageSalePrice?: number;
   purchasePredictionPercent?: number;
   displayReturnOnInvestment: boolean;
+  redirectProductsScans?: boolean;
 
   metaTitle: string;
   metaDescription: string;
