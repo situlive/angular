@@ -2,8 +2,9 @@ import { Base } from './base';
 import { IKey } from './key';
 import { Brand } from './brand';
 import { IImages } from './images';
+import { IMetadata } from './metadata';
 
-export class Category extends Base implements IKey, IImages {
+export class Category extends Base implements IKey, IImages, IMetadata {
   id: number;
   name: string;
   description?: string;
@@ -12,6 +13,10 @@ export class Category extends Base implements IKey, IImages {
   folderName?: string;
   active: boolean;
   contextDataActive: boolean;
+
+  metaTitle: string;
+  metaDescription: string;
+  metaKeywords?: string;
 
   brands?: Brand[];
 }

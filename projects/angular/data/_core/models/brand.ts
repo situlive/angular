@@ -1,8 +1,9 @@
 import { Base } from './base';
 import { IImages } from './images';
 import { IKey } from './key';
+import { IMetadata } from './metadata';
 
-export class Brand extends Base implements IKey, IImages {
+export class Brand extends Base implements IKey, IImages, IMetadata {
   id: number;
   parentId?: number;
   crmId?: number;
@@ -27,6 +28,10 @@ export class Brand extends Base implements IKey, IImages {
   averageSalePrice?: number;
   purchasePredictionPercent?: number;
   displayReturnOnInvestment: boolean;
+
+  metaTitle: string;
+  metaDescription: string;
+  metaKeywords?: string;
 
   users?: { userId: string; confirmed: boolean }[];
   categories?: any[];

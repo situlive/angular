@@ -1,3 +1,8 @@
+export enum AssetType {
+  Image,
+  Video,
+}
+
 export class SimpleResourceBase {
   id: string;
   publicId: string;
@@ -7,4 +12,5 @@ export class SimpleResourceBase {
   indexUrl: string;
   url: string;
   secureUrl: string;
+  type?: AssetType;
 }

@@ -1,4 +1,4 @@
 export interface IImages {
-    images?: string | string[];
-    folderName?: string;
-  }
+  images?: string | string[];
+  folderName?: string;
+}
