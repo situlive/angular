@@ -29,6 +29,7 @@ export class DemoUnit extends Base implements IKey {
   public productUrl: string;
   public referenceNumber: string;
   public serialNumber: string;
+  public portableApplianceTestingNotes: string;
   public spare: boolean;
 
   public brand?: Brand;
