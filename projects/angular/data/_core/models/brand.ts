@@ -20,6 +20,9 @@ export class Brand extends Base implements IKey, IImages, IMetadata {
   confirmed?: boolean;
   innovationName?: string;
   logoImage?: string;
+  primaryImage?: string;
+  exploreImage?: string;
+  exploreVideo?: string;
   facebookUrl?: string;
   twitterUrl?: string;
   youTubeUrl?: string;
