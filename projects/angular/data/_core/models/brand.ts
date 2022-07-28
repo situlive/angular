@@ -11,6 +11,7 @@ export class Brand extends Base implements IKey, IImages, IMetadata {
   name: string;
   description?: string;
   images?: string;
+  videos?: string;
   folderName?: string;
   url?: string;
   authroizedDomains?: string;
