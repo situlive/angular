@@ -11,4 +11,5 @@ export class Attribute extends Orderable {
   order?: number;
   match?: AttributeMatch;
   selected?: boolean;
+  priority?: number;
 }
