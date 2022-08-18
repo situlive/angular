@@ -12,4 +12,7 @@ export class Criterion extends Orderable {
   attributes?: Attribute[];
   match?: ProductMatch;
   selected?: boolean;
+  isRecommendationQuestion?: boolean;
+  recommendationTitle?: string;
+  priority?: number;
 }
