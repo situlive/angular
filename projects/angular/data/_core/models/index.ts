@@ -52,6 +52,7 @@ export * from './specification-data';
 export * from './subscription-line';
 export * from './subscription';
 export * from './theatre';
+export * from './title';
 export * from './transformation';
 export * from './user';
 export * from './venue';

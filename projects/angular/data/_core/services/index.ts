@@ -48,6 +48,7 @@ export * from './subscription.service';
 export * from './theatre-demo-unit.service';
 export * from './theatre-location.service';
 export * from './theatre.service';
+export * from './title.service';
 export * from './transformation.service';
 export * from './user-role.service';
 export * from './user.service';
