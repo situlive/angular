@@ -7,4 +7,5 @@ export class Formula extends Orderable {
   fieldName: string;
   id: number;
   filterOperator: number;
+  target: string;
 }
