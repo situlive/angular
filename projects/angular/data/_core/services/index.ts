@@ -39,6 +39,7 @@ export * from './plan-line.service';
 export * from './plan.service';
 export * from './product.service';
 export * from './promotion.service';
+export * from './recommendation-question.service';
 export * from './role.service';
 export * from './rule.service';
 export * from './scenario-formula.service';

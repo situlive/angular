@@ -39,6 +39,8 @@ export * from './product-match';
 export * from './product';
 export * from './profile';
 export * from './promotion';
+export * from './recommendation-answer';
+export * from './recommendation-question';
 export * from './request-options';
 export * from './role';
 export * from './rule';
