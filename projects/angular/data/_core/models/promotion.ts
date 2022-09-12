@@ -21,4 +21,11 @@ export class Promotion extends Base implements IKey, IImages {
   ctaUrl: string;
   ctaText: string;
   ctaColour: string;
+  voucherCode?: string;
+  startDate?: string;
+  endDate?: string;
+  permanent: boolean;
+  membersOnly: boolean;
+  exclusive: boolean;
+  enabled: boolean;
 }
