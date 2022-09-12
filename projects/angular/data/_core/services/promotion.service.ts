@@ -18,7 +18,30 @@ export class PromotionService extends BaseService<Promotion> {
     super(config, 'promotions', httpClient);
   }
 
-  list(brandId: number, options?: RequestOptions): Observable<Promotion[]> {
+  list(options?: RequestOptions): Observable<Promotion[]> {
+    this.loading.next(true);
+
+    let url = `${this.config.apiUrl}/promotions`;
+    if (options?.skip || options?.take)
+      url += `?skip=${options.skip}&take=${options.take}`;
+
+    return this.httpClient
+      .get<Attempt<Promotion[]>>(url, options?.getRequestOptions())
+      .pipe(
+        map((response: Attempt<Promotion[]>) => {
+          if (response.failure) return response.result;
+          var items = response.result;
+          this.items.next(items);
+          return response.result;
+        }),
+        finalize(() => this.loading.next(false))
+      );
+  }
+
+  listBrand(
+    brandId: number,
+    options?: RequestOptions
+  ): Observable<Promotion[]> {
     this.loading.next(true);
 
     let url = `${this.config.apiUrl}/brands/${brandId}/promotions`;
