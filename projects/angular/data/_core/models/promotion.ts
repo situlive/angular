@@ -5,6 +5,8 @@ import { IKey } from './key';
 export enum PromotionType {
   Offer,
   Advert,
+  Voucher,
+  Benefits,
 }
 
 export class Promotion extends Base implements IKey, IImages {
