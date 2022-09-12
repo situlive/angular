@@ -33,6 +33,7 @@ export class Subscription {
   expectedDailyScans?: number;
   expectedDailyClicks?: number;
   isBillable: boolean;
+  visibleToBrand: boolean;
 
   brand?: Brand;
   plan?: Plan;
