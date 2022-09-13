@@ -13,6 +13,7 @@ export class Category extends Base implements IKey, IImages, IMetadata {
   folderName?: string;
   active: boolean;
   contextDataActive: boolean;
+  recommendationActive: boolean;
 
   metaTitle: string;
   metaDescription: string;
