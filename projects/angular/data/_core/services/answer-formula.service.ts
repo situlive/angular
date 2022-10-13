@@ -4,34 +4,34 @@ import { finalize, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
-import { RecommendationQuestion, Attempt, RequestOptions } from '../models';
-import { BaseService } from './base.service';
+import { Formula, Attempt, RequestOptions } from '../models';
+import { FormulaService } from './formula.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class RecommendationQuestionService extends BaseService<RecommendationQuestion> {
+export class AnswerFormulaService extends FormulaService {
   constructor(
     @Inject(HTTP_SERVICE_CONFIG) public config: HttpServiceConfig,
-    httpClient: HttpClient
+    public httpClient: HttpClient
   ) {
-    super(config, 'recommendation-questions', httpClient);
+    super(config, httpClient);
   }
 
-  list(
-    categoryId: number,
+  listAnswerFormulas(
+    answerId: number,
     options?: RequestOptions
-  ): Observable<RecommendationQuestion[]> {
+  ): Observable<Formula[]> {
     this.loading.next(true);
 
-    let url = `${this.config.apiUrl}/categories/${categoryId}/recommendation-questions`;
+    let url = `${this.config.apiUrl}/recommendation-answers/${answerId}/formulas`;
     if (options?.skip || options?.take)
       url += `?skip=${options.skip}&take=${options.take}`;
 
     return this.httpClient
-      .get<Attempt<RecommendationQuestion[]>>(url, options?.getRequestOptions())
+      .get<Attempt<Formula[]>>(url, options?.getRequestOptions())
       .pipe(
-        map((response: Attempt<RecommendationQuestion[]>) => {
+        map((response: Attempt<Formula[]>) => {
           if (response.failure) return response.result;
           var items = response.result;
           this.items.next(items);

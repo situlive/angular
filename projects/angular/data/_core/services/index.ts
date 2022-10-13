@@ -1,3 +1,4 @@
+export * from './answer-formula.service';
 export * from './attribute.service';
 export * from './attribute-formula.service';
 export * from './base-feeds.service';
@@ -39,6 +40,7 @@ export * from './plan-line.service';
 export * from './plan.service';
 export * from './product.service';
 export * from './promotion.service';
+export * from './recommendation-answer.service';
 export * from './recommendation-question.service';
 export * from './role.service';
 export * from './rule.service';
