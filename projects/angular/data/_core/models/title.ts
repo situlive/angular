@@ -1,4 +1,6 @@
-export class Title {
+import { Orderable } from './orderable';
+
+export class Title extends Orderable {
   public id: number;
   public categoryId: number;
   public expression: string;
@@ -6,5 +8,4 @@ export class Title {
   public suffix?: string;
   public supressSpaces: boolean;
   public usePath: boolean;
-  public order?: number;
 }
