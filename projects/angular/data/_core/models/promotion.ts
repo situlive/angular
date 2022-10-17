@@ -15,6 +15,7 @@ export class Promotion extends Base implements IKey, IImages {
   productId?: string;
   type: PromotionType;
   title: string;
+  shortTitle?: string;
   description: string;
   images?: string;
   folderName?: string;
