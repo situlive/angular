@@ -29,4 +29,6 @@ export class Promotion extends Base implements IKey, IImages {
   membersOnly: boolean;
   exclusive: boolean;
   enabled: boolean;
+  sendEmails: boolean;
+  staticCtaUrl: boolean;
 }
