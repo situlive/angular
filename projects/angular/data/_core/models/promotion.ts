@@ -9,6 +9,11 @@ export enum PromotionType {
   Benefits,
 }
 
+export enum PromotionValueType {
+  Amount,
+  Percent,
+}
+
 export class Promotion extends Base implements IKey, IImages {
   id: number;
   brandId: number;
@@ -31,4 +36,6 @@ export class Promotion extends Base implements IKey, IImages {
   enabled: boolean;
   sendEmails: boolean;
   staticCtaUrl: boolean;
+  value?: number;
+  valueType?: PromotionValueType;
 }
