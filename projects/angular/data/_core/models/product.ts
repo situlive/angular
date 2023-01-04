@@ -46,7 +46,8 @@ export class Product extends Base implements IKey, IImages {
   folderName?: string;
   retailers?: any[];
 
-  selected?: boolean;  
+  selected?: boolean;
+  withheld?: boolean;
   
   identifiers: ProductIdentifiers;
 }
