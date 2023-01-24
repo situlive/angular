@@ -2,6 +2,11 @@ import { Base } from './base';
 import { IImages } from './images';
 import { IKey } from './key';
 
+export enum TheatreType {
+  None,
+  HotSwap
+}
+
 export class Theatre extends Base implements IKey, IImages {
   id: number;
   venueId: number;
@@ -11,6 +16,7 @@ export class Theatre extends Base implements IKey, IImages {
   folderName?: string;
   visionAreaId?: string;
   parentTheatreId?: number;
+  type: TheatreType;
   
   parentTheatre: Theatre;
 }
