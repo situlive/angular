@@ -29,7 +29,7 @@ export class Subscription {
   termsAgreed: boolean;
   price?: number;
   targetDemos?: number;
-  targetReceipients?: number;
+  targetRecipients?: number;
   targetScans?: number;
   targetLeads?: number;
   isBillable: boolean;
