@@ -28,10 +28,10 @@ export class Subscription {
   endDate: string;
   termsAgreed: boolean;
   price?: number;
-  expectedDailyDemos?: number;
-  expectedDailyStories?: number;
-  expectedDailyScans?: number;
-  expectedDailyClicks?: number;
+  targetDemos?: number;
+  targetReceipients?: number;
+  targetScans?: number;
+  targetLeads?: number;
   isBillable: boolean;
   visibleToBrand: boolean;
 
