@@ -7,6 +7,8 @@ import { IMetadata } from './metadata';
 export class Category extends Base implements IKey, IImages, IMetadata {
   id: number;
   name: string;
+  singularName?: string;
+  pluralName?: string;
   description?: string;
   slug?: string;
   images?: string;
