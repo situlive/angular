@@ -17,7 +17,7 @@ export class Brand extends Base implements IKey, IImages, IMetadata {
   authroizedDomains?: string;
   notes?: string;
   innovationGuide?: boolean;
-  commercialCheckPassed?: boolean;
+  focused?: boolean;
   confirmed?: boolean;
   innovationName?: string;
   logoImage?: string;
