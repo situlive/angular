@@ -7,6 +7,8 @@ export enum PromotionType {
   Advert,
   Voucher,
   Benefits,
+  Event,
+  Activity,
 }
 
 export enum PromotionValueType {
