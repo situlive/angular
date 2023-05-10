@@ -1,14 +1,7 @@
 {
   "ngPackage": {
     "lib": {
-      "entryFile": "public-api.ts",
-      "umdModuleIds": {
-        "@situlive/situ-theme": "@situlive/situ-theme",
-        "@angular/material": "@angular/material",
-        "@contentful/rich-text-html-renderer": "@contentful/rich-text-html-renderer",
-        "contentful": "contentful",
-        "bootstrap-scss": "bootstrap-scss"
-      }
+      "entryFile": "public-api.ts"
     }
   },
   "peerDependencies": {
