@@ -1,7 +1,7 @@
-import { ModuleWithProviders, NgModule } from '@angular/core';
+import { ModuleWithProviders<any>, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { CloudinaryModule } from '@cloudinary/angular-5.x';
+import { CloudinaryModule } from '@cloudinary/ng';
 import {
   ComponentConfig,
   COMPONENT_CONFIG,
@@ -15,7 +15,7 @@ import { BackgroundVideoComponent } from './background-video.component';
   imports: [CommonModule, CloudinaryModule],
 })
 export class BackgroundVideoModule {
-  static forRoot(config: ComponentConfig): ModuleWithProviders {
+  static forRoot(config: ComponentConfig): ModuleWithProviders<any> {
     return {
       ngModule: BackgroundVideoModule,
       providers: [{ provide: COMPONENT_CONFIG, useValue: config }],
