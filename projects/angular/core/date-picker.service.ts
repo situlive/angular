@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AbstractControl, FormGroup } from '@angular/forms';
+import { AbstractControl, UntypedFormGroup } from '@angular/forms';
 
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
@@ -12,7 +12,7 @@ export class DatePickerService {
   constructor() {}
 
   public onDateChange(
-    formGroup: FormGroup,
+    formGroup: UntypedFormGroup,
     minEndDate: Date,
     e: MatDatepickerInputEvent<Date>
   ): void {
@@ -69,7 +69,7 @@ export class DatePickerService {
   }
 
   public setDates(
-    formGroup: FormGroup,
+    formGroup: UntypedFormGroup,
     venue: Venue
   ): {
     minDate: Date;

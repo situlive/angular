@@ -39,6 +39,5 @@
   },
   "cli": {
     "analytics": "8db81fee-b0bd-41b0-a453-27aa6be6cc88"
-  },
-  "defaultProject": "angular"
+  }
 }
