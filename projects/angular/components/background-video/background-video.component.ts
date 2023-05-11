@@ -1,7 +1,7 @@
 import { isPlatformServer } from '@angular/common';
 import { Component, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
 
-import { Cloudinary } from '@cloudinary/url-gen';
+import { ImageService } from '@situlive/angular/components';
 
 @Component({
   selector: 'situ-background-video',
@@ -20,7 +20,7 @@ export class BackgroundVideoComponent implements OnInit {
 
   constructor(
     @Inject(PLATFORM_ID) private platformId,
-    private cloudName: string
+    private imageService: ImageService
   ) {}
 
   ngOnInit(): void {
@@ -29,7 +29,9 @@ export class BackgroundVideoComponent implements OnInit {
     let width = this.getWidth();
 
     this.formats.forEach((format: string) => {
-      this.videos.push(this.getVideo(format, this.cloudName, width));
+      this.videos.push(
+        this.getVideo(format, this.imageService.cloudName, width)
+      );
     });
   }
 

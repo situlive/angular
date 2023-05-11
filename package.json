@@ -24,7 +24,7 @@
     "@cloudinary/ng": "^2.0.0",
     "@cloudinary/url-gen": "^1.10.0",
     "@contentful/rich-text-html-renderer": "^14.1.2",
-    "@situlive/situ-theme": "^1.4.44",
+    "@situlive/situ-theme": "^1.5.34",
     "@types/memory-cache": "^0.2.1",
     "bootstrap-scss": "^4.5.3",
     "contentful": "^7.14.10",
