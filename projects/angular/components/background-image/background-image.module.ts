@@ -1,4 +1,4 @@
-import { ModuleWithProviders<any>, NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { CloudinaryModule } from '@cloudinary/ng';

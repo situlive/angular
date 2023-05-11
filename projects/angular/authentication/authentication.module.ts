@@ -1,4 +1,4 @@
-import { ModuleWithProviders<any>, NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 
 import { CoreModule } from './_core/core.module';
 import { AuthConfig, AUTH_CONFIG } from './_core/configs';
