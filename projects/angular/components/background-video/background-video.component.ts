@@ -1,7 +1,7 @@
 import { isPlatformServer } from '@angular/common';
 import { Component, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
 
-import { Cloudinary } from '@cloudinary/angular-5.x';
+import { Cloudinary } from '@cloudinary/url-gen';
 
 @Component({
   selector: 'situ-background-video',
@@ -20,17 +20,16 @@ export class BackgroundVideoComponent implements OnInit {
 
   constructor(
     @Inject(PLATFORM_ID) private platformId,
-    private cloudinaryService: Cloudinary
+    private cloudName: string
   ) {}
 
   ngOnInit(): void {
     this.updateBreakpoint();
 
-    let cloudName = this.getCloudName();
     let width = this.getWidth();
 
     this.formats.forEach((format: string) => {
-      this.videos.push(this.getVideo(format, cloudName, width));
+      this.videos.push(this.getVideo(format, this.cloudName, width));
     });
   }
 
@@ -55,14 +54,6 @@ export class BackgroundVideoComponent implements OnInit {
       url: `${this.baseUrl}${cloudName}/video/upload/${width}/v1604336032/${this.publicId}.${format}`,
       type,
     };
-  }
-
-  private getCloudName(): string {
-    let instance = this.cloudinaryService.cloudinaryInstance;
-    if (!instance) return null;
-
-    let config = instance.config();
-    return config.cloud_name;
   }
 
   private getWidth(): string {

@@ -11,6 +11,12 @@ import {
   ViewChild,
 } from '@angular/core';
 
+import { lazyload, placeholder } from '@cloudinary/ng';
+import { Cloudinary, CloudinaryImage } from '@cloudinary/url-gen';
+import { thumbnail } from '@cloudinary/url-gen/actions/resize';
+import { focusOn } from '@cloudinary/url-gen/qualifiers/gravity';
+import { FocusOnValue } from '@cloudinary/url-gen/qualifiers/focusOn';
+
 import {
   ImageOptions,
   ImageService,
@@ -23,7 +29,9 @@ import {
   styleUrls: ['./image.component.scss'],
 })
 export class ImageComponent implements OnInit {
+  public img: CloudinaryImage;
   public alt: string;
+  public plugins: any[];
 
   @ViewChild('image', { static: true })
   image: any;
@@ -42,10 +50,35 @@ export class ImageComponent implements OnInit {
     if (isPlatformServer(this.platformId)) return;
     this.getOptions();
     this.setAlt();
+    this.createImage();
   }
 
   public load(): void {
     this.onLoaded.emit();
+  }
+
+  private createImage(): void {
+    const cld = new Cloudinary({
+      cloud: {
+        cloudName: this.imageService.cloudName,
+      },
+    });
+
+    this.plugins = [
+      lazyload(),
+      placeholder({ mode: this.options.placeholder }),
+    ];
+
+    this.img = cld
+      .image(this.publicId)
+      .format('auto')
+      .resize(
+        thumbnail(
+          this.options.width || undefined,
+          this.options.height || undefined
+        ).gravity(focusOn(new FocusOnValue(this.options.gravity)))
+      )
+      .quality(this.options.quality);
   }
 
   private setAlt(): void {
@@ -66,7 +99,7 @@ export class ImageComponent implements OnInit {
       quality: this.options?.quality || 80,
     };
 
-    if (['fill', 'crop'].indexOf(this.options.crop) === -1)
+    if (['fill', 'crop'].indexOf(this.options.crop) > -1)
       this.options.gravity = '';
 
     if (this.options.width || this.options.height) return;
