@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ValidatorFn, AbstractControl, FormGroup } from '@angular/forms';
+import { ValidatorFn, AbstractControl, UntypedFormGroup } from '@angular/forms';
 
 import { PasswordService } from './password.service';
 
@@ -17,7 +17,7 @@ export class ValidatorService {
     };
   }
 
-  compareValidator(fg: FormGroup, target: string): ValidatorFn {
+  compareValidator(fg: UntypedFormGroup, target: string): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const comparer = fg.get(target).value;
       return control.value !== comparer

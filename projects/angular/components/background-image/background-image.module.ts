@@ -1,7 +1,7 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { CloudinaryModule } from '@cloudinary/angular-5.x';
+import { CloudinaryModule } from '@cloudinary/ng';
 import {
   ComponentConfig,
   COMPONENT_CONFIG,
@@ -16,7 +16,7 @@ import { BackgroundImageComponent } from './background-image.component';
   exports: [BackgroundImageComponent],
 })
 export class BackgroundImageModule {
-  static forRoot(config: ComponentConfig): ModuleWithProviders {
+  static forRoot(config: ComponentConfig): ModuleWithProviders<any> {
     return {
       ngModule: ImageModule,
       providers: [{ provide: COMPONENT_CONFIG, useValue: config }],

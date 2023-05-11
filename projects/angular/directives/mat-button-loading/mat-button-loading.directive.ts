@@ -10,8 +10,8 @@ import {
   ComponentRef,
 } from '@angular/core';
 
-import { MatButton } from '@angular/material/button';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatLegacyButton as MatButton } from '@angular/material/legacy-button';
+import { MatLegacyProgressSpinner as MatProgressSpinner } from '@angular/material/legacy-progress-spinner';
 import { ThemePalette } from '@angular/material/core';
 
 @Directive({
