@@ -10,12 +10,24 @@ export enum FeedType {
   Catalogue,
   Range,
   Specification,
+  Connector
 }
 
 export enum DataType {
   Json,
   Xml,
   Csv,
+}
+
+export enum FeedFrequency {
+  Unknown,
+  Manual,
+  Minutes,
+  Days
+}
+
+export enum FeedConnector {
+  Squirrel
 }
 
 export class Feed extends Base implements IKey {
@@ -26,6 +38,12 @@ export class Feed extends Base implements IKey {
   type: FeedType;
   dataType: DataType;
   active: boolean;
+  frequency: FeedFrequency;
+  interval?: number;
+  startTime?: string;
+  lastRunTime?: string;
+  token?: string;
+  connector?: FeedConnector;
 
   brands: Brand[];
   conversions?: Conversion[];

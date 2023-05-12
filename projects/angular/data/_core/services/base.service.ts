@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { HttpServiceConfig } from '../configs';
-import { Orderable, Attempt, RequestOptions } from '../models';
+import { Orderable, Attempt, RequestOptions, IKey } from '../models';
 
 export class BaseService<T extends Orderable> {
   private url: string;
@@ -66,10 +66,11 @@ export class BaseService<T extends Orderable> {
           if (response.failure) return response.result;
           const newItem = response.result;
           const items = this.items.value;
-          items.forEach((item: Orderable) => {
+          items.forEach((item: IKey) => {
             if (item.id !== newItem.id) return;
             item = { ...item, ...newItem };
           });
+          items.sort((a: any, b: any) => a.order - b.order);
           this.items.next(items);
           return response.result;
         })

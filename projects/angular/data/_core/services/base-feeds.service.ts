@@ -72,6 +72,7 @@ export class BaseFeedService<T extends BaseFeed> {
           const items = this.items.value;
           this.remove(items, filter.id);
           items.push(item);
+          items.sort((a: any, b: any) => a.order - b.order);
 
           this.emit(items, message);
 

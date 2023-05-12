@@ -24,11 +24,16 @@ export class Subscription {
   venueId: number;
   billingPeriod: SubscriptionBillingPeriod;
   state: SubscriptionState;
-  ignoreChangeoverDates: boolean;
   startDate: string;
   endDate: string;
   termsAgreed: boolean;
   price?: number;
+  targetDemos?: number;
+  targetRecipients?: number;
+  targetScans?: number;
+  targetLeads?: number;
+  isBillable: boolean;
+  visibleToBrand: boolean;
 
   brand?: Brand;
   plan?: Plan;

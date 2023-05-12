@@ -89,4 +89,24 @@ export class FeedService extends BaseService<Feed> {
         })
       );
   }
+
+  import(id: number, categoryId: number, options?: RequestOptions): Observable<Product[]> {
+    var model =
+    {
+      feedId: id,
+      categoryId: categoryId
+    };
+
+    return this.httpClient
+      .post<Attempt<Product[]>>(
+        `${this.config.apiUrl}/feeds/import`,
+        model,
+        options?.getRequestOptions()
+      )
+      .pipe(
+        map((response: Attempt<Product[]>) => {
+          return response.result;
+        })
+      );
+  }
 }

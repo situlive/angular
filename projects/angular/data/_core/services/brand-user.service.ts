@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
-import { finalize, map } from 'rxjs/operators';
+import { finalize, map, mergeMap } from 'rxjs/operators';
 
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
-import { BrandUser, Attempt, User, RequestOptions } from '../models';
+import { BrandUser, Attempt, User, RequestOptions, ApiUser } from '../models';
 
 @Injectable({
   providedIn: 'root',
@@ -24,12 +24,12 @@ export class BrandUserService {
   list(brandId: number): Observable<BrandUser[]> {
     this.loading.next(true);
 
-    let attempts = [];
-    let listUsers = this.httpClient.get<Attempt<User[]>>(
+    const attempts = [];
+    const listUsers = this.httpClient.get<Attempt<User[]>>(
       `${this.config.identityServerUrl}/users`
     );
-    let options = new RequestOptions(true);
-    let listBrandUsers = this.httpClient.get<Attempt<BrandUser[]>>(
+    const options = new RequestOptions(true);
+    const listBrandUsers = this.httpClient.get<Attempt<BrandUser[]>>(
       `${this.config.apiUrl}/brands/${brandId}/users`,
       options.getRequestOptions()
     );
@@ -38,26 +38,28 @@ export class BrandUserService {
     attempts.push(listBrandUsers);
 
     return forkJoin(attempts).pipe(
-      map((response: Attempt<any[]>[]) => {
-        let usersAttempt = response[0];
-        let brandUsersAttempt = response[1];
+      map((response: Attempt<User[] | BrandUser[]>[]) => {
+        const usersAttempt = <Attempt<User[]>>response[0];
+        const brandUsersAttempt = <Attempt<BrandUser[]>>response[1];
 
         if (usersAttempt.failure || brandUsersAttempt.failure) return undefined;
 
-        let users: BrandUser[] = [];
+        const brandUsers = brandUsersAttempt.result;
+        const users: BrandUser[] = [];
         usersAttempt.result.forEach((user: User) => {
-          let brandUser = brandUsersAttempt.result.find(
-            (brandUser: BrandUser) => brandUser.userId === user.id
+          const brandUser = brandUsers.find(
+            (item: BrandUser) => item.userId === user.id
           );
           if (!brandUser) return;
+
           users.push({
             ...brandUser,
             ...{
-              userId: user.id,
+              image: user.image,
+              jobTitle: user.jobTitle,
               firstName: user.firstName,
               lastName: user.lastName,
-              jobTitle: user.jobTitle,
-              image: user.image,
+              userName: user.userName,
             },
           });
         });
@@ -74,54 +76,76 @@ export class BrandUserService {
     item: User,
     options?: RequestOptions
   ): Observable<BrandUser> {
-    let brandUser: BrandUser = {
+    const request: BrandUser = {
       brandId: brandId,
       userId: item.id,
       confirmed: item.confirmed,
       domain: item.userName.split('@')[1],
     };
-    return this.httpClient
-      .post<Attempt<BrandUser>>(
+    const observables = [];
+
+    observables.push(
+      this.httpClient.post<Attempt<BrandUser>>(
         `${this.config.apiUrl}/brands/${brandId}/users`,
-        brandUser,
+        request,
         options?.getRequestOptions()
       )
-      .pipe(
-        map((response: Attempt<BrandUser>) => {
-          if (response.failure) return response.result;
-          const items = this.items.value;
-          items.push(response.result);
-          this.items.next(items);
-          return response.result;
-        })
-      );
+    );
+    observables.push(
+      this.httpClient.get<Attempt<User>>(
+        `${this.config.identityServerUrl}/users/${item.id}`
+      )
+    );
+
+    return <Observable<BrandUser>>forkJoin(observables).pipe(
+      map((response: Attempt<BrandUser | User>[]) => {
+        var branduserAttempt = <Attempt<BrandUser>>response[0];
+        var userAttempt = <Attempt<User>>response[1];
+
+        if (branduserAttempt.failure) return branduserAttempt.result;
+        if (userAttempt.failure) return userAttempt.result;
+
+        const user = userAttempt.result;
+        const brandUser = {
+          ...branduserAttempt.result,
+          ...{
+            userId: user.id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            jobTitle: user.jobTitle,
+            image: user.image,
+            userName: user.userName,
+          },
+        };
+
+        const items = this.items.value;
+        items.push(brandUser);
+        this.items.next(items);
+        return brandUser;
+      })
+    );
   }
 
-  update(
-    brandId: number,
-    item: User,
-    options?: RequestOptions
-  ): Observable<BrandUser> {
-    let brandUser: BrandUser = {
-      brandId: brandId,
-      userId: item.id,
-      confirmed: item.confirmed,
-    };
+  update(request: BrandUser, options?: RequestOptions): Observable<BrandUser> {
     return this.httpClient
       .put<Attempt<BrandUser>>(
-        `${this.config.apiUrl}/brands/${brandId}/users`,
-        brandUser,
+        `${this.config.apiUrl}/brands/${request.brandId}/users`,
+        request,
         options?.getRequestOptions()
       )
       .pipe(
         map((response: Attempt<BrandUser>) => {
           if (response.failure) return response.result;
+          const brandUser = response.result;
           const items = this.items.value;
-          let match = items.find((user: BrandUser) => user.userId === item.id);
-          if (!match) return response.result;
-          match.confirmed = item.confirmed;
+
+          items.forEach((user: BrandUser) => {
+            if (user.id !== brandUser.id) return;
+            user.confirmed = brandUser.confirmed;
+          });
+
           this.items.next(items);
-          return response.result;
+          return brandUser;
         })
       );
   }

@@ -162,11 +162,6 @@ export class AppModule {}
 
 For security purposes, we suggest you keep your configuration in your **environments** file.
 
-## Contentful
-
-Our chosen CMS is Contentful. It is a headless CMS solution and provides use with great flexibility when creating new pages.
-A module has been created with all the components and services needed to interact with with Contentful.
-
 ### Get Started
 
 To use this module in your application, you need to import the **ContentfulModule** as follows:
@@ -315,5 +310,13 @@ This will intercept all request and handle the caching of their responses using 
 To build this project, you must set the mem size like this:
 
 ```
-node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build angular --prod
+ng build --configuration production
+```
+
+## Publish
+
+Once built, navigate to the `dist/angular` folder and run this command:
+
+```
+npm publish
 ```

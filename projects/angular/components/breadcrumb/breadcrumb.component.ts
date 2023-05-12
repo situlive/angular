@@ -7,7 +7,6 @@ import {
   NavigationEnd,
 } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { isNullOrUndefined } from 'util';
 
 class BreadcrumbItem {
   label: string;

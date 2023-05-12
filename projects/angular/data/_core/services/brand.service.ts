@@ -1,15 +1,16 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { finalize, map } from 'rxjs/operators';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
 import {
   Brand,
   Attempt,
-  SearchResultBrand,
+  SearchResultItems,
   RequestOptions,
   InviteUser,
+  Search,
 } from '../models';
 import { BaseService } from './base.service';
 
@@ -61,17 +62,17 @@ export class BrandService extends BaseService<Brand> {
   }
 
   search(
-    searchTerm: string,
+    search: Search,
     options?: RequestOptions
-  ): Observable<SearchResultBrand> {
+  ): Observable<SearchResultItems> {
     return this.httpClient
-      .post<Attempt<SearchResultBrand>>(
+      .post<Attempt<SearchResultItems>>(
         `${this.config.apiUrl}/${this.endpoint}/search`,
-        { searchTerm },
+        search,
         options?.getRequestOptions()
       )
       .pipe(
-        map((response: Attempt<SearchResultBrand>) => {
+        map((response: Attempt<SearchResultItems>) => {
           return response.result;
         })
       );

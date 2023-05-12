@@ -53,12 +53,8 @@ export class ErrorInterceptor implements HttpInterceptor {
     if (this.config.debug)
       console.log('this is not a silent request', request.url);
 
-    if (this.config.debug)
-      console.log(
-        '--------------------- ERROR INTERCEPTOR END ---------------------'
-      );
-
-    return next.handle(request).pipe(
+    const snapshot = this.router.routerState.snapshot;
+    const handle = next.handle(request).pipe(
       map((event: HttpEvent<any>) => {
         if (event instanceof HttpResponse && event.body) {
           let body = event.body;
@@ -72,6 +68,10 @@ export class ErrorInterceptor implements HttpInterceptor {
               type: failed ? 'mat-warning' : 'mat-success',
             });
         }
+
+        if (this.config.debug)
+          console.log('Are we on the login page?', snapshot.url === '/login');
+
         return event;
       }),
       catchError((error) => {
@@ -84,10 +84,11 @@ export class ErrorInterceptor implements HttpInterceptor {
             });
             break;
           case 401:
-            this.router.navigate([
-              '/login',
-              { queryParams: { returnUrl: this.router.url } },
-            ]); // Redirect and remember the return url
+            this.notificationService.add({
+              message:
+                'You are not authorized to perform this action. If you feel this is erroneous, please contact your system administrator.',
+              type: 'mat-warning',
+            });
             break;
           default:
             let message = '';
@@ -108,5 +109,12 @@ export class ErrorInterceptor implements HttpInterceptor {
         return throwError(error);
       })
     );
+
+    if (this.config.debug)
+      console.log(
+        '--------------------- ERROR INTERCEPTOR END ---------------------'
+      );
+
+    return handle;
   }
 }

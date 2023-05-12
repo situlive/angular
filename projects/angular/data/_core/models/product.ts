@@ -1,14 +1,17 @@
 import { SpecificationData } from './specification-data';
 import { Base } from './base';
 import { IKey } from './key';
+import { IImages } from './images';
+import { ProductIdentifiers } from '.';
 
-export class Product extends Base implements IKey {
+export class Product extends Base implements IKey, IImages {
   id: string;
   variant: string;
   categorySlug: string;
 
   title: string;
   brand: string;
+  brandId: number;
   colour: string;
   summary?: string;
   description?: string;
@@ -16,6 +19,7 @@ export class Product extends Base implements IKey {
   modelGroup?: string;
   modelAlias?: string;
   modelSubGroup?: string;
+  rrp?: number;
 
   scenarios?: string[];
 
@@ -35,7 +39,15 @@ export class Product extends Base implements IKey {
   contextData?: any;
 
   images?: string[];
+  primaryImage?: string;
+  exploreImage?: string;
+  videos?: string[];
+  exploreVideo?: string;
+  folderName?: string;
   retailers?: any[];
 
   selected?: boolean;
+  withheld?: boolean;
+  
+  identifiers: ProductIdentifiers;
 }

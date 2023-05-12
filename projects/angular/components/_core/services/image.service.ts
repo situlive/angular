@@ -17,12 +17,15 @@ class ContextItem {
   providedIn: 'root',
 })
 export class ImageService {
+  public cloudName: string;
   private context: ContextItem[] = [];
 
   constructor(
     @Inject(COMPONENT_CONFIG) private config: ComponentConfig,
     private httpClient: HttpClient
-  ) {}
+  ) {
+    this.cloudName = config.cloudName;
+  }
 
   public getAltTag(publicId: string): Observable<ImageContext> {
     let existing = this.context.find(
