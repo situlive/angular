@@ -10,7 +10,7 @@ export enum FeedType {
   Catalogue,
   Range,
   Specification,
-  Connector
+  Connector,
 }
 
 export enum DataType {
@@ -23,33 +23,33 @@ export enum FeedFrequency {
   Unknown,
   Manual,
   Minutes,
-  Days
+  Days,
 }
 
 export enum FeedConnector {
-  Squirrel
+  Squirrel,
 }
 
 export class Feed extends Base implements IKey {
-  id: number;
-  categoryId: number;
-  name: string;
-  url: string;
-  type: FeedType;
-  dataType: DataType;
-  active: boolean;
-  frequency: FeedFrequency;
-  interval?: number;
-  startTime?: string;
-  lastRunTime?: string;
-  token?: string;
-  connector?: FeedConnector;
+  public id: number;
+  public categoryId: number;
+  public name: string;
+  public url: string;
+  public type: FeedType;
+  public dataType: DataType;
+  public active: boolean;
+  public frequency: FeedFrequency;
+  public interval?: number;
+  public startTime?: string;
+  public lastRunTime?: string;
+  public token?: string;
+  public connector?: FeedConnector;
 
-  brands: Brand[];
-  conversions?: Conversion[];
-  exclusions?: Inclusion[];
-  inclusions?: Inclusion[];
-  rules?: Rule[];
-  transformations?: Transformation[];
-  selected?: boolean;
+  public brands: Brand[];
+  public conversions?: Conversion[];
+  public exclusions?: Inclusion[];
+  public inclusions?: Inclusion[];
+  public rules?: Rule[];
+  public transformations?: Transformation[];
+  public selected?: boolean;
 }

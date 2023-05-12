@@ -8,13 +8,13 @@ export enum DiscountType {
 }
 
 export class Line extends Base implements IKey {
-  id: number;
-  itemId: number;
-  quantity: number;
-  discountType: DiscountType;
-  discountAmount: number;
-  discountPercent: number;
-  price: number;
+  public id: number;
+  public itemId: number;
+  public quantity: number;
+  public discountType: DiscountType;
+  public discountAmount: number;
+  public discountPercent: number;
+  public price: number;
 
-  item?: Item;
+  public item?: Item;
 }

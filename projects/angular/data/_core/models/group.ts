@@ -4,10 +4,10 @@ import { Category } from './category';
 import { IImages } from './images';
 
 export class Group extends Base implements IKey, IImages {
-  id: number;
-  name: string;
-  images?: string;
-  folderName?: string;
+  public id: number;
+  public name: string;
+  public images?: string;
+  public folderName?: string;
 
-  categories?: Category[];
+  public categories?: Category[];
 }

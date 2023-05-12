@@ -1,16 +1,16 @@
 import { Brand } from './brand';
 
 export class BrandUser {
-  id?: number;
-  brandId: number;
-  userId: string;
-  confirmed: boolean;
-  domain?: string;
-  image?: string;
-  jobTitle?: string;
-  firstName?: string;
-  lastName?: string;
-  userName?: string;
+  public id?: number;
+  public brandId: number;
+  public userId: string;
+  public confirmed: boolean;
+  public domain?: string;
+  public image?: string;
+  public jobTitle?: string;
+  public firstName?: string;
+  public lastName?: string;
+  public userName?: string;
 
-  brand?: Brand;
+  public brand?: Brand;
 }

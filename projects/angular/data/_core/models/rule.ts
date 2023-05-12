@@ -1,9 +1,9 @@
 import { BaseFeed } from './base-feed';
 
 export class Rule extends BaseFeed {
-    id: number;
-    name: string;
-    fieldName: string;
-    filterOperator: number;
-    expression: string;
+  public declare id: number;
+  public name: string;
+  public fieldName: string;
+  public filterOperator: number;
+  public expression: string;
 }

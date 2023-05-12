@@ -17,27 +17,27 @@ export enum PromotionValueType {
 }
 
 export class Promotion extends Base implements IKey, IImages {
-  id: number;
-  brandId: number;
-  productId?: string;
-  type: PromotionType;
-  title: string;
-  shortTitle?: string;
-  description: string;
-  images?: string;
-  folderName?: string;
-  ctaUrl: string;
-  ctaText: string;
-  ctaColour: string;
-  voucherCode?: string;
-  startDate?: string;
-  endDate?: string;
-  permanent: boolean;
-  membersOnly: boolean;
-  exclusive: boolean;
-  enabled: boolean;
-  sendEmails: boolean;
-  staticCtaUrl: boolean;
-  value?: number;
-  valueType?: PromotionValueType;
+  public id: number;
+  public brandId: number;
+  public productId?: string;
+  public type: PromotionType;
+  public title: string;
+  public shortTitle?: string;
+  public description: string;
+  public images?: string;
+  public folderName?: string;
+  public ctaUrl: string;
+  public ctaText: string;
+  public ctaColour: string;
+  public voucherCode?: string;
+  public startDate?: string;
+  public endDate?: string;
+  public permanent: boolean;
+  public membersOnly: boolean;
+  public exclusive: boolean;
+  public enabled: boolean;
+  public sendEmails: boolean;
+  public staticCtaUrl: boolean;
+  public value?: number;
+  public valueType?: PromotionValueType;
 }

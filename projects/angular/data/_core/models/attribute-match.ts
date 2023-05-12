@@ -1,7 +1,7 @@
 import { Product } from './product';
 
 export class AttributeMatch {
-    included: Product[];
-    count: number;
-    percent: number;
+  public included: Product[];
+  public count: number;
+  public percent: number;
 }

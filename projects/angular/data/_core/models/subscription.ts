@@ -18,25 +18,25 @@ export enum SubscriptionBillingPeriod {
 }
 
 export class Subscription {
-  id: number;
-  brandId: number;
-  planId: number;
-  venueId: number;
-  billingPeriod: SubscriptionBillingPeriod;
-  state: SubscriptionState;
-  startDate: string;
-  endDate: string;
-  termsAgreed: boolean;
-  price?: number;
-  targetDemos?: number;
-  targetRecipients?: number;
-  targetScans?: number;
-  targetLeads?: number;
-  isBillable: boolean;
-  visibleToBrand: boolean;
+  public id: number;
+  public brandId: number;
+  public planId: number;
+  public venueId: number;
+  public billingPeriod: SubscriptionBillingPeriod;
+  public state: SubscriptionState;
+  public startDate: string;
+  public endDate: string;
+  public termsAgreed: boolean;
+  public price?: number;
+  public targetDemos?: number;
+  public targetRecipients?: number;
+  public targetScans?: number;
+  public targetLeads?: number;
+  public isBillable: boolean;
+  public visibleToBrand: boolean;
 
-  brand?: Brand;
-  plan?: Plan;
-  venue?: Venue;
-  lines?: SubscriptionLine[];
+  public brand?: Brand;
+  public plan?: Plan;
+  public venue?: Venue;
+  public lines?: SubscriptionLine[];
 }

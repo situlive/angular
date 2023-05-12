@@ -2,6 +2,6 @@ import { Base } from './base';
 import { IKey } from './key';
 
 export class Orderable extends Base implements IKey {
-  id: number | string;
-  order?: number;
+  public id: number | string;
+  public order?: number;
 }

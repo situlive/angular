@@ -4,5 +4,5 @@ import { Line } from './line';
 export class PlanLine extends Line {
   public planId: number;
 
-  item: Item;
+  public declare item: Item;
 }

@@ -3,13 +3,12 @@ import { AttributeMatch } from './attribute-match';
 import { Orderable } from './orderable';
 
 export class Attribute extends Orderable {
-  id: number;
-  criterionId: number;
-  description: string;
-  name: string;
-  formulas?: Formula[];
-  order?: number;
-  match?: AttributeMatch;
-  selected?: boolean;
-  priority?: number;
+  public declare id: number;
+  public criterionId: number;
+  public description: string;
+  public name: string;
+  public formulas?: Formula[];
+  public match?: AttributeMatch;
+  public selected?: boolean;
+  public priority?: number;
 }

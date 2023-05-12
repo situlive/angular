@@ -8,8 +8,8 @@ export enum FavouriteType {
 }
 
 export class Favourite extends Base implements IKey {
-  id: number;
-  favouriteCollectionId: number;
-  url: string;
-  type: FavouriteType;
+  public id: number;
+  public favouriteCollectionId: number;
+  public url: string;
+  public type: FavouriteType;
 }

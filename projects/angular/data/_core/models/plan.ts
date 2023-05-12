@@ -3,12 +3,12 @@ import { IKey } from './key';
 import { PlanLine } from './plan-line';
 
 export class Plan extends Base implements IKey {
-  id: number;
-  name: string;
-  description?: string;
-  price: number;
-  units: number;
+  public id: number;
+  public name: string;
+  public description?: string;
+  public price: number;
+  public units: number;
 
-  theatres?: any[];
-  lines?: PlanLine[];
+  public theatres?: any[];
+  public lines?: PlanLine[];
 }

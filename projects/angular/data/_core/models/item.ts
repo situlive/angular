@@ -2,8 +2,8 @@ import { Base } from './base';
 import { IKey } from './key';
 
 export class Item extends Base implements IKey {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
+  public id: number;
+  public name: string;
+  public description: string;
+  public price: number;
 }

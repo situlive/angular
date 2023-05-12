@@ -7,7 +7,7 @@ export enum RecommendationQuestionStep {
 }
 
 export class RecommendationQuestion extends Orderable {
-  public id: number;
+  public declare id: number;
   public categoryId: number;
   public title: string;
   public shortTitle?: string;

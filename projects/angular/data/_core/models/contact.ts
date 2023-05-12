@@ -7,10 +7,10 @@ export enum ContactType {
 }
 
 export class Contact extends Base implements IKey {
-  id: number;
-  brandId: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  type: ContactType;
+  public id: number;
+  public brandId: number;
+  public firstName: string;
+  public lastName: string;
+  public email: string;
+  public type: ContactType;
 }

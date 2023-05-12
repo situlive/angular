@@ -1,5 +1,5 @@
 export class SpecificationData {
-    gtin: string;
-    variant: string;
-    [key: string]: any;
+  public gtin: string;
+  public variant: string;
+  [key: string]: any;
 }

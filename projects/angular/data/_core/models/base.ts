@@ -1,6 +1,6 @@
 export class Base {
-  createdBy?: string;
-  updatedBy?: string;
-  dateCreated?: string;
-  dateUpdated?: string;
+  public createdBy?: string;
+  public updatedBy?: string;
+  public dateCreated?: string;
+  public dateUpdated?: string;
 }

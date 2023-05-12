@@ -5,25 +5,25 @@ import { IImages } from './images';
 import { ProductIdentifiers } from '.';
 
 export class Product extends Base implements IKey, IImages {
-  id: string;
-  variant: string;
-  categorySlug: string;
+  public id: string;
+  public variant: string;
+  public categorySlug: string;
 
-  title: string;
-  brand: string;
-  brandId: number;
-  colour: string;
-  summary?: string;
-  description?: string;
-  imageUrl?: string;
-  modelGroup?: string;
-  modelAlias?: string;
-  modelSubGroup?: string;
-  rrp?: number;
+  public title: string;
+  public brand: string;
+  public brandId: number;
+  public colour: string;
+  public summary?: string;
+  public description?: string;
+  public imageUrl?: string;
+  public modelGroup?: string;
+  public modelAlias?: string;
+  public modelSubGroup?: string;
+  public rrp?: number;
 
-  scenarios?: string[];
+  public scenarios?: string[];
 
-  state:
+  public state:
     | 'Unverified'
     | 'Pending'
     | 'Verified'
@@ -31,23 +31,23 @@ export class Product extends Base implements IKey, IImages {
     | 'Excluded'
     | 'Offline';
 
-  hasSpecification?: boolean;
-  specificationData?: SpecificationData;
-  specificationFeedId?: number;
+  public hasSpecification?: boolean;
+  public specificationData?: SpecificationData;
+  public specificationFeedId?: number;
 
-  hasContextData?: boolean;
-  contextData?: any;
+  public hasContextData?: boolean;
+  public contextData?: any;
 
-  images?: string[];
-  primaryImage?: string;
-  exploreImage?: string;
-  videos?: string[];
-  exploreVideo?: string;
-  folderName?: string;
-  retailers?: any[];
+  public images?: string[];
+  public primaryImage?: string;
+  public exploreImage?: string;
+  public videos?: string[];
+  public exploreVideo?: string;
+  public folderName?: string;
+  public retailers?: any[];
 
-  selected?: boolean;
-  withheld?: boolean;
-  
-  identifiers: ProductIdentifiers;
+  public selected?: boolean;
+  public withheld?: boolean;
+
+  public identifiers: ProductIdentifiers;
 }

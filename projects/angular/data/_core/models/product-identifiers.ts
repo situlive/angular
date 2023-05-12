@@ -1,6 +1,6 @@
 export class ProductIdentifiers {
-  gtins?: string[];
-  asins?: string[];
-  skus?: string[];
-  mpns?: string[];
+  public gtins?: string[];
+  public asins?: string[];
+  public skus?: string[];
+  public mpns?: string[];
 }

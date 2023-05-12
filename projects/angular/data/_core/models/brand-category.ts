@@ -1,4 +1,4 @@
 export class BrandCategory {
-  brandId: number;
-  categoryId: number;
+  public brandId: number;
+  public categoryId: number;
 }

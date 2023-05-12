@@ -1,5 +1,5 @@
 import { SearchResult } from './search-result';
 
 export class SearchResultItems extends SearchResult {
-  items: any[];
+  public items: any[];
 }

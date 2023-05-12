@@ -5,14 +5,14 @@ import { IImages } from './images';
 import { IKey } from './key';
 
 export class Scenario extends Orderable implements IKey, IImages {
-  id: number;
-  categoryId: number;
-  order: number;
-  name: string;
-  description?: string;
-  images?: string;
-  folderName?: string;
-  match?: ProductMatch;
+  public declare id: number;
+  public categoryId: number;
+  public declare order: number;
+  public name: string;
+  public description?: string;
+  public images?: string;
+  public folderName?: string;
+  public match?: ProductMatch;
 
-  formulas: Formula[];
+  public formulas: Formula[];
 }

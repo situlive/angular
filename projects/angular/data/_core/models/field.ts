@@ -9,15 +9,15 @@ export enum FieldDataType {
 }
 
 export class Field extends Base implements IKey {
-  id: number;
-  categoryId: number;
-  name: string;
-  displayTitle: string;
-  dataType: FieldDataType;
-  isSpecification: boolean;
-  display: boolean;
-  required: boolean;
-  mapped: boolean;
-  canCopy: boolean;
-  order?: number;
+  public id: number;
+  public categoryId: number;
+  public name: string;
+  public displayTitle: string;
+  public dataType: FieldDataType;
+  public isSpecification: boolean;
+  public display: boolean;
+  public required: boolean;
+  public mapped: boolean;
+  public canCopy: boolean;
+  public order?: number;
 }

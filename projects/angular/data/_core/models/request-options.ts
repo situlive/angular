@@ -1,9 +1,9 @@
 import { HttpHeaders } from '@angular/common/http';
 
 export class RequestOptions {
-  silent?: boolean;
-  skip?: number;
-  take?: number;
+  public silent?: boolean;
+  public skip?: number;
+  public take?: number;
 
   public constructor(silent: boolean) {
     this.silent = silent;

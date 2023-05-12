@@ -3,9 +3,9 @@ import { Claim } from './claim';
 import { User } from './user';
 
 export class Role implements IKey {
-  id: string;
-  name: string;
+  public id: string;
+  public name: string;
 
-  claims?: Claim[];
-  users?: User[];
+  public claims?: Claim[];
+  public users?: User[];
 }
