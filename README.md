@@ -310,5 +310,13 @@ This will intercept all request and handle the caching of their responses using 
 To build this project, you must set the mem size like this:
 
 ```
-node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build angular --prod
+ng build --configuration production
+```
+
+## Publish
+
+Once built, navigate to the `dist/angular` folder and run this command:
+
+```
+npm publish
 ```
