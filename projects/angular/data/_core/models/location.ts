@@ -4,24 +4,24 @@ import { IImages } from './images';
 import { DemoUnitLocation, Theatre } from '.';
 
 export class Location extends Base implements IKey, IImages {
-  id: number;
-  theatreId: number;
-  zoneId?: number;
-  name: string;
-  targetUrl?: string;
-  redirectUrl?: string;
-  images?: string;
-  folderName?: string;
-  qrCode: string;
-  exploreQrCodeImage?: string;
+  public id: number;
+  public theatreId: number;
+  public zoneId?: number;
+  public name: string;
+  public targetUrl?: string;
+  public redirectUrl?: string;
+  public images?: string;
+  public folderName?: string;
+  public qrCode: string;
+  public exploreQrCodeImage?: string;
 
-  x?: number;
-  y?: number;
-  width?: number;
-  height?: number;
-  planogram?: string;
+  public x?: number;
+  public y?: number;
+  public width?: number;
+  public height?: number;
+  public planogram?: string;
 
-  demoUnitLocations: DemoUnitLocation[];
-  theatre: Theatre;
-  distance?: { x: number; y: number };
+  public demoUnitLocations: DemoUnitLocation[];
+  public theatre: Theatre;
+  public distance?: { x: number; y: number };
 }

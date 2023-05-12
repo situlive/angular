@@ -1,5 +1,5 @@
 export class InviteUser {
-  emails: string;
-  url: string;
-  message: string;
+  public emails: string;
+  public url: string;
+  public message: string;
 }

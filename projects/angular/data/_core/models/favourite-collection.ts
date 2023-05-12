@@ -3,10 +3,10 @@ import { IKey } from './key';
 import { Favourite } from './favourite';
 
 export class FavouriteCollection extends Base implements IKey {
-  id: number;
-  name: string;
-  slug: string;
-  public: boolean;
+  public id: number;
+  public name: string;
+  public slug: string;
+  public public: boolean;
 
-  favourites: Favourite[];
+  public favourites: Favourite[];
 }

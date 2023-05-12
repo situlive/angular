@@ -3,16 +3,16 @@ import { ProductMatch } from './product-match';
 import { Orderable } from './orderable';
 
 export class Criterion extends Orderable {
-  categoryId: number;
-  description: string;
-  comparable: boolean;
-  highlight: boolean;
-  id: number;
-  name: string;
-  attributes?: Attribute[];
-  match?: ProductMatch;
-  selected?: boolean;
-  isRecommendationQuestion?: boolean;
-  recommendationTitle?: string;
-  priority?: number;
+  public categoryId: number;
+  public description: string;
+  public comparable: boolean;
+  public highlight: boolean;
+  public declare id: number;
+  public name: string;
+  public attributes?: Attribute[];
+  public match?: ProductMatch;
+  public selected?: boolean;
+  public isRecommendationQuestion?: boolean;
+  public recommendationTitle?: string;
+  public priority?: number;
 }

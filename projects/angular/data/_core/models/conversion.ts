@@ -9,11 +9,11 @@ export enum MathOperator {
 }
 
 export class Conversion extends BaseFeed {
-  id: number;
-  name: string;
-  fieldName: string;
-  filterOperator: FilterOperator;
-  expression: string;
-  mathOperator: MathOperator;
-  value: number;
+  public declare id: number;
+  public name: string;
+  public fieldName: string;
+  public filterOperator: FilterOperator;
+  public expression: string;
+  public mathOperator: MathOperator;
+  public value: number;
 }

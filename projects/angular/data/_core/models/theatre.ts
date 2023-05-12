@@ -4,19 +4,19 @@ import { IKey } from './key';
 
 export enum TheatreType {
   None,
-  HotSwap
+  HotSwap,
 }
 
 export class Theatre extends Base implements IKey, IImages {
-  id: number;
-  venueId: number;
-  name: string;
-  description?: string;
-  images?: string;
-  folderName?: string;
-  visionAreaId?: string;
-  parentTheatreId?: number;
-  type: TheatreType;
-  
-  parentTheatre: Theatre;
+  public id: number;
+  public venueId: number;
+  public name: string;
+  public description?: string;
+  public images?: string;
+  public folderName?: string;
+  public visionAreaId?: string;
+  public parentTheatreId?: number;
+  public type: TheatreType;
+
+  public parentTheatre: Theatre;
 }

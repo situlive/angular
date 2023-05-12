@@ -1,7 +1,7 @@
 import { Orderable } from './orderable';
 
 export class Title extends Orderable {
-  public id: number;
+  public declare id: number;
   public categoryId: number;
   public expression: string;
   public prefix?: string;

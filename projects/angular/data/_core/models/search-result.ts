@@ -1,6 +1,6 @@
 export class SearchResult {
-  facets: any;
-  filters: any;
-  hasMoreResults: boolean;
-  total: number;
+  public facets: any;
+  public filters: any;
+  public hasMoreResults: boolean;
+  public total: number;
 }

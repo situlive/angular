@@ -15,20 +15,20 @@ export enum UserGender {
 }
 
 export class User {
-  id: string;
-  image: string;
-  jobTitle: string;
-  firstName: string;
-  lastName: string;
-  userName?: string;
-  email?: string;
-  phoneNumber?: string;
-  dateOfBirth?: string;
-  gender?: UserGender;
-  confirmed?: boolean; // A brand user variable
+  public id: string;
+  public image: string;
+  public jobTitle: string;
+  public firstName: string;
+  public lastName: string;
+  public userName?: string;
+  public email?: string;
+  public phoneNumber?: string;
+  public dateOfBirth?: string;
+  public gender?: UserGender;
+  public confirmed?: boolean; // A brand user variable
 
-  brandUsers?: BrandUser[];
-  categories?: Category[];
-  plans?: Plan[];
-  theatres?: Theatre[];
+  public brandUsers?: BrandUser[];
+  public categories?: Category[];
+  public plans?: Plan[];
+  public theatres?: Theatre[];
 }

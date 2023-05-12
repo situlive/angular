@@ -4,13 +4,13 @@ export enum AssetType {
 }
 
 export class SimpleResourceBase {
-  id: string;
-  publicId: string;
-  normalisePublicId: string;
-  folder: string;
-  fileName: string;
-  indexUrl: string;
-  url: string;
-  secureUrl: string;
-  type?: AssetType;
+  public id: string;
+  public publicId: string;
+  public normalisePublicId: string;
+  public folder: string;
+  public fileName: string;
+  public indexUrl: string;
+  public url: string;
+  public secureUrl: string;
+  public type?: AssetType;
 }

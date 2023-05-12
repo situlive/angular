@@ -13,9 +13,9 @@ export enum LinkType {
 }
 
 export class SocialLink extends Base implements IKey {
-  id: number;
-  brandId: number;
-  order: number;
-  type: LinkType;
-  url: string;
+  public id: number;
+  public brandId: number;
+  public order: number;
+  public type: LinkType;
+  public url: string;
 }
