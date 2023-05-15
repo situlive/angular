@@ -318,5 +318,5 @@ ng build --configuration production
 Once built, navigate to the `dist/angular` folder and run this command:
 
 ```
-npm publish
+npm publish -configuration production
 ```
