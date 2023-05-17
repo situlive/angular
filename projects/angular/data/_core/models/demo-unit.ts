@@ -19,6 +19,7 @@ export class DemoUnit extends Base implements IKey {
 
   public addressId?: number;
   public warehouseId?: number;
+  public returned: boolean;
 
   public accessories: string;
   public demo: string;

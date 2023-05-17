@@ -5,7 +5,6 @@ export class DemoUnitLocation {
   public demoUnitId: number;
   public locationId: number;
 
-  public returned: boolean;
   public startDate?: string;
   public endDate?: string;
   public state?: DemoUnitLocationState;
