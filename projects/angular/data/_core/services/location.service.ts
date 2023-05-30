@@ -4,7 +4,12 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import { HttpServiceConfig, HTTP_SERVICE_CONFIG } from '../configs';
-import { Attempt, DemoUnitLocation, Location, RequestOptions } from '../models';
+import {
+  Attempt,
+  LocationAssignment,
+  Location,
+  RequestOptions,
+} from '../models';
 import { BaseService } from './base.service';
 
 @Injectable({
@@ -18,17 +23,17 @@ export class LocationService extends BaseService<Location> {
     super(config, 'locations', httpClient);
   }
 
-  listDemoUnitLocations(
+  listLocationAssignments(
     id: number,
     options?: RequestOptions
-  ): Observable<DemoUnitLocation[]> {
+  ): Observable<LocationAssignment[]> {
     return this.httpClient
-      .get<Attempt<DemoUnitLocation[]>>(
-        `${this.config.apiUrl}/locations/${id}/demoUnitLocations`,
+      .get<Attempt<LocationAssignment[]>>(
+        `${this.config.apiUrl}/locations/${id}/location-assignments`,
         options?.getRequestOptions()
       )
       .pipe(
-        map((response: Attempt<DemoUnitLocation[]>) => {
+        map((response: Attempt<LocationAssignment[]>) => {
           if (response.failure) return response.result;
           return response.result;
         })

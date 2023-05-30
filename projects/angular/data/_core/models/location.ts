@@ -1,7 +1,7 @@
 import { Base } from './base';
 import { IKey } from './key';
 import { IImages } from './images';
-import { DemoUnitLocation, Theatre } from '.';
+import { LocationAssignment, Theatre } from '.';
 
 export class Location extends Base implements IKey, IImages {
   public id: number;
@@ -21,7 +21,7 @@ export class Location extends Base implements IKey, IImages {
   public height?: number;
   public planogram?: string;
 
-  public demoUnitLocations: DemoUnitLocation[];
+  public assignments: LocationAssignment[];
   public theatre: Theatre;
   public distance?: { x: number; y: number };
 }

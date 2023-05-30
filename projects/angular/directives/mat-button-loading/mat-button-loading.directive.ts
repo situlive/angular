@@ -10,8 +10,8 @@ import {
   ComponentRef,
 } from '@angular/core';
 
-import { MatLegacyButton as MatButton } from '@angular/material/legacy-button';
-import { MatLegacyProgressSpinner as MatProgressSpinner } from '@angular/material/legacy-progress-spinner';
+import { MatButton } from '@angular/material/button';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { ThemePalette } from '@angular/material/core';
 
 @Directive({
@@ -37,9 +37,8 @@ export class MatButtonLoadingDirective implements OnChanges {
     private viewContainerRef: ViewContainerRef,
     private renderer: Renderer2
   ) {
-    this.spinnerFactory = this.componentFactoryResolver.resolveComponentFactory(
-      MatProgressSpinner
-    );
+    this.spinnerFactory =
+      this.componentFactoryResolver.resolveComponentFactory(MatProgressSpinner);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
