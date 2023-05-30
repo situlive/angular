@@ -1,7 +1,7 @@
 import {
   Address,
   Brand,
-  DemoUnitLocation,
+  LocationAssignment,
   Item,
   Subscription,
   Theatre,
@@ -39,5 +39,4 @@ export class DemoUnit extends Base implements IKey {
   public subscription?: Subscription;
   public theatre?: Theatre;
   public warehouse?: Warehouse;
-  public demoUnitLocations?: DemoUnitLocation[];
 }
